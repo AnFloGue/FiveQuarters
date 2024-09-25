@@ -1,1 +1,1 @@
-web: gunicorn fivequarters.wsgi
+web: gunicorn fivequarters.wsgi:application
