@@ -1,0 +1,33 @@
+# Python
+*.py[cod]
+*.pyo
+__pycache__/
+*.so
+*.egg
+*.egg-info/
+dist
+build
+*.swp
+
+# Django
+*.pot
+local_settings.py
+db.sqlite3
+
+# Environment variables
+.env
+
+# Virtual environment
+venv/
+
+# macOS
+.DS_Store
+
+# PyCharm
+.idea/*
+!.idea/codeStyles
+!.idea/dictionaries
+!.idea/inspectionProfiles
+!.idea/modules.xml
+!.idea/vcs.xml
+!.idea/workspace.xml
