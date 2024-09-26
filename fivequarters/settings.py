@@ -8,6 +8,10 @@ load_dotenv()
 # Base directory of the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Ensure the logs directory exists
+LOG_DIR = BASE_DIR / 'logs'
+LOG_DIR.mkdir(exist_ok=True)
+
 # SECRET_KEY
 SECRET_KEY = os.getenv('SECRET_KEY')
 
@@ -127,7 +131,7 @@ LOGGING = {
         'file': {
             'level': 'ERROR',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs', 'django_errors.log'),
+            'filename': os.path.join(LOG_DIR, 'django_errors.log'),
             'maxBytes': 1024*1024*5,  # 5 MB
             'backupCount': 5,
         },
