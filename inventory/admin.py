@@ -1,3 +1,4 @@
+
 from django.contrib import admin
 from .models import Category, Product, Ingredient, Recipe
 
@@ -14,7 +15,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'category', 'price', 'date_of_manufacture', 'date_of_expiry')
     list_display_links = ('id', 'name')
     search_fields = ('name', 'category__name')
-    prepopulated_fields = {'slug': ('name',)}
+
 
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):

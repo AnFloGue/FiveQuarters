@@ -3,6 +3,7 @@ from django.urls import reverse
 from autoslug import AutoSlugField
 
 class Category(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, unique=True)
     slug = AutoSlugField(populate_from='name', unique=True, editable=True)
     description = models.TextField(blank=True)
@@ -19,6 +20,7 @@ class Category(models.Model):
         return self.name
 
 class Product(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='name', unique=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -38,16 +40,16 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-
 class Ingredient(models.Model):
     UNIT_CHOICES = [
         ('kg', 'Kilogram'),
         ('g', 'Gram'),
         ('l', 'Liter'),
         ('ml', 'Milliliter'),
-        # Add more units as needed
+        ('pcs', 'Pieces'),
     ]
 
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='name', unique=True, editable=True)
     stock = models.IntegerField()
@@ -62,6 +64,7 @@ class Ingredient(models.Model):
         return self.stock >= self.minimum_required_amount
 
 class Recipe(models.Model):
+    id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='recipes')
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     quantity = models.IntegerField()
