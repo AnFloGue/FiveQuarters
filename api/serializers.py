@@ -1,6 +1,6 @@
-# api/serializers.py
+
 from rest_framework import serializers
-from .models import Product, Category, Recipe, Inventory
+from inventory.models import Product, Category, Recipe
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,9 +15,4 @@ class CategorySerializer(serializers.ModelSerializer):
 class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
-        fields = '__all__'
-
-class InventorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Inventory
         fields = '__all__'

@@ -1,9 +1,9 @@
-# api/views.py
+
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from .models import Product, Category, Recipe, Inventory
-from .serializers import ProductSerializer, CategorySerializer, RecipeSerializer, InventorySerializer
+from inventory.models import Product, Category, Recipe
+from .serializers import ProductSerializer, CategorySerializer, RecipeSerializer
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
@@ -30,7 +30,3 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
-
-class InventoryViewSet(viewsets.ModelViewSet):
-    queryset = Inventory.objects.all()
-    serializer_class = InventorySerializer

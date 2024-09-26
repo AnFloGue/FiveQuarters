@@ -29,8 +29,8 @@ INSTALLED_APPS = [
     
     'rest_framework',
     
-    'accounts',
-    'frontshop',
+    # 'accounts',
+    # 'frontshop',
     'inventory',
     'api',
 ]
