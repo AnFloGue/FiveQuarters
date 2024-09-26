@@ -12,7 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # DEBUG mode
-DEBUG = True if os.getenv('DEBUG') == 'True' else False
+# DEBUG = True if os.getenv('DEBUG') == 'True' else False
+
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # Allowed hosts
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com']
@@ -120,7 +122,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Logging configuration
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -128,7 +129,7 @@ LOGGING = {
         'file': {
             'level': 'ERROR',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': '/Users/antoniofloresguerrero/PycharmProjects/_FINAL PROJ/#01/FiveQuarters/logs/django_errors.log',
+            'filename': os.path.join(BASE_DIR, 'logs', 'django_errors.log'),
             'maxBytes': 1024*1024*5,  # 5 MB
             'backupCount': 5,
         },
