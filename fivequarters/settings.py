@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     # 'accounts',
     # 'frontshop',
     'inventory',
-    # 'api',
+    'api',
 ]
 
 # Middleware

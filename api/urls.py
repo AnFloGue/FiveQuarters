@@ -1,32 +1,13 @@
-from django.contrib import admin
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from rest_framework import permissions
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
-from .views import ProductViewSet, CategoryViewSet, RecipeViewSet
-
-router = DefaultRouter()
-router.register(r'products', ProductViewSet)
-router.register(r'categories', CategoryViewSet)
-router.register(r'recipes', RecipeViewSet)
-
-schema_view = get_schema_view(
-    openapi.Info(
-        title="API Documentation",
-        default_version='v1',
-        description="Endpoints for the API",
-        terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@example.com"),
-        license=openapi.License(name="BSD License"),
-    ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
-)
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('api/v1/', include(router.urls)),
-    path('swagger.<format>', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('categories/', views.category_list, name='category_list'),
+    path('categories/<int:pk>/', views.category_detail, name='category_detail'),
+    path('products/', views.product_list, name='product_list'),
+    path('products/<int:pk>/', views.product_detail, name='product_detail'),
+    path('recipes/', views.recipe_list, name='recipe_list'),
+    path('recipes/<int:pk>/', views.recipe_detail, name='recipe_detail'),
+    path('ingredients/', views.ingredient_list, name='ingredient_list'),
+    path('ingredients/<int:pk>/', views.ingredient_detail, name='ingredient_detail'),
 ]

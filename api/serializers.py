@@ -1,15 +1,19 @@
-
 from rest_framework import serializers
-from inventory.models import Product, Category, Recipe
+from inventory.models import Category, Product, Ingredient, Recipe
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
 
-class CategorySerializer(serializers.ModelSerializer):
+class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Category
+        model = Ingredient
         fields = '__all__'
 
 class RecipeSerializer(serializers.ModelSerializer):
