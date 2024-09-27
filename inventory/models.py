@@ -74,3 +74,4 @@ class Recipe(models.Model):
 
     def __str__(self):
         return f"{self.product.name} Recipe - {self.ingredient.name} ({self.quantity}{self.ingredient.unit})"
+
