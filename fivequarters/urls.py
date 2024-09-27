@@ -1,5 +1,3 @@
-# fivequarters/urls.py
-
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -10,31 +8,31 @@ from drf_yasg import openapi
 
 # Configure the schema view for Swagger and Redoc documentation
 schema_view = get_schema_view(
-   openapi.Info(
-      title="fivequarters API",  # Title of the API documentation
-      default_version='v1',  # Default version of the API
-      description="API documentation",  # Description of the API
-      terms_of_service="https://www.google.com/policies/terms/",  # Terms of service URL
-      contact=openapi.Contact(email="contact@yourapi.local"),  # Contact information
-      license=openapi.License(name="BSD License"),  # License information
-   ),
-   public=True,  # Make the documentation public
-   permission_classes=(permissions.AllowAny,),  # Allow any permissions to access the documentation
+    openapi.Info(
+        title="fivequarters API",
+        default_version='v1',
+        description="API documentation",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="contact@yourapi.local"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
 )
 
 # Define the URL patterns for the project
 urlpatterns = [
-    path('admin/', admin.site.urls),  # Admin site URL
+    path('admin/', admin.site.urls),
 
-    # API endpoints
-    path('api/v1/', include('api.urls_v1')),  # Include version 1 of the API URLs
+    # API endpoints, for version 1
+    path('api/v1/', include('api.urls_v1')),
 
     # Inventory app
-    path('inventory/', include('inventory.urls')),  # Include URLs for the inventory app
+    path('inventory/', include('inventory.urls')),
 
     # Swagger and Redoc documentation
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),  # Swagger UI documentation
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),  # Redoc UI documentation
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
 
 # Serve static files in debug mode
