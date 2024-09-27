@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from inventory.models import Category, Product, Ingredient, Recipe
 
+"""
+Serializers for the models.
+Converts the models instances to JSON format and validates data.
+"""
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
