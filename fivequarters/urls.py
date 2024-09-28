@@ -35,7 +35,12 @@ urlpatterns = [
     # Inventory App
     # ==============================
     path('inventory/', include('inventory.urls')),
-
+    
+    # ==============================
+    # Frontshop App
+    # ==============================
+    path('frontshop/', include('frontshop.urls')),
+    
     # ==============================
     # Swagger and Redoc Documentation
     # ==============================

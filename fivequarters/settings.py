@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'drf_yasg',
 
     # 'accounts',
-    # 'frontshop',
+    'frontshop',
     'inventory',
     'api',
 ]

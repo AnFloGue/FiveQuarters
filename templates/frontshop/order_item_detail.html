@@ -1,0 +1,25 @@
+<!-- order_item_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Item Detail</title>
+</head>
+<body>
+    <h1>Order Item Detail</h1>
+    <p><strong>Order ID:</strong> {{ order_item.order.id }}</p>
+    <p><strong>Product:</strong> {{ order_item.product.name }}</p>
+    <p><strong>Quantity:</strong> {{ order_item.quantity }}</p>
+
+    <h2>Ingredients</h2>
+    <ul>
+        {% for ingredient in ingredients %}
+            <li>{{ ingredient.name }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Review</h2>
+    <p>{{ review }}</p>
+    <p>Rating: {{ stars }} stars</p>
+</body>
+</html>

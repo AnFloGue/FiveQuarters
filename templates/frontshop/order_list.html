@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order List</title>
+</head>
+<body>
+    <h1>Order List</h1>
+    <ul>
+        {% for order in orders %}
+            <li>
+                <a href="{% url 'order_detail' order.id %}">Order ID: {{ order.id }}</a> - User: {{ order.user }} - Status: {{ order.status }} - Total Price: {{ order.total_price }} - Created At: {{ order.created_at }} - Updated At: {{ order.updated_at }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

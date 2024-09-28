@@ -1,14 +1,11 @@
 from django.urls import path
 from . import views
 
-
-
 urlpatterns = [
-    
     # ==============================
     # Category Views
     # ==============================
-    
+
     path('categories/', views.category_list, name='category_list'),
     path('categories/create/', views.category_create, name='category_create'),
     path('categories/<int:pk>/', views.category_detail, name='category_detail'),
@@ -44,4 +41,24 @@ urlpatterns = [
     path('recipes/<int:pk>/', views.recipe_detail, name='recipe_detail'),
     path('recipes/<int:pk>/update/', views.recipe_update, name='recipe_update'),
     path('recipes/<int:pk>/delete/', views.recipe_delete, name='recipe_delete'),
+
+    # ==============================
+    # Order Views
+    # ==============================
+
+    path('orders/', views.order_list, name='order_list'),
+    path('orders/create/', views.order_create, name='order_create'),
+    path('orders/<int:pk>/', views.order_detail, name='order_detail'),
+    path('orders/<int:pk>/update/', views.order_update, name='order_update'),
+    path('orders/<int:pk>/delete/', views.order_delete, name='order_delete'),
+
+    # ==============================
+    # OrderItem Views
+    # ==============================
+
+    path('orderitems/', views.orderitem_list, name='orderitem_list'),
+    path('orderitems/create/', views.orderitem_create, name='orderitem_create'),
+    path('orderitems/<int:pk>/', views.orderitem_detail, name='orderitem_detail'),
+    path('orderitems/<int:pk>/update/', views.orderitem_update, name='orderitem_update'),
+    path('orderitems/<int:pk>/delete/', views.orderitem_delete, name='orderitem_delete'),
 ]

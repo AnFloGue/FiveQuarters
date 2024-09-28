@@ -2,8 +2,120 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from inventory.models import Category, Product, Ingredient, Recipe
-from .serializers import CategorySerializer, ProductSerializer, IngredientSerializer, RecipeSerializer
+from .serializers import CategorySerializer, ProductSerializer, IngredientSerializer, RecipeSerializer, OrderSerializer, OrderItemSerializer
 from drf_yasg.utils import swagger_auto_schema
+from frontshop.models import Order, OrderItem
+
+
+# ==============================
+# Order Views
+# ==============================
+
+@api_view(['GET'])
+def order_list(request):
+    ''' Retrieve all orders '''
+    orders = Order.objects.all()
+    serializer = OrderSerializer(orders, many=True)
+    return Response(serializer.data)
+
+@swagger_auto_schema(method='post', request_body=OrderSerializer)
+@api_view(['POST'])
+def order_create(request):
+    ''' Create a new order '''
+    serializer = OrderSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def order_detail(request, pk):
+    ''' Retrieve a specific order by its primary key (pk) '''
+    try:
+        order = Order.objects.get(pk=pk)
+    except Order.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = OrderSerializer(order)
+    return Response(serializer.data)
+
+@swagger_auto_schema(method='put', request_body=OrderSerializer)
+@api_view(['PUT'])
+def order_update(request, pk):
+    ''' Update a specific order by its primary key (pk) '''
+    try:
+        order = Order.objects.get(pk=pk)
+    except Order.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = OrderSerializer(order, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def order_delete(request, pk):
+    ''' Delete a specific order by its primary key (pk) '''
+    try:
+        order = Order.objects.get(pk=pk)
+    except Order.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    order.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+# ==============================
+# OrderItem Views
+# ==============================
+
+@api_view(['GET'])
+def orderitem_list(request):
+    ''' Retrieve all order items '''
+    orderitems = OrderItem.objects.all()
+    serializer = OrderItemSerializer(orderitems, many=True)
+    return Response(serializer.data)
+
+@swagger_auto_schema(method='post', request_body=OrderItemSerializer)
+@api_view(['POST'])
+def orderitem_create(request):
+    ''' Create a new order item '''
+    serializer = OrderItemSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def orderitem_detail(request, pk):
+    ''' Retrieve a specific order item by its primary key (pk) '''
+    try:
+        orderitem = OrderItem.objects.get(pk=pk)
+    except OrderItem.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = OrderItemSerializer(orderitem)
+    return Response(serializer.data)
+
+@swagger_auto_schema(method='put', request_body=OrderItemSerializer)
+@api_view(['PUT'])
+def orderitem_update(request, pk):
+    ''' Update a specific order item by its primary key (pk) '''
+    try:
+        orderitem = OrderItem.objects.get(pk=pk)
+    except OrderItem.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = OrderItemSerializer(orderitem, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def orderitem_delete(request, pk):
+    ''' Delete a specific order item by its primary key (pk) '''
+    try:
+        orderitem = OrderItem.objects.get(pk=pk)
+    except OrderItem.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    orderitem.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 # ==============================
 # Category Views
