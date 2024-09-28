@@ -1,53 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory Home</title>
+    <title>Project Overview - Five Quarters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            color: #333;
+        }
+
+        .navbar {
+            display: flex;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+        }
+
+        .navbar .brand {
+            flex: 1;
+            font-size: 1.5em;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            flex: 3;
+            justify-content: space-between;
+        }
+
+        .nav-item {
+            list-style-type: none;
+        }
+
+        .nav-item a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+        }
+
+        .nav-item a:hover {
+            background-color: #575757;
+        }
+
+        .group {
+            flex-grow: 1;
+        }
+
+        .group-title {
+            text-transform: uppercase;
+            font-size: 1.2em;
+        }
+
+        .feature-list,
+        .api-features {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .feature-list li,
+        .api-features li {
+            background: #f9f9f9;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Inventory Home Page</h1>
+<div class="navbar">
+    <div class="brand">Five Quarters</div>
+    <div class="nav-links">
+        <div class="group">
+            <div class="group-title">General</div>
+            <ul class="nav-item">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+            </ul>
+        </div>
+        <div class="group">
+            <div class="group-title">System</div>
+            <ul class="nav-item">
+                <li><a href="#inventory">Inventory System</a></li>
+                <li><a href="#user-feedback">User Feedback</a></li>
+            </ul>
+        </div>
+        <div class="group">
+            <div class="group-title">User</div>
+            <ul class="nav-item">
+                <li><a href="#user-management">User Management</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
 
-    <h2>Home View</h2>
-    <ul>
-        <li><a href="http://127.0.0.1:8000/inventory/home/">Home View</a></li>
+<div class="container">
+    <h1>Project Overview: Five Quarters</h1>
+    <p>Five Quarters is a supplier back-end shop that manages the production of products for various front-end franchises. The system is designed to streamline the ordering and manufacturing process, ensuring that franchises can quickly and efficiently obtain the products they need.</p>
+
+    <h2>Key Features:</h2>
+    <ul class="feature-list">
+        <li id="home">
+            <strong>Home Page:</strong> Displays "Products of the Week" which are pre-made and can be ordered immediately without any waiting time.
+        </li>
+        <li id="products">
+            <strong>Products Page:</strong> Franchise owners can order made-to-order products from this page. Each product is sorted into categories that align with existing ones and includes a detailed recipe showing the required ingredients and potential allergens.
+            <ul>
+                <li><strong>Order Fulfillment Notification:</strong> The system checks the stock and notifies the franchise owner about the availability of the order. If the stock is insufficient, it provides an estimated waiting time.</li>
+                <li><strong>Inventory Management:</strong> Upon order placement, the system alerts the inventory administrator to restock items if they are below the designated minimum level.</li>
+                <li><strong>Product Information:</strong> Access detailed recipes for each product, including all ingredients and potential allergens.</li>
+                <li><strong>Reviews and Popularity Index:</strong> Franchise owners can view all reviews and check the popularity index based on previous orders.</li>
+            </ul>
+        </li>
+        <li id="inventory">
+            <strong>Internal Inventory System:</strong> Monitors overall stock levels and notifies the administration if there are insufficient ingredients to fulfill an order, ensuring the inventory is always up-to-date.
+        </li>
+        <li id="user-feedback">
+            <strong>User Feedback:</strong> Franchises can rate products and leave comments to help improve product quality.
+        </li>
+        <li id="user-management">
+            <strong>User Management:</strong> Provides web pages for user registration, login, and account management for different members who have access to the system. There are two tiers of user roles:
+            <ul>
+                <li><strong>Inventory Management:</strong>
+                    <ul>
+                        <li>Users in this tier have the possibility of having up to all administrative permissions.</li>
+                        <li>They can manage inventory, reorder supplies, and perform other backend administrative actions.</li>
+                    </ul>
+                </li>
+                <li><strong>Franchise Owner:</strong>
+                    <ul>
+                        <li>Users in this tier can only place orders, cancel orders, and view pages.</li>
+                        <li>They do not have access to change inventory or reorder supplies, or perform any typical actions that only the inventory management backend users would do.</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
     </ul>
 
-    <hr>
-
-    <h2>Category Views</h2>
-    <ul>
-        <li><a href="http://127.0.0.1:8000/inventory/categories/">Category List</a></li>
-        <li><a href="http://127.0.0.1:8000/inventory/categories/1/">Category Detail</a></li>
-        <li><a href="http://127.0.0.1:8000/inventory/categories/1/delete/">Category Delete</a></li>
+    <h2>API-First Approach:</h2>
+    <ul class="api-features">
+        <li><strong>Centralized Logic:</strong> Ensures consistency in data access and modification.</li>
+        <li><strong>Security:</strong> Uniform application of authentication and authorization.</li>
+        <li><strong>Scalability:</strong> Easier to scale and maintain.</li>
+        <li><strong>Separation of Concerns:</strong> Front-end and back-end can evolve independently.</li>
+        <li><strong>Easier Testing and Monitoring:</strong> Simplifies testing, monitoring, and debugging.</li>
+        <li><strong>Consistency:</strong> Ensures uniform data manipulation rules and validations.</li>
     </ul>
 
-    <hr>
-
-    <h2>Product Views</h2>
-    <ul>
-        <li><a href="http://127.0.0.1:8000/inventory/products/">Product List</a></li>
-        <li><a href="http://127.0.0.1:8000/inventory/products/1/">Product Detail</a></li>
-        <li><a href="http://127.0.0.1:8000/inventory/products/1/delete/">Product Delete</a></li>
+    <h2>How It Works:</h2>
+    <ul class="feature-list">
+        <li>
+            <strong>Ordering Process:</strong> Franchise owners browse the Products Page to find and order products. Orders can be placed for both pre-made and made-to-order products.
+        </li>
+        <li>
+            <strong>Order Fulfillment:</strong> The system checks stock levels and notifies the franchise owner about order availability. If stock is insufficient, an estimated waiting time is provided.
+        </li>
+        <li>
+            <strong>Inventory Management:</strong> Upon order placement, the system alerts the inventory administrator to restock items if they are below the minimum level. The Internal Inventory System continuously monitors stock levels and ensures the inventory is up-to-date.
+        </li>
+        <li>
+            <strong>Product Information and Feedback:</strong> Detailed recipes and ingredient information are available for each product. Franchise owners can view reviews and popularity indices to make informed decisions. User feedback is collected to improve product quality.
+        </li>
+        <li>
+            <strong>User Management:</strong> The system provides functionalities for user registration, login, and account management.
+        </li>
     </ul>
-
-    <hr>
-
-    <h2>Ingredient Views</h2>
-    <ul>
-        <li><a href="http://127.0.0.1:8000/inventory/ingredients/">Ingredient List</a></li>
-        <li><a href="http://127.0.0.1:8000/inventory/ingredients/1/">Ingredient Detail</a></li>
-        <li><a href="http://127.0.0.1:8000/inventory/ingredients/1/delete/">Ingredient Delete</a></li>
-    </ul>
-
-    <hr>
-
-    <h2>Recipe Views</h2>
-    <ul>
-        <li><a href="http://127.0.0.1:8000/inventory/recipes/">Recipe List</a></li>
-        <li><a href="http://127.0.0.1:8000/inventory/recipes/1/">Recipe Detail</a></li>
-        <li><a href="http://127.0.0.1:8000/inventory/recipes/1/delete/">Recipe Delete</a></li>
-    </ul>
+</div>
 
 </body>
+
 </html>
