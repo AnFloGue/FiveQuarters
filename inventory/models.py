@@ -2,6 +2,10 @@ from django.db import models
 from django.urls import reverse
 from autoslug import AutoSlugField
 
+# ==============================
+# Category Table
+# ==============================
+
 class Category(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, unique=True)
@@ -18,6 +22,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+# ==============================
+# Product Table
+# ==============================
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
@@ -39,6 +47,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+# ==============================
+# Ingredient Table
+# ==============================
 
 class Ingredient(models.Model):
     UNIT_CHOICES = [
@@ -63,6 +75,10 @@ class Ingredient(models.Model):
     def minimum_amount_required(self):
         return self.stock >= self.minimum_required_amount
 
+# ==============================
+# Recipe Table
+# ==============================
+
 class Recipe(models.Model):
     id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='recipes')
@@ -74,4 +90,3 @@ class Recipe(models.Model):
 
     def __str__(self):
         return f"{self.product.name} Recipe - {self.ingredient.name} ({self.quantity}{self.ingredient.unit})"
-

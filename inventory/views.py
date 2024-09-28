@@ -1,136 +1,163 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Category, Ingredient, Product, Recipe
+from .models import Category, Product, Ingredient, Recipe
+# from .forms import CategoryForm, ProductForm, IngredientForm, RecipeForm
 
-def home(request):
-    products = Product.objects.all()
-    context = {
-        'products': products
-    }
-    return render(request, 'inventory/home.html', context)
-
-def inventory(request):
-    ingredients = Ingredient.objects.all()
-    context = {
-        'ingredients': ingredients
-    }
-    return render(request, 'inventory.html', context)
-
-# Category views
+# ==============================
+# Category Views
+# ==============================
 
 def category_list(request):
     categories = Category.objects.all()
     return render(request, 'inventory/category_list.html', {'categories': categories})
 
-def category_detail(request, slug):
-    category = get_object_or_404(Category, slug=slug)
+# def category_create(request):
+#     if request.method == 'POST':
+#         form = CategoryForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('category_list')
+#     else:
+#         form = CategoryForm()
+#     return render(request, 'inventory/category_form.html', {'form': form})
+
+def category_detail(request, pk):
+    category = get_object_or_404(Category, pk=pk)
     return render(request, 'inventory/category_detail.html', {'category': category})
 
-def add_category(request):
-    if request.method == 'POST':
-        # Handle form submission here
-        pass
-    return render(request, 'inventory/add_category.html')
+# def category_update(request, pk):
+#     category = get_object_or_404(Category, pk=pk)
+#     if request.method == 'POST':
+#         form = CategoryForm(request.POST, instance=category)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('category_detail', pk=pk)
+#     else:
+#         form = CategoryForm(instance=category)
+#     return render(request, 'inventory/category_form.html', {'form': form})
 
-def edit_category(request, slug):
-    category = get_object_or_404(Category, slug=slug)
-    if request.method == 'POST':
-        # Handle form submission here
-        pass
-    return render(request, 'inventory/edit_category.html', {'category': category})
-
-def delete_category(request, slug):
-    category = get_object_or_404(Category, slug=slug)
+def category_delete(request, pk):
+    category = get_object_or_404(Category, pk=pk)
     if request.method == 'POST':
         category.delete()
         return redirect('category_list')
-    return render(request, 'inventory/delete_category.html', {'category': category})
+    return render(request, 'inventory/category_confirm_delete.html', {'category': category})
 
-# Ingredient views
-
-def ingredient_list(request):
-    ingredients = Ingredient.objects.all()
-    return render(request, 'inventory/ingredient_list.html', {'ingredients': ingredients})
-
-def ingredient_detail(request, slug):
-    ingredient = get_object_or_404(Ingredient, slug=slug)
-    return render(request, 'inventory/ingredient_detail.html', {'ingredient': ingredient})
-
-def add_ingredient(request):
-    if request.method == 'POST':
-        # Handle form submission here
-        pass
-    return render(request, 'inventory/add_ingredient.html')
-
-def edit_ingredient(request, slug):
-    ingredient = get_object_or_404(Ingredient, slug=slug)
-    if request.method == 'POST':
-        # Handle form submission here
-        pass
-    return render(request, 'inventory/edit_ingredient.html', {'ingredient': ingredient})
-
-def delete_ingredient(request, slug):
-    ingredient = get_object_or_404(Ingredient, slug=slug)
-    if request.method == 'POST':
-        ingredient.delete()
-        return redirect('ingredient_list')
-    return render(request, 'inventory/delete_ingredient.html', {'ingredient': ingredient})
-
-# Product views
+# ==============================
+# Product Views
+# ==============================
 
 def product_list(request):
     products = Product.objects.all()
     return render(request, 'inventory/product_list.html', {'products': products})
 
-def product_detail(request, slug):
-    product = get_object_or_404(Product, slug=slug)
+# def product_create(request):
+#     if request.method == 'POST':
+#         form = ProductForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('product_list')
+#     else:
+#         form = ProductForm()
+#     return render(request, 'inventory/product_form.html', {'form': form})
+
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
     return render(request, 'inventory/product_detail.html', {'product': product})
 
-def add_product(request):
-    if request.method == 'POST':
-        # Handle form submission here
-        pass
-    return render(request, 'inventory/add_product.html')
+# def product_update(request, pk):
+#     product = get_object_or_404(Product, pk=pk)
+#     if request.method == 'POST':
+#         form = ProductForm(request.POST, instance=product)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('product_detail', pk=pk)
+#     else:
+#         form = ProductForm(instance=product)
+#     return render(request, 'inventory/product_form.html', {'form': form})
 
-def edit_product(request, slug):
-    product = get_object_or_404(Product, slug=slug)
-    if request.method == 'POST':
-        # Handle form submission here
-        pass
-    return render(request, 'inventory/edit_product.html', {'product': product})
-
-def delete_product(request, slug):
-    product = get_object_or_404(Product, slug=slug)
+def product_delete(request, pk):
+    product = get_object_or_404(Product, pk=pk)
     if request.method == 'POST':
         product.delete()
         return redirect('product_list')
-    return render(request, 'inventory/delete_product.html', {'product': product})
+    return render(request, 'inventory/product_confirm_delete.html', {'product': product})
 
-# Recipe views
+# ==============================
+# Ingredient Views
+# ==============================
+
+def ingredient_list(request):
+    ingredients = Ingredient.objects.all()
+    return render(request, 'inventory/ingredient_list.html', {'ingredients': ingredients})
+
+# def ingredient_create(request):
+#     if request.method == 'POST':
+#         form = IngredientForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('ingredient_list')
+#     else:
+#         form = IngredientForm()
+#     return render(request, 'inventory/ingredient_form.html', {'form': form})
+
+def ingredient_detail(request, pk):
+    ingredient = get_object_or_404(Ingredient, pk=pk)
+    return render(request, 'inventory/ingredient_detail.html', {'ingredient': ingredient})
+
+# def ingredient_update(request, pk):
+#     ingredient = get_object_or_404(Ingredient, pk=pk)
+#     if request.method == 'POST':
+#         form = IngredientForm(request.POST, instance=ingredient)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('ingredient_detail', pk=pk)
+#     else:
+#         form = IngredientForm(instance=ingredient)
+#     return render(request, 'inventory/ingredient_form.html', {'form': form})
+
+def ingredient_delete(request, pk):
+    ingredient = get_object_or_404(Ingredient, pk=pk)
+    if request.method == 'POST':
+        ingredient.delete()
+        return redirect('ingredient_list')
+    return render(request, 'inventory/ingredient_confirm_delete.html', {'ingredient': ingredient})
+
+# ==============================
+# Recipe Views
+# ==============================
 
 def recipe_list(request):
     recipes = Recipe.objects.all()
     return render(request, 'inventory/recipe_list.html', {'recipes': recipes})
 
-def recipe_detail(request, id):
-    recipe = get_object_or_404(Recipe, id=id)
+# def recipe_create(request):
+#     if request.method == 'POST':
+#         form = RecipeForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('recipe_list')
+#     else:
+#         form = RecipeForm()
+#     return render(request, 'inventory/recipe_form.html', {'form': form})
+
+def recipe_detail(request, pk):
+    recipe = get_object_or_404(Recipe, pk=pk)
     return render(request, 'inventory/recipe_detail.html', {'recipe': recipe})
 
-def add_recipe(request):
-    if request.method == 'POST':
-        # Handle form submission here
-        pass
-    return render(request, 'inventory/add_recipe.html')
+# def recipe_update(request, pk):
+#     recipe = get_object_or_404(Recipe, pk=pk)
+#     if request.method == 'POST':
+#         form = RecipeForm(request.POST, instance=recipe)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('recipe_detail', pk=pk)
+#     else:
+#         form = RecipeForm(instance=recipe)
+#     return render(request, 'inventory/recipe_form.html', {'form': form})
 
-def edit_recipe(request, id):
-    recipe = get_object_or_404(Recipe, id=id)
-    if request.method == 'POST':
-        # Handle form submission here
-        pass
-    return render(request, 'inventory/edit_recipe.html', {'recipe': recipe})
-
-def delete_recipe(request, id):
-    recipe = get_object_or_404(Recipe, id=id)
+def recipe_delete(request, pk):
+    recipe = get_object_or_404(Recipe, pk=pk)
     if request.method == 'POST':
         recipe.delete()
         return redirect('recipe_list')
-    return render(request, 'inventory/delete_recipe.html', {'recipe': recipe})
+    return render(request, 'inventory/recipe_confirm_delete.html', {'recipe': recipe})

@@ -1,0 +1,15 @@
+<!-- templates/inventory/ingredient_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ingredient List</title>
+</head>
+<body>
+    <h1>Ingredient List</h1>
+    <ul>
+        {% for ingredient in ingredients %}
+            <li><a href="{% url 'ingredient_detail' ingredient.pk %}">{{ ingredient.name }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<!-- templates/inventory/recipe_detail.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recipe Detail</title>
+</head>
+<body>
+    <h1>{{ recipe.name }}</h1>
+    <p>{{ recipe.description }}</p>
+    <a href="{% url 'recipe_delete' recipe.pk %}">Delete</a>
+</body>
+</html>
