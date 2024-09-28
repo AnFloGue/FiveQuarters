@@ -86,7 +86,7 @@ class Recipe(models.Model):
     quantity = models.IntegerField()
 
     class Meta:
-        unique_togetheer = ('product', 'ingredient')
+        unique_together = ('product', 'ingredient')
 
     def __str__(self):
         return f"{self.product.name} Recipe - {self.ingredient.name} ({self.quantity}{self.ingredient.unit})"
