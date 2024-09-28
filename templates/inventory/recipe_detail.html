@@ -5,8 +5,8 @@
     <title>Recipe Detail</title>
 </head>
 <body>
-    <h1>{{ recipe.name }}</h1>
-    <p>{{ recipe.description }}</p>
+    <a href="{% url 'home' %}">Home</a>&nbsp;
+    <h3>{{ recipe.product.name }} - {{ recipe.quantity }} - {{ recipe.ingredient.name }}</h3>
     <a href="{% url 'recipe_delete' recipe.pk %}">Delete</a>
 </body>
 </html>

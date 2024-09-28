@@ -1,10 +1,11 @@
-<!-- templates/inventory/ingredient_list.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Ingredient List</title>
 </head>
 <body>
+    <a href="{% url 'home' %}">Home</a>&nbsp;
+
     <h1>Ingredient List</h1>
     <ul>
         {% for ingredient in ingredients %}

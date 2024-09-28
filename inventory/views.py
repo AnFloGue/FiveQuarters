@@ -140,7 +140,10 @@ def ingredient_delete(request, pk):
 
 def recipe_list(request):
     recipes = Recipe.objects.all()
-    return render(request, 'inventory/recipe_list.html', {'recipes': recipes})
+    context = {
+        'recipes': recipes
+    }
+    return render(request, 'inventory/recipe_list.html', context)
 
 # def recipe_create(request):
 #     if request.method == 'POST':

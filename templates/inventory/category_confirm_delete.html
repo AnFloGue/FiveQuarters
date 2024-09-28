@@ -5,6 +5,7 @@
     <title>Confirm Delete Category</title>
 </head>
 <body>
+    <a href="{% url 'home' %}">Home</a>&nbsp;
     <h1>Are you sure you want to delete {{ category.name }}?</h1>
     <form method="post">
         {% csrf_token %}
