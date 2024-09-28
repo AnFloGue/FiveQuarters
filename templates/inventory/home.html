@@ -7,17 +7,47 @@
 </head>
 <body>
     <h1>Inventory Home Page</h1>
-    {% if categories %}
-        {% for category in categories %}
-            <div>
-                <p>{{ category.name }}</p>
-                <p>{{ category.price }}</p>
-                <p>{{ category.description }}</p>
-                <p>{{ category.quantity }}</p>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p>Empty table (Category)</p>
-    {% endif %}
+
+    <h2>Home View</h2>
+    <ul>
+        <li><a href="http://127.0.0.1:8000/inventory/home/">Home View</a></li>
+    </ul>
+
+    <hr>
+
+    <h2>Category Views</h2>
+    <ul>
+        <li><a href="http://127.0.0.1:8000/inventory/categories/">Category List</a></li>
+        <li><a href="http://127.0.0.1:8000/inventory/categories/1/">Category Detail</a></li>
+        <li><a href="http://127.0.0.1:8000/inventory/categories/1/delete/">Category Delete</a></li>
+    </ul>
+
+    <hr>
+
+    <h2>Product Views</h2>
+    <ul>
+        <li><a href="http://127.0.0.1:8000/inventory/products/">Product List</a></li>
+        <li><a href="http://127.0.0.1:8000/inventory/products/1/">Product Detail</a></li>
+        <li><a href="http://127.0.0.1:8000/inventory/products/1/delete/">Product Delete</a></li>
+    </ul>
+
+    <hr>
+
+    <h2>Ingredient Views</h2>
+    <ul>
+        <li><a href="http://127.0.0.1:8000/inventory/ingredients/">Ingredient List</a></li>
+        <li><a href="http://127.0.0.1:8000/inventory/ingredients/1/">Ingredient Detail</a></li>
+        <li><a href="http://127.0.0.1:8000/inventory/ingredients/1/delete/">Ingredient Delete</a></li>
+    </ul>
+
+    <hr>
+
+    <h2>Recipe Views</h2>
+    <ul>
+        <li><a href="http://127.0.0.1:8000/inventory/recipes/">Recipe List</a></li>
+        <li><a href="http://127.0.0.1:8000/inventory/recipes/1/">Recipe Detail</a></li>
+        <li><a href="http://127.0.0.1:8000/inventory/recipes/1/delete/">Recipe Delete</a></li>
+    </ul>
+
 </body>
 </html>

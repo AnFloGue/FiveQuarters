@@ -1,15 +1,17 @@
-<!-- templates/inventory/category_list.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Category List</title>
 </head>
 <body>
+
     <h1>Category List</h1>
     <ul>
         {% for category in categories %}
             <li><a href="{% url 'category_detail' category.pk %}">{{ category.name }}</a></li>
         {% endfor %}
     </ul>
+    <br><br>
+    <a href="{% url 'home' %}">Home</a>
 </body>
 </html>

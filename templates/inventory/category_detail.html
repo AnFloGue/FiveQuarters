@@ -1,12 +1,14 @@
-<!-- templates/inventory/category_detail.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Category Detail</title>
 </head>
 <body>
+
     <h1>{{ category.name }}</h1>
     <p>{{ category.description }}</p>
     <a href="{% url 'category_delete' category.pk %}">Delete</a>
+    <br><br>
+    <a href="{% url 'home' %}">Home</a>
 </body>
 </html>
