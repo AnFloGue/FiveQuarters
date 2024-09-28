@@ -1,6 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Category, Product, Ingredient, Recipe
-# from .forms import CategoryForm, ProductForm, IngredientForm, RecipeForm
+from .models import Category, Ingredient, Product, Recipe
+# from .forms import CategoryForm, IngredientForm, ProductForm, RecipeForm
+
+
+
+# ==============================
+# Home View
+# ==============================
+def home(request):
+    categories = Category.objects.all()
+    context = {
+        'categories': categories
+    }
+    return render(request, 'inventory/home.html', context)
 
 # ==============================
 # Category Views

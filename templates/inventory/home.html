@@ -7,17 +7,17 @@
 </head>
 <body>
     <h1>Inventory Home Page</h1>
-    {% if products %}
-        {% for product in products %}
+    {% if categories %}
+        {% for category in categories %}
             <div>
-                <p>{{ product.name }}</p>
-                <p>{{ product.price }}</p>
-                <p>{{ product.description }}</p>
-                <p>{{ product.quantity }}</p>
+                <p>{{ category.name }}</p>
+                <p>{{ category.price }}</p>
+                <p>{{ category.description }}</p>
+                <p>{{ category.quantity }}</p>
             </div>
         {% endfor %}
     {% else %}
-        <p>Empty table (Product)</p>
+        <p>Empty table (Category)</p>
     {% endif %}
 </body>
 </html>

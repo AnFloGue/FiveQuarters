@@ -20,17 +20,25 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
-# Define the URL patterns for the project
+# ==============================
+# Admin View
+# ==============================
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # API endpoints, for version 1
+    # ==============================
+    # API Endpoints, for version 1
+    # ==============================
     path('api/v1/', include('api.urls_v1')),
 
-    # Inventory app
+    # ==============================
+    # Inventory App
+    # ==============================
     path('inventory/', include('inventory.urls')),
 
-    # Swagger and Redoc documentation
+    # ==============================
+    # Swagger and Redoc Documentation
+    # ==============================
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
