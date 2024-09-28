@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Order, OrderItem
+from inventory.models import Product
 
 # List view for Orders
 def order_list(request):
@@ -22,11 +23,11 @@ def order_item_list(request):
 # Detail view for a single Order Item
 def order_item_detail(request, order_item_id):
     order_item = get_object_or_404(OrderItem, id=order_item_id)
-    ingredients = order_item.product.ingredients.all()  # Assuming Product has a related ingredients field
+    ingredients = order_item.product.recipes.all()
     context = {
         'order_item': order_item,
-        'ingredients': ingredients,
+        'ingredients': [recipe.ingredient for recipe in ingredients],
         'review': 'Default review',
-        'stars': 5
+        'stars': '*****'
     }
     return render(request, 'frontshop/order_item_detail.html', context)
