@@ -4,18 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Order {{ order.id }} Details</title>
+    <script>
+        function showItemDetails(itemId, productName, quantity, ingredients, review, rating) {
+            document.getElementById('item-details').innerHTML = `
+                <h2>Product: ${productName}</h2>
+                <p><strong>Quantity:</strong> ${quantity}</p>
+                <h3>Ingredients</h3>
+                <ul>${ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}</ul>
+                <h3>Review</h3>
+                <p>${review}</p>
+                <p><strong>Rating:</strong> ${'*'.repeat(rating)}</p>
+            `;
+        }
+    </script>
 </head>
 <body>
     <h1>Order {{ order.id }} Details</h1>
+
+    <h2>Client Information</h2>
     <p><strong>Client:</strong> {{ order.user.username }}</p>
-    <p><strong>Status:</strong> {{ order.status }}</p>
+
+    <h2>Order Information</h2>
     <p><strong>Total Price:</strong> {{ order.total_price }}</p>
-    <p><strong>Note:</strong> {{ order.note }}</p>
-    <p><strong>Tracking Number:</strong> {{ order.tracking_number }}</p>
+    <p><strong>Status:</strong> {{ order.status }}</p>
     <p><strong>Created At:</strong> {{ order.created_at }}</p>
     <p><strong>Updated At:</strong> {{ order.updated_at }}</p>
-    <br>
+    <p><strong>Note:</strong> {{ order.note }}</p>
+
+    <h2>Delivery Information</h2>
     <p><strong>Delivery Company:</strong> {{ order.delivery_company.name }}</p>
+    <p><strong>Tracking Number:</strong> {{ order.tracking_number }}</p>
     <p><strong>Posted Date:</strong> {{ order.posted_date }}</p>
     <p><strong>Received Date:</strong> {{ order.received_date }}</p>
 
@@ -25,5 +43,9 @@
             <li>{{ item.quantity }} of {{ item.product.name }}</li>
         {% endfor %}
     </ul>
+
+    <div id="item-details">
+        <!-- Item details will be displayed here -->
+    </div>
 </body>
 </html>

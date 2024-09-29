@@ -44,6 +44,9 @@ class Product(models.Model):
 
     def can_be_manufactured(self):
         return all(recipe.quantity <= recipe.ingredient.stock for recipe in self.recipes.all())
+    @property
+    def ingredients(self):
+        return [recipe.ingredient.name for recipe in self.recipes.all()]
 
     def __str__(self):
         return self.name
