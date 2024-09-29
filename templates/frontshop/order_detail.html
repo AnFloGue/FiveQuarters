@@ -1,22 +1,27 @@
-<!-- order_detail.html -->
+<!-- templates/frontshop/order_detail.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Order Detail</title>
+    <title>Order {{ order.id }} Details</title>
 </head>
 <body>
-    <h1>Order Detail</h1>
-    <p><strong>Order ID:</strong> {{ order.id }}</p>
-    <p><strong>User:</strong> {{ order.user.username }}</p>
+    <h1>Order {{ order.id }} Details</h1>
+    <p><strong>Client:</strong> {{ order.user.username }}</p>
     <p><strong>Status:</strong> {{ order.status }}</p>
-    <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+    <p><strong>Total Price:</strong> {{ order.total_price }}</p>
+    <p><strong>Note:</strong> {{ order.note }}</p>
+    <p><strong>Tracking Number:</strong> {{ order.tracking_number }}</p>
     <p><strong>Created At:</strong> {{ order.created_at }}</p>
     <p><strong>Updated At:</strong> {{ order.updated_at }}</p>
+    <br>
+    <p><strong>Delivery Company:</strong> {{ order.delivery_company.name }}</p>
+    <p><strong>Posted Date:</strong> {{ order.posted_date }}</p>
+    <p><strong>Received Date:</strong> {{ order.received_date }}</p>
 
-    <h2>Order Items</h2>
+    <h2>Items</h2>
     <ul>
-        {% for item in items %}
+        {% for item in order.items.all %}
             <li>{{ item.quantity }} of {{ item.product.name }}</li>
         {% endfor %}
     </ul>
