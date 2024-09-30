@@ -16,7 +16,7 @@ class RecipeInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'slug', 'category', 'price', 'date_of_manufacture', 'date_of_expiry', 'popularity')
+    list_display = ('id', 'name', 'category', 'price', 'date_of_manufacture', 'date_of_expiry', 'popularity')
     list_display_links = ('id', 'name')
     search_fields = ('name', 'category__name')
     prepopulated_fields = {'slug': ('name',)}

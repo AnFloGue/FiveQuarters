@@ -77,6 +77,7 @@ class Ingredient(models.Model):
         ('g', 'Gram'),
         ('l', 'Liter'),
         ('ml', 'Milliliter'),
+        
         ('pcs', 'Pieces'),
     ]
     
