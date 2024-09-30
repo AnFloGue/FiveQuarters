@@ -1,12 +1,8 @@
 from rest_framework import serializers
 from inventory.models import Category, Product, Ingredient, Recipe
-from frontshop.models import Order, OrderItem
+from frontshop.models import Order, OrderItem, DeliveryCompany
 
-"""
-Serializers for the models.
-Converts the models instances to JSON format and validates data.
-"""
-
+# Serializers for Inventory models
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -25,6 +21,12 @@ class IngredientSerializer(serializers.ModelSerializer):
 class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
+        fields = '__all__'
+
+# Serializers for Frontshop models
+class DeliveryCompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DeliveryCompany
         fields = '__all__'
 
 class OrderSerializer(serializers.ModelSerializer):

@@ -34,11 +34,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
 
-    # 'accounts',
+    'accounts',
     'frontshop',
     'inventory',
     'api',
 ]
+
+API_URL = 'https://fivequarters.onrender.com/api/v1'
 
 # Middleware
 MIDDLEWARE = [

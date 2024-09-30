@@ -1,5 +1,6 @@
+# admin.py
 from django.contrib import admin
-from .models import Category, Product, Ingredient, Recipe
+from .models import Category, Product, Ingredient, Recipe, Allergen
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -15,19 +16,25 @@ class RecipeInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'category', 'price', 'date_of_manufacture', 'date_of_expiry')
+    list_display = ('id', 'name', 'slug', 'category', 'price', 'date_of_manufacture', 'date_of_expiry', 'popularity')
     list_display_links = ('id', 'name')
     search_fields = ('name', 'category__name')
+    prepopulated_fields = {'slug': ('name',)}
     list_filter = ('category', 'date_of_manufacture', 'date_of_expiry')
     inlines = [RecipeInline]
 
+@admin.register(Allergen)
+class AllergenAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    search_fields = ('name',)
+
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'slug', 'stock', 'unit', 'minimum_required_amount')
+    list_display = ('id', 'name', 'slug', 'stock', 'unit', 'required_amount', 'potential_allergens')
     list_display_links = ('id', 'name')
     search_fields = ('name', 'slug')
     prepopulated_fields = {'slug': ('name',)}
-    fields = ('name', 'slug', 'stock', 'unit', 'minimum_required_amount')
+    fields = ('name', 'slug', 'stock', 'unit', 'required_amount', 'potential_allergens')
     list_filter = ('unit',)
 
 @admin.register(Recipe)

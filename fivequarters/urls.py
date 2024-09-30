@@ -1,3 +1,4 @@
+
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -29,13 +30,13 @@ urlpatterns = [
     # ==============================
     # API Endpoints, for version 1
     # ==============================
-    path('api/v1/', include('api.urls_v1')),
+    path('api/v1/', include('api.v1.urls_v1')),
 
     # ==============================
     # Inventory App
     # ==============================
     path('inventory/', include('inventory.urls')),
-    
+
     # ==============================
     # Frontshop App
     # ==============================
