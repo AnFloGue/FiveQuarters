@@ -8,10 +8,10 @@ def calculate_order_total(order_id):
     """
     Calculate the total price for a given order.
     """
-    order = Order.objects.get(id=order_id) # we query the database for a particular order
+    order = Order.objects.get(id=order_id)
     total = 0
-    for item in order.orderitem_set.all():
-        total += item.price * item.quantity
+    for item in order.items.all():
+        total += item.product.price * item.quantity
     return total
 
 def create_order(customer, items):

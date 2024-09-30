@@ -11,7 +11,7 @@
     <p>Client: {{ order.user.username }}</p>
 
     <h2>Order Information</h2>
-    <p>Total Price: {{ total }}</p>
+    <p>Total Price: {{ order.total_price }}</p>
     <p>Status: {{ order.status }}</p>
     <p>Created At: {{ order.created_at }}</p>
     <p>Updated At: {{ order.updated_at }}</p>
@@ -26,7 +26,19 @@
     <h2>Items</h2>
     <ul>
         {% for item in order.items.all %}
-            <li>{{ item.quantity }} of {{ item.product.name }}</li>
+            <li>
+                {{ item.quantity }} of {{ item.product.name }}
+                {% if item.product.ingredients %}
+                    <ul>
+                        <li>Ingredients: {{ item.product.ingredients|join:", " }}</li>
+                        {% for recipe in item.product.recipes.all %}
+                            {% if recipe.ingredient.potential_allergens %}
+                                <li>Allergen: {{ recipe.ingredient.name }} ({{ recipe.ingredient.potential_allergens.name }})</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
         {% endfor %}
     </ul>
 </body>
