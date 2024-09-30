@@ -37,6 +37,9 @@ class Product(models.Model):
     image = models.ImageField(upload_to='photos/products', blank=True, null=True)
     date_of_manufacture = models.DateField()
     date_of_expiry = models.DateField(null=True, blank=True)
+    potential_allergens = models.TextField(blank=True, null=True)
+    manufacturing_time = models.CharField(max_length=100, blank=True, null=True)
+    popularity = models.PositiveIntegerField(default=0)
 
     @property
     def product_name(self):
@@ -44,6 +47,7 @@ class Product(models.Model):
 
     def can_be_manufactured(self):
         return all(recipe.quantity <= recipe.ingredient.stock for recipe in self.recipes.all())
+
     @property
     def ingredients(self):
         return [recipe.ingredient.name for recipe in self.recipes.all()]
@@ -69,14 +73,14 @@ class Ingredient(models.Model):
     slug = AutoSlugField(populate_from='name', unique=True, editable=True)
     stock = models.IntegerField()
     unit = models.CharField(max_length=50, choices=UNIT_CHOICES)
-    minimum_required_amount = models.IntegerField(default=10)
+    required_amount = models.IntegerField(default=10)
 
     def __str__(self):
         return self.name
 
     @property
-    def minimum_amount_required(self):
-        return self.stock >= self.minimum_required_amount
+    def amount_required(self):
+        return self.stock >= self.required_amount
 
 # ==============================
 # Recipe Table
