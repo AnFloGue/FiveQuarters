@@ -28,6 +28,11 @@
         {% for item in order.items.all %}
             <li>
                 {{ item.quantity }} of {{ item.product.name }}
+                {% if item.product.is_product_of_the_week %}
+                    <strong>(Product of the Week)</strong>
+                {% endif %}
+                <br>
+                Rating: {{ item.rating }}
                 {% if item.product.ingredients %}
                     <ul>
                         <li>Ingredients: {{ item.product.ingredients|join:", " }}</li>
