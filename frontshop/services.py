@@ -18,7 +18,7 @@ def create_order(customer, items):
     """
     Create a new order for a customer with the given items.
     """
-    order = Order.objects.create(customer=customer) # we reate a new order object
+    order = Order.objects.create(customer=customer) # we create a new order object
     # based on the customer object passed in as an argument
     for item in items:
         OrderItem.objects.create(order=order, **item)
@@ -41,13 +41,9 @@ def notify_inventory_admin(order_id):
     order = Order.objects.get(id=order_id)
     for item in order.orderitem_set.all():
         if item.product.stock < item.quantity:
-            send_mail(
-                'Stock Alert',
-                f'The stock for {item.product.name} is below the minimum level.',
-                'admin@fivequarters.com',
-                ['inventory_admin@fivequarters.com'],
-                fail_silently=False,
-            )
+            send_message =f'The stock for {item.product.name} is below the minimum level.'
+            return send_message
+    return True
 
 def fetch_product_of_the_week():
     """
