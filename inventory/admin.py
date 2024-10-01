@@ -20,14 +20,17 @@ class RecipeInline(admin.TabularInline):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-    'id', 'name', 'category', 'price', 'date_of_manufacture', 'date_of_expiry', 'popularity', 'is_product_of_the_week')
+        'id', 'name', 'category', 'price', 'date_of_manufacture', 'date_of_expiry', 'popularity', 'is_product_of_the_week', 'rating'
+    )
     list_display_links = ('id', 'name')
     search_fields = ('name', 'category__name')
     prepopulated_fields = {'slug': ('name',)}
     list_filter = ('category', 'date_of_manufacture', 'date_of_expiry')
     inlines = [RecipeInline]
-    fields = ('name', 'slug', 'category', 'description', 'price', 'image', 'date_of_manufacture', 'date_of_expiry',
-              'manufacturing_time', 'popularity', 'is_product_of_the_week')
+    fields = (
+        'name', 'slug', 'category', 'description', 'price', 'image', 'date_of_manufacture', 'date_of_expiry',
+        'manufacturing_time', 'popularity', 'is_product_of_the_week', 'rating'
+    )
     
     # to add new ingredients inside this table, we dont need to modify this model. it comes for free as
     # part of the Django admin's default behavior for handling foreign key. soooooo Cool!

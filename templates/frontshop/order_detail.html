@@ -32,7 +32,7 @@
                     <strong>(Product of the Week)</strong>
                 {% endif %}
                 <br>
-                Rating: {{ item.rating }}
+                Rating: {{ item.product.rating }}
                 {% if item.product.ingredients %}
                     <ul>
                         <li>Ingredients: {{ item.product.ingredients|join:", " }}</li>
