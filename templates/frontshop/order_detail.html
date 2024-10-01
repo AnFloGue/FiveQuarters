@@ -42,6 +42,7 @@
                         <p><strong>Client:</strong> {{ order.user.username }}</p>
                     </div>
                 </div>
+                <hr>
             </div>
             <div class="col-md-6 order-card">
                 <div class="card">
@@ -94,8 +95,8 @@
                                         <div>
                                             <strong>{{ item.quantity }} of {{ item.product.name }}</strong>
                                             {% if item.product.is_product_of_the_week %}
-                                                <span class="badge bg-success ms-2">Product of the Week</span>
                                             {% endif %}
+                                                <span class="badge bg-success ms-2">Product of the Week</span>
                                             <br>
                                             <small>Rating: {{ item.product.rating }}</small>
                                         </div>
@@ -104,10 +105,10 @@
                                         <ul class="list-group mt-2">
                                             <li class="list-group-item">Ingredients: {{ item.product.ingredients|join:", " }}</li>
                                             {% for recipe in item.product.recipes.all %}
+                                            {% endfor %}
                                                 {% if recipe.ingredient.potential_allergens %}
                                                     <li class="list-group-item">Allergen: {{ recipe.ingredient.name }} ({{ recipe.ingredient.potential_allergens.name }})</li>
                                                 {% endif %}
-                                            {% endfor %}
                                         </ul>
                                     {% endif %}
                                 </li>
