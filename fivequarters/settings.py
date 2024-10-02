@@ -1,3 +1,4 @@
+# fivequarters/settings.py
 import os
 from pathlib import Path
 from dotenv import load_dotenv
@@ -40,7 +41,8 @@ INSTALLED_APPS = [
     'api',
 ]
 
-API_BASE_URL_V1 = 'https://fivequarters.onrender.com/api/v1'
+# API Base URL
+API_BASE_URL_V1 = os.getenv('API_URL')
 
 # Middleware
 MIDDLEWARE = [

@@ -1,21 +1,40 @@
-<h1>Order Details</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Details</title>
+</head>
+<body>
+    <h1>Order Details</h1>
 
-{% if error %}
-    <p>{{ error }}</p>
-{% else %}
-    <h2>Client Information</h2>
-    <p>Client ID: {{ order.user }}</p>
+    {% if error %}
+        <p>{{ error }}</p>
+    {% else %}
+        <h2>Client Information</h2>
+        <p>Client Name: {{ order.user.first_name }} {{ order.user.last_name }}</p>
 
-    <h2>Order Information</h2>
-    <p>Total Price: {{ order.total_price }}</p>
-    <p>Status: {{ order.status }}</p>
-    <p>Created At: {{ order.created_at }}</p>
-    <p>Updated At: {{ order.updated_at }}</p>
-    <p>Note: {{ order.customers_note }}</p>
+        <h2>Order Information</h2>
+        <p>Total Price: {{ order.total_price }}</p>
+        <p>Status: {{ order.status }}</p>
+        <p>Created At: {{ order.created_at }}</p>
+        <p>Updated At: {{ order.updated_at }}</p>
+        <p>Note: {{ order.customers_note }}</p>
 
-    <h2>Delivery Information</h2>
-    <p>Delivery Company ID: {{ order.delivery_company }}</p>
-    <p>Tracking Number: {{ order.tracking_number }}</p>
-    <p>Posted Date: {{ order.posted_date }}</p>
-    <p>Received Date: {{ order.received_date }}</p>
-{% endif %}
+        <h2>Delivery Information</h2>
+        <p>Delivery Company: {{ order.delivery_company.name }}</p>
+        <p>Tracking Number: {{ order.tracking_number }}</p>
+        <p>Posted Date: {{ order.posted_date }}</p>
+        <p>Received Date: {{ order.received_date }}</p>
+
+        <h2>Order Items</h2>
+        <ul>
+            {% for item in order_items %}
+                <li>
+                    <strong>{{ item.name }}</strong> - Quantity: {{ item.quantity }} - Price: {{ item.price }}
+                    <p>Description: {{ item.description }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
