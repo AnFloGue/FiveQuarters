@@ -6,10 +6,14 @@
 </head>
 <body>
     <h1>Orders</h1>
-    <ul>
-        {% for order in orders %}
-            <li><a href="{% url 'order_detail' order.id %}">Order {{ order.id }}</a></li>
-        {% endfor %}
-    </ul>
+    {% if error %}
+        <p>{{ error }}</p>
+    {% else %}
+        <ul>
+            {% for order in orders %}
+                <li><a href="{% url 'order_detail' order.id %}">Order {{ order.id }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 </body>
 </html>

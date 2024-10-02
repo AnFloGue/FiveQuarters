@@ -1,0 +1,39 @@
+<!-- # ttemplates/frontshop/inventory-information.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventory Information</title>
+</head>
+<body>
+    <h1>Inventory Information</h1>
+
+    <h2>Categories</h2>
+    <ul>
+        {% for category in categories %}
+            <li>{{ category.name }} (ID: {{ category.id }})</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Products</h2>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }} (ID: {{ product.id }})</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Delivery Companies</h2>
+    <ul>
+        {% for company in delivery_companies %}
+            <li>{{ company.name }} (ID: {{ company.id }})</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Orders</h2>
+    <ul>
+        {% for order in orders %}
+            <li>Order ID: {{ order.id }} - Total Price: {{ order.total_price }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

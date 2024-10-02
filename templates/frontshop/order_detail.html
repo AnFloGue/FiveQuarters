@@ -1,3 +1,5 @@
+<!-- # templates/frontshop/order_detail.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +23,7 @@
         <p>Note: {{ order.customers_note }}</p>
 
         <h2>Delivery Information</h2>
-        <p>Delivery Company: {{ order.delivery_company.name }}</p>
+        <p>Delivery Company: {{ delivery_company.name }}</p>
         <p>Tracking Number: {{ order.tracking_number }}</p>
         <p>Posted Date: {{ order.posted_date }}</p>
         <p>Received Date: {{ order.received_date }}</p>

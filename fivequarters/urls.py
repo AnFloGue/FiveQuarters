@@ -31,6 +31,9 @@ urlpatterns = [
     # Swagger and Redoc Documentation
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    
+    # Frontshop URLs
+    path('frontshop/', include('frontshop.urls')),
 ]
 
 # Serve static files in debug mode

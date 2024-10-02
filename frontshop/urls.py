@@ -1,8 +1,8 @@
-# api/v1/urls_v1.py
+# frontshop/urls.py
 from django.urls import path
-from . import views
+from .views import inventory_information
 
 urlpatterns = [
-    path('orders/<int:order_id>/', views.get_order_details, name='order_detail'),
-    path('orders/<int:order_id>/items/', views.orderitem_list_by_order, name='order_item_list_by_order'),
+    path('inventory-information/', inventory_information, name='inventory_information'),
+
 ]
