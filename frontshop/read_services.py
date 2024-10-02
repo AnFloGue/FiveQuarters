@@ -1,4 +1,4 @@
-# frontshop/services.py
+# frontshop/read_services.py
 
 import os
 import django

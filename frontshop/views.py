@@ -1,7 +1,7 @@
 # frontshop/views.py
 
 from django.shortcuts import render
-from .services import get_category_list, get_product_list, get_deliverycompany_list, get_order_list
+from .read_services import get_category_list, get_product_list, get_deliverycompany_list, get_order_list
 
 def inventory_information(request):
     categories = get_category_list()

@@ -3,37 +3,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory Information</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Inventory Information</h1>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Inventory Information</h1>
 
-    <h2>Categories</h2>
-    <ul>
-        {% for category in categories %}
-            <li>{{ category.name }} (ID: {{ category.id }})</li>
-        {% endfor %}
-    </ul>
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>Categories</h2>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for category in categories %}
+                    <li class="list-group-item">{{ category.name }} (ID: {{ category.id }})</li>
+                {% endfor %}
+            </ul>
+        </div>
 
-    <h2>Products</h2>
-    <ul>
-        {% for product in products %}
-            <li>{{ product.name }} (ID: {{ product.id }})</li>
-        {% endfor %}
-    </ul>
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>Products</h2>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for product in products %}
+                    <li class="list-group-item">{{ product.name }} (ID: {{ product.id }})</li>
+                {% endfor %}
+            </ul>
+        </div>
 
-    <h2>Delivery Companies</h2>
-    <ul>
-        {% for company in delivery_companies %}
-            <li>{{ company.name }} (ID: {{ company.id }})</li>
-        {% endfor %}
-    </ul>
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>Delivery Companies</h2>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for company in delivery_companies %}
+                    <li class="list-group-item">{{ company.name }} (ID: {{ company.id }})</li>
+                {% endfor %}
+            </ul>
+        </div>
 
-    <h2>Orders</h2>
-    <ul>
-        {% for order in orders %}
-            <li>Order ID: {{ order.id }} - Total Price: {{ order.total_price }}</li>
-        {% endfor %}
-    </ul>
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>Orders</h2>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for order in orders %}
+                    <li class="list-group-item">Order ID: {{ order.id }} - Total Price: {{ order.total_price }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 </body>
 </html>
