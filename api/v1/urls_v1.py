@@ -37,7 +37,6 @@ urlpatterns = [
     path('orders/<int:pk>/', views.order_detail, name='order_detail'),
     path('orders/<int:pk>/update/', views.order_update, name='order_update'),
     path('orders/<int:pk>/delete/', views.order_delete, name='order_delete'),
-    path('orders/<int:order_id>/items/', views.orderitem_list_by_order, name='orderitem_list_by_order'),
     
     # OrderItem Views
     path('orderitems/', views.orderitem_list, name='orderitem_list'),

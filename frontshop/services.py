@@ -277,8 +277,48 @@ def get_ingredient_details(ingredient_id):
     except requests.exceptions.RequestException as err:
         print(f"Request error occurred: {err}")
         return {}
+
+
+# ==============================
+# Recipe Views
+# ==============================
+
+def get_recipe_list():
+    """
+    Fetches the list of all recipes from the API.
+
+    Returns:
+        list: A list of recipes in JSON format.
+    """
+    try:
+        response = requests.get(f"{API_BASE_URL}/recipes/")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
+        return []
+
+
+def get_recipe_details(recipe_id):
+    """
+    Fetches the details of a specific recipe from the API.
+
+    Args:
+        recipe_id (int): The ID of the recipe to fetch.
+
+    Returns:
+        dict: The details of the recipe in JSON format.
+    """
+    try:
+        response = requests.get(f"{API_BASE_URL}/recipes/{recipe_id}/")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
+        return {}
+
     
-    
+
 
 # ==============================
 # Main block to call the functions and print the results for testing
@@ -292,17 +332,20 @@ if __name__ == "__main__":
     # ==============================
     # OrderItem Prints
     # ==============================
-    '''
-    sample_orderitem_id = input("Enter the order item ID: ")
+
+
 
     orderitem_list = get_orderitem_list()
     print("--------------------------------------------------------")
     print("Order Item Full List:")
+    
     for item in orderitem_list:
         print(f"Order Item ID: {item.get('id')}, Quantity: {item.get('quantity')}, "
               f"Rating: {item.get('rating')}, Order: {item.get('order')}, Product: {item.get('product')}")
     print("\n")
-
+    
+    sample_orderitem_id = input("Enter the order item ID: ")
+    
     orderitem_details = get_orderitem_details(sample_orderitem_id)
     print("--------------------------------------------------------")
     print(f"Order Item Details for Order Item ID {sample_orderitem_id}:")
@@ -311,14 +354,13 @@ if __name__ == "__main__":
           f"Rating: {orderitem_details.get('rating')}\n"
           f"Order: {orderitem_details.get('order')}\n"
           f"Product: {orderitem_details.get('product')}")
-    print("\n")'''
+    print("\n")
     
     
     # ==============================
     # DeliveryCompany Prints
     # ==============================
-    '''
-    sample_deliverycompany_id = input("Enter the delivery company ID: ")
+
 
     deliverycompany_list = get_deliverycompany_list()
     print("--------------------------------------------------------")
@@ -327,6 +369,8 @@ if __name__ == "__main__":
         print(f"Delivery Company ID: {company.get('id')}, Name: {company.get('name')}")
     print("\n")
 
+    sample_deliverycompany_id = input("Enter the delivery company ID: ")
+
     deliverycompany_details = get_deliverycompany_details(sample_deliverycompany_id)
     print("--------------------------------------------------------")
     print(f"Delivery Company Details for ID {sample_deliverycompany_id}:")
@@ -334,12 +378,11 @@ if __name__ == "__main__":
           f"Name: {deliverycompany_details.get('name')}\n")
     print("\n")
     
-    '''
+
     # ==============================
     # Category Prints
     # ==============================
-    '''
-    sample_category_id = input("Enter the category ID: ")
+
 
     category_list = get_category_list()
     print("--------------------------------------------------------")
@@ -349,6 +392,8 @@ if __name__ == "__main__":
               f"Slug: {category.get('slug')}, Description: {category.get('description')}, "
               f"Image: {category.get('image')}")
     print("\n")
+    
+    sample_category_id = input("Enter the category ID: ")
 
     category_details = get_category_details(sample_category_id)
     print("--------------------------------------------------------")
@@ -359,14 +404,12 @@ if __name__ == "__main__":
           f"Description: {category_details.get('description')}\n"
           f"Image: {category_details.get('image')}")
     print("\n")
-    '''
+
     
     # ==============================
     # Product Prints
     # ==============================
-    
-    '''
-    sample_product_id = input("Enter the product ID: ")
+
 
     product_list = get_product_list()
     print("--------------------------------------------------------")
@@ -382,6 +425,8 @@ if __name__ == "__main__":
               f"Is Product of the Week: {product.get('is_product_of_the_week')}, "
               f"Rating: {product.get('rating')}, Category: {product.get('category')}")
     print("\n")
+
+    sample_product_id = input("Enter the product ID: ")
 
     product_details = get_product_details(sample_product_id)
     print("--------------------------------------------------------")
@@ -400,12 +445,11 @@ if __name__ == "__main__":
           f"Rating: {product_details.get('rating')}\n"
           f"Category: {product_details.get('category')}")
     print("\n")
-    '''
+
     # ==============================
     # Ingredient Prints
     # ==============================
-    '''
-    sample_ingredient_id = input("Enter the ingredient ID: ")
+
 
     ingredient_list = get_ingredient_list()
     print("--------------------------------------------------------")
@@ -416,6 +460,9 @@ if __name__ == "__main__":
               f"Unit: {ingredient.get('unit')}, Required Amount: {ingredient.get('required_amount')}, "
               f"Potential Allergens: {ingredient.get('potential_allergens')}")
     print("\n")
+    
+    sample_ingredient_id = input("Enter the ingredient ID: ")
+
 
     ingredient_details = get_ingredient_details(sample_ingredient_id)
     print("--------------------------------------------------------")
@@ -428,4 +475,29 @@ if __name__ == "__main__":
           f"Required Amount: {ingredient_details.get('required_amount')}\n"
           f"Potential Allergens: {ingredient_details.get('potential_allergens')}")
     print("\n")
-    '''
+
+    
+    # ==============================
+    # Recipe Prints
+    # ==============================
+    
+
+
+    recipe_list = get_recipe_list()
+    print("--------------------------------------------------------")
+    print("Recipe Full List:")
+    for recipe in recipe_list:
+        print(f"Recipe ID: {recipe['id']}, Quantity: {recipe['quantity']}, Product: {recipe['product']}, Ingredient: {recipe['ingredient']}")
+    print("\n")
+    
+    sample_recipe_id = input("Enter the recipe ID: ")
+
+
+    recipe_details = get_recipe_details(sample_recipe_id)
+    print("--------------------------------------------------------")
+    print(f"Recipe Details for Recipe ID {sample_recipe_id}:")
+    print(f"Recipe ID: {recipe_details.get('id')}\n"
+          f"Quantity: {recipe_details.get('quantity')}\n"
+          f"Product: {recipe_details.get('product')}\n"
+          f"Ingredient: {recipe_details.get('ingredient')}")
+    print("\n")

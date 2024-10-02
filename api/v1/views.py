@@ -176,6 +176,7 @@ def ingredient_delete(request, pk):
 # ==============================
 # Recipe Views
 # ==============================
+
 @api_view(['GET'])
 def recipe_list(request):
     recipes = Recipe.objects.all()
@@ -232,16 +233,7 @@ def recipe_delete(request, pk):
 # ==============================
 
 
-@api_view(['GET'])
-def orderitem_list_by_order(request, order_id):
-    try:
-        orderitems = OrderItem.objects.filter(order_id=order_id)
-        if not orderitems:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        serializer = OrderItemSerializer(orderitems, many=True)
-        return Response(serializer.data)
-    except OrderItem.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+
 
 
 @api_view(['GET'])
