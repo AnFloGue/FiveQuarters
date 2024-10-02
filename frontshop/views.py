@@ -17,3 +17,15 @@ def inventory_information(request):
     }
 
     return render(request, 'frontshop/inventory-information.html', context)
+
+# def order_detail(request):
+#     return render(request, 'frontshop/order_detail.html')
+#
+# def order_item_detail(request):
+#     return render(request, 'frontshop/order_item_detail.html')
+#
+# def order_item_list(request):
+#     return render(request, 'frontshop/order_item_list.html')
+#
+# def order_list(request):
+#     return render(request, 'frontshop/order_list.html')
