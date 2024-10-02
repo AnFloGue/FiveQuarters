@@ -56,18 +56,15 @@ def get_order_details(order_id):
 # OrderItem Views
 # ==============================
 
-def get_orderitem_list(order_id):
+def get_orderitem_list():
     """
-    Fetches the list of all items for a specific order from the API.
-
-    Args:
-        order_id (int): The ID of the order to fetch items for.
+    Fetches the list of all order items from the API.
 
     Returns:
         list: A list of order items in JSON format.
     """
     try:
-        response = requests.get(f"{API_BASE_URL}/orders/{order_id}/items/")
+        response = requests.get(f"{API_BASE_URL}/orderitems/")
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as err:
@@ -92,9 +89,104 @@ def get_orderitem_details(orderitem_id):
         print(f"Request error occurred: {err}")
         return {}
 
+
 # ==============================
-# Product Views
+# DeliveryCompany Views
 # ==============================
+
+def get_deliverycompany_list():
+    """
+    Fetches the list of all delivery companies from the API.
+
+    Returns:
+        list: A list of delivery companies in JSON format.
+    """
+    try:
+        response = requests.get(f"{API_BASE_URL}/deliverycompanies/")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
+        return []
+
+def get_deliverycompany_details(deliverycompany_id):
+    """
+    Fetches the details of a specific delivery company from the API.
+
+    Args:
+        deliverycompany_id (int): The ID of the delivery company to fetch.
+
+    Returns:
+        dict: The details of the delivery company in JSON format.
+    """
+    try:
+        response = requests.get(f"{API_BASE_URL}/deliverycompanies/{deliverycompany_id}/")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
+        return {}
+
+
+def get_deliverycompany_details(deliverycompany_id):
+    """
+    Fetches the details of a specific delivery company from the API.
+
+    Args:
+        deliverycompany_id (int): The ID of the delivery company to fetch.
+
+    Returns:
+        dict: The details of the delivery company in JSON format.
+    """
+    try:
+        response = requests.get(f"{API_BASE_URL}/deliverycompanies/{deliverycompany_id}/")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
+        return {}
+
+# ==============================
+# Category Views
+# ==============================
+
+def get_category_list():
+    """
+    Fetches the list of all categories from the API.
+
+    Returns:
+        list: A list of categories in JSON format.
+    """
+    try:
+        response = requests.get(f"{API_BASE_URL}/categories/")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
+        return []
+
+def get_category_details(category_id):
+    """
+    Fetches the details of a specific category from the API.
+
+    Args:
+        category_id (int): The ID of the category to fetch.
+
+    Returns:
+        dict: The details of the category in JSON format.
+    """
+    try:
+        response = requests.get(f"{API_BASE_URL}/categories/{category_id}/")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
+        return {}
+    
+    # ==============================
+    # Product Views
+    # ==============================
+
 
 def get_product_list():
     """
@@ -110,6 +202,7 @@ def get_product_list():
     except requests.exceptions.RequestException as err:
         print(f"Request error occurred: {err}")
         return []
+
 
 def get_product_details(product_id):
     """
@@ -129,6 +222,63 @@ def get_product_details(product_id):
         print(f"Request error occurred: {err}")
         return {}
 
+# ==============================
+# Ingredient Views
+# ==============================
+
+def get_ingredient_list():
+    """
+    Fetches the list of all ingredients from the API.
+
+    Returns:
+        list: A list of ingredients in JSON format.
+    """
+    try:
+        response = requests.get(f"{API_BASE_URL}/ingredients/")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
+        return []
+
+def get_ingredient_details(ingredient_id):
+    """
+    Fetches the details of a specific ingredient from the API.
+
+    Args:
+        ingredient_id (int): The ID of the ingredient to fetch.
+
+    Returns:
+        dict: The details of the ingredient in JSON format.
+    """
+    try:
+        response = requests.get(f"{API_BASE_URL}/ingredients/{ingredient_id}/")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
+        return {}
+
+
+def get_ingredient_details(ingredient_id):
+    """
+    Fetches the details of a specific ingredient from the API.
+
+    Args:
+        ingredient_id (int): The ID of the ingredient to fetch.
+
+    Returns:
+        dict: The details of the ingredient in JSON format.
+    """
+    try:
+        response = requests.get(f"{API_BASE_URL}/ingredients/{ingredient_id}/")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
+        return {}
+    
+    
 
 # ==============================
 # Main block to call the functions and print the results for testing
@@ -137,80 +287,145 @@ def get_product_details(product_id):
 
 if __name__ == "__main__":
     
+
+
     # ==============================
-    # Order Prints
+    # OrderItem Prints
     # ==============================
-    
     '''
-    order_id = input("Enter the order ID: ")
-    sample_order_id = order_id
-    sample_orderitem_id = order_id
+    sample_orderitem_id = input("Enter the order item ID: ")
 
-    order_list = get_order_list()
+    orderitem_list = get_orderitem_list()
     print("--------------------------------------------------------")
-    print("Order List:")
-    for order in order_list:
-        print(f"Order ID: {order['id']}, Status: {order['status']}, Total Price: {order['total_price']}, "
-              f"Customer's Note: {order['customers_note']}, Tracking Number: {order['tracking_number']}, "
-              f"Posted Date: {order['posted_date']}, Received Date: {order['received_date']}, "
-              f"Created At: {order['created_at']}, Updated At: {order['updated_at']}, "
-              f"User: {order['user']}, Delivery Company: {order['delivery_company']}")
-    print("\n")
-
-    order_details = get_order_details(sample_order_id)
-    print("--------------------------------------------------------")
-    print(f"Order Details for Order ID {sample_order_id}:")
-    print(f"Order ID: {order_details.get('id')}\n"
-          f"Status: {order_details.get('status')}\n"
-          f"Total Price: {order_details.get('total_price')}\n"
-          f"Customer's Note: {order_details.get('customers_note')}\n"
-          f"Tracking Number: {order_details.get('tracking_number')}\n"
-          f"Posted Date: {order_details.get('posted_date')}\n"
-          f"Received Date: {order_details.get('received_date')}\n"
-          f"Created At: {order_details.get('created_at')}\n"
-          f"Updated At: {order_details.get('updated_at')}\n"
-          f"User: {order_details.get('user')}\n"
-          f"Delivery Company: {order_details.get('delivery_company')}")
-    print("\n")
-
-    orderitem_list = get_orderitem_list(sample_order_id)
-    print("--------------------------------------------------------")
-    print(f"Order Item List for Order ID {sample_order_id}:")
+    print("Order Item Full List:")
     for item in orderitem_list:
-        print(f"Item ID: {item['id']}, Quantity: {item['quantity']}, Rating: {item['rating']}, "
-              f"Order: {item['order']}, Product: {item['product']}")
+        print(f"Order Item ID: {item.get('id')}, Quantity: {item.get('quantity')}, "
+              f"Rating: {item.get('rating')}, Order: {item.get('order')}, Product: {item.get('product')}")
     print("\n")
 
     orderitem_details = get_orderitem_details(sample_orderitem_id)
     print("--------------------------------------------------------")
     print(f"Order Item Details for Order Item ID {sample_orderitem_id}:")
-    print(f"Item ID: {orderitem_details.get('id')}\n"
-          f"Name: {orderitem_details.get('name')}\n"
+    print(f"Order Item ID: {orderitem_details.get('id')}\n"
           f"Quantity: {orderitem_details.get('quantity')}\n"
-          f"Price: {orderitem_details.get('price')}\n"
-          f"Description: {orderitem_details.get('description')}")
+          f"Rating: {orderitem_details.get('rating')}\n"
+          f"Order: {orderitem_details.get('order')}\n"
+          f"Product: {orderitem_details.get('product')}")
+    print("\n")'''
+    
+    
+    # ==============================
+    # DeliveryCompany Prints
+    # ==============================
+    '''
+    sample_deliverycompany_id = input("Enter the delivery company ID: ")
+
+    deliverycompany_list = get_deliverycompany_list()
+    print("--------------------------------------------------------")
+    print("Delivery Company Full List:")
+    for company in deliverycompany_list:
+        print(f"Delivery Company ID: {company.get('id')}, Name: {company.get('name')}")
+    print("\n")
+
+    deliverycompany_details = get_deliverycompany_details(sample_deliverycompany_id)
+    print("--------------------------------------------------------")
+    print(f"Delivery Company Details for ID {sample_deliverycompany_id}:")
+    print(f"Delivery Company ID: {deliverycompany_details.get('id')}\n"
+          f"Name: {deliverycompany_details.get('name')}\n")
+    print("\n")
+    
+    '''
+    # ==============================
+    # Category Prints
+    # ==============================
+    '''
+    sample_category_id = input("Enter the category ID: ")
+
+    category_list = get_category_list()
+    print("--------------------------------------------------------")
+    print("Category Full List:")
+    for category in category_list:
+        print(f"Category ID: {category.get('id')}, Name: {category.get('name')}, "
+              f"Slug: {category.get('slug')}, Description: {category.get('description')}, "
+              f"Image: {category.get('image')}")
+    print("\n")
+
+    category_details = get_category_details(sample_category_id)
+    print("--------------------------------------------------------")
+    print(f"Category Details for ID {sample_category_id}:")
+    print(f"Category ID: {category_details.get('id')}\n"
+          f"Name: {category_details.get('name')}\n"
+          f"Slug: {category_details.get('slug')}\n"
+          f"Description: {category_details.get('description')}\n"
+          f"Image: {category_details.get('image')}")
     print("\n")
     '''
     
     # ==============================
     # Product Prints
     # ==============================
-    sample_product_id = input("Enter the product ID: ")
     
+    '''
+    sample_product_id = input("Enter the product ID: ")
+
     product_list = get_product_list()
     print("--------------------------------------------------------")
     print("Product Full List:")
     for product in product_list:
-        print(f"Product ID: {product['id']}, Name: {product['name']}, Price: {product['price']}, "
-              f"Description: {product['description']}, Category: {product['category']}")
+        print(f"Product ID: {product.get('id')}, Name: {product.get('name')}, "
+              f"Slug: {product.get('slug')}, Description: {product.get('description')}, "
+              f"Price: {product.get('price')}, Image: {product.get('image')}, "
+              f"Date of Manufacture: {product.get('date_of_manufacture')}, "
+              f"Date of Expiry: {product.get('date_of_expiry')}, "
+              f"Manufacturing Time: {product.get('manufacturing_time')}, "
+              f"Popularity: {product.get('popularity')}, "
+              f"Is Product of the Week: {product.get('is_product_of_the_week')}, "
+              f"Rating: {product.get('rating')}, Category: {product.get('category')}")
     print("\n")
-    
+
     product_details = get_product_details(sample_product_id)
     print("--------------------------------------------------------")
     print(f"Product Details for Product ID {sample_product_id}:")
     print(f"Product ID: {product_details.get('id')}\n"
           f"Name: {product_details.get('name')}\n"
-          f"Price: {product_details.get('price')}\n"
+          f"Slug: {product_details.get('slug')}\n"
           f"Description: {product_details.get('description')}\n"
+          f"Price: {product_details.get('price')}\n"
+          f"Image: {product_details.get('image')}\n"
+          f"Date of Manufacture: {product_details.get('date_of_manufacture')}\n"
+          f"Date of Expiry: {product_details.get('date_of_expiry')}\n"
+          f"Manufacturing Time: {product_details.get('manufacturing_time')}\n"
+          f"Popularity: {product_details.get('popularity')}\n"
+          f"Is Product of the Week: {product_details.get('is_product_of_the_week')}\n"
+          f"Rating: {product_details.get('rating')}\n"
           f"Category: {product_details.get('category')}")
     print("\n")
+    '''
+    # ==============================
+    # Ingredient Prints
+    # ==============================
+    '''
+    sample_ingredient_id = input("Enter the ingredient ID: ")
+
+    ingredient_list = get_ingredient_list()
+    print("--------------------------------------------------------")
+    print("Ingredient Full List:")
+    for ingredient in ingredient_list:
+        print(f"Ingredient ID: {ingredient.get('id')}, Name: {ingredient.get('name')}, "
+              f"Slug: {ingredient.get('slug')}, Stock: {ingredient.get('stock')}, "
+              f"Unit: {ingredient.get('unit')}, Required Amount: {ingredient.get('required_amount')}, "
+              f"Potential Allergens: {ingredient.get('potential_allergens')}")
+    print("\n")
+
+    ingredient_details = get_ingredient_details(sample_ingredient_id)
+    print("--------------------------------------------------------")
+    print(f"Ingredient Details for Ingredient ID {sample_ingredient_id}:")
+    print(f"Ingredient ID: {ingredient_details.get('id')}\n"
+          f"Name: {ingredient_details.get('name')}\n"
+          f"Slug: {ingredient_details.get('slug')}\n"
+          f"Stock: {ingredient_details.get('stock')}\n"
+          f"Unit: {ingredient_details.get('unit')}\n"
+          f"Required Amount: {ingredient_details.get('required_amount')}\n"
+          f"Potential Allergens: {ingredient_details.get('potential_allergens')}")
+    print("\n")
+    '''
