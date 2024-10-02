@@ -1,139 +1,21 @@
-<!-- templates/frontshop/order_detail.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Order {{ order.id }} Details</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .order-header {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .order-card {
-            margin-bottom: 20px;
-        }
-        .footer {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-top: 1px solid #e9ecef;
-        }
-    </style>
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="text-center mb-4">
-            <a href="{% url 'order_list' %}" class="btn btn-primary">Orders</a>
-        </div>
+<h1>Order Details</h1>
 
-        <div class="order-header text-center">
-            <h1 class="mb-4">Order {{ order.id }} Details</h1>
-        </div>
+{% if error %}
+    <p>{{ error }}</p>
+{% else %}
+    <h2>Client Information</h2>
+    <p>Client ID: {{ order.user }}</p>
 
-        <div class="row">
-            <div class="col-md-6 order-card">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Client Information</h2>
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Client:</strong> {{ order.user.username }}</p>
-                    </div>
-                </div>
-                <hr>
-            </div>
-            <div class="col-md-6 order-card">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Order Information</h2>
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Total Price:</strong> {{ order.total_price }}</p>
-                        <p><strong>Status:</strong> {{ order.status }}</p>
-                        <p><strong>Created At:</strong> {{ order.created_at }}</p>
-                        <p><strong>Updated At:</strong> {{ order.updated_at }}</p>
-                        <p><strong>Note:</strong> {{ order.customers_note }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <h2>Order Information</h2>
+    <p>Total Price: {{ order.total_price }}</p>
+    <p>Status: {{ order.status }}</p>
+    <p>Created At: {{ order.created_at }}</p>
+    <p>Updated At: {{ order.updated_at }}</p>
+    <p>Note: {{ order.customers_note }}</p>
 
-        <hr>
-
-        <div class="row mt-4">
-            <div class="col-md-6 order-card">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Delivery Information</h2>
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Delivery Company:</strong> {{ order.delivery_company.name }}</p>
-                        <p><strong>Tracking Number:</strong> {{ order.tracking_number }}</p>
-                        <p><strong>Posted Date:</strong> {{ order.posted_date }}</p>
-                        <p><strong>Received Date:</strong> {{ order.received_date }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="row mt-4">
-            <div class="col-md-12 order-card">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Items</h2>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-group">
-                            {% for item in order.items.all %}
-                                <br>
-                                <li class="list-group-item">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <strong>{{ item.quantity }} of {{ item.product.name }}</strong>
-                                            {% if item.product.is_product_of_the_week %}
-                                            {% endif %}
-                                                <span class="badge bg-success ms-2">Product of the Week</span>
-                                            <br>
-                                            <small>Rating: {{ item.product.rating }}</small>
-                                        </div>
-                                    </div>
-                                    {% if item.product.ingredients %}
-                                        <ul class="list-group mt-2">
-                                            <li class="list-group-item">Ingredients: {{ item.product.ingredients|join:", " }}</li>
-                                            {% for recipe in item.product.recipes.all %}
-                                            {% endfor %}
-                                                {% if recipe.ingredient.potential_allergens %}
-                                                    <li class="list-group-item">Allergen: {{ recipe.ingredient.name }} ({{ recipe.ingredient.potential_allergens.name }})</li>
-                                                {% endif %}
-                                        </ul>
-                                    {% endif %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="text-center mt-4">
-            <a href="{% url 'order_list' %}" class="btn btn-primary">Orders</a>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer text-center text-lg-start mt-5">
-        <div class="container p-4">
-            <p class="text-center">&copy; 2023 Your Company. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
-</body>
-</html>
+    <h2>Delivery Information</h2>
+    <p>Delivery Company ID: {{ order.delivery_company }}</p>
+    <p>Tracking Number: {{ order.tracking_number }}</p>
+    <p>Posted Date: {{ order.posted_date }}</p>
+    <p>Received Date: {{ order.received_date }}</p>
+{% endif %}

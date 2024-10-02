@@ -1,19 +1,14 @@
-<!-- templates/frontshop/order_list.html -->
+<!-- frontshop/templates/frontshop/order_list.html -->
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Order List</title>
+    <title>Orders</title>
 </head>
 <body>
-    <h1>Order List</h1>
+    <h1>Orders</h1>
     <ul>
         {% for order in orders %}
-            <li>
-                <a href="{% url 'order_detail' order.id %}">Order ID: {{ order.id }}</a> -
-                Client: {{ order.user.username }} -
-                Status: {{ order.status }} -
-                Total Price: {{ order.total_price }}
-            </li>
+            <li><a href="{% url 'order_detail' order.id %}">Order {{ order.id }}</a></li>
         {% endfor %}
     </ul>
 </body>

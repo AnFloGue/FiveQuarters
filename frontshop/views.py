@@ -1,30 +1,28 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Order
-from .services import calculate_order_total, create_order, check_stock_levels, notify_inventory_admin, \
-    fetch_product_of_the_week
+from django.shortcuts import render
+from .services import get_order_list, get_order_details
+from requests.exceptions import RequestException
 
-
-# List all view for Orders
 def order_list(request):
-    orders = Order.objects.all()
-    return render(request, 'frontshop/order_list.html', {'orders': orders})
-
+    try:
+        orders = get_order_list()
+        return render(request, 'frontshop/order_list.html', {'orders': orders})
+    except RequestException as e:
+        return render(request, 'frontshop/order_list.html', {'error': f"Failed to fetch orders: {str(e)}"})
 
 def order_detail(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
-    total = calculate_order_total(order_id)
-    context = {
-        'order': order,
-        'total': total,
-    }
-    return render(request, 'frontshop/order_detail.html', context)
+    try:
+        order_details = get_order_details(order_id)
+        return render(request, 'frontshop/order_detail.html', {"order": order_details})
+    except RequestException as e:
+        return render(request, 'frontshop/order_detail.html', {"error": f"Failed to fetch order details: {str(e)}"})
 
-
-# List view for Order Items
 def order_item_list(request):
-    return render(request, 'frontshop/order_item_list.html')
+    # Implement the logic to fetch and render the order items list
+    order_items = []  # Replace with actual logic to fetch order items
+    return render(request, 'frontshop/order_item_list.html', {'order_items': order_items})
 
 
-# Detail view for a single Order Item
 def order_item_detail(request, order_item_id):
-    return render(request, 'frontshop/order_item_detail.html')
+    # Implement the logic to fetch and render the order item details
+    order_item_details = {}  # Replace with actual logic to fetch order item details
+    return render(request, 'frontshop/order_item_detail.html', {'order_item': order_item_details})

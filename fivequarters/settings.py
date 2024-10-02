@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'api',
 ]
 
-API_URL = 'https://fivequarters.onrender.com/api/v1'
+API_BASE_URL_V1 = 'https://fivequarters.onrender.com/api/v1'
 
 # Middleware
 MIDDLEWARE = [
