@@ -1,9 +1,14 @@
+# frontshop/services.py
+
 import os
 import django
 import requests
 from django.conf import settings
 
+# ==============================
 # Set the DJANGO_SETTINGS_MODULE environment variable
+# ==============================
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fivequarters.settings')
 django.setup()
 
@@ -87,11 +92,56 @@ def get_orderitem_details(orderitem_id):
         print(f"Request error occurred: {err}")
         return {}
 
+# ==============================
+# Product Views
+# ==============================
+
+def get_product_list():
+    """
+    Fetches the list of all products from the API.
+
+    Returns:
+        list: A list of products in JSON format.
+    """
+    try:
+        response = requests.get(f"{API_BASE_URL}/products/")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
+        return []
+
+def get_product_details(product_id):
+    """
+    Fetches the details of a specific product from the API.
+
+    Args:
+        product_id (int): The ID of the product to fetch.
+
+    Returns:
+        dict: The details of the product in JSON format.
+    """
+    try:
+        response = requests.get(f"{API_BASE_URL}/products/{product_id}/")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
+        return {}
 
 
+# ==============================
 # Main block to call the functions and print the results for testing
 # the data collection from the API
+# ==============================
+
 if __name__ == "__main__":
+    
+    # ==============================
+    # Order Prints
+    # ==============================
+    
+    '''
     order_id = input("Enter the order ID: ")
     sample_order_id = order_id
     sample_orderitem_id = order_id
@@ -139,4 +189,28 @@ if __name__ == "__main__":
           f"Quantity: {orderitem_details.get('quantity')}\n"
           f"Price: {orderitem_details.get('price')}\n"
           f"Description: {orderitem_details.get('description')}")
+    print("\n")
+    '''
+    
+    # ==============================
+    # Product Prints
+    # ==============================
+    sample_product_id = input("Enter the product ID: ")
+    
+    product_list = get_product_list()
+    print("--------------------------------------------------------")
+    print("Product Full List:")
+    for product in product_list:
+        print(f"Product ID: {product['id']}, Name: {product['name']}, Price: {product['price']}, "
+              f"Description: {product['description']}, Category: {product['category']}")
+    print("\n")
+    
+    product_details = get_product_details(sample_product_id)
+    print("--------------------------------------------------------")
+    print(f"Product Details for Product ID {sample_product_id}:")
+    print(f"Product ID: {product_details.get('id')}\n"
+          f"Name: {product_details.get('name')}\n"
+          f"Price: {product_details.get('price')}\n"
+          f"Description: {product_details.get('description')}\n"
+          f"Category: {product_details.get('category')}")
     print("\n")
