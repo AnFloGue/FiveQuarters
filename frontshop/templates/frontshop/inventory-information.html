@@ -1,4 +1,4 @@
-<!-- # ttemplates/frontshop/inventory-information.html -->
+<!-- frontshop/templates/frontshop/inventory-information.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +29,17 @@
             </div>
             <ul class="list-group list-group-flush">
                 {% for product in products %}
-                    <li class="list-group-item">{{ product.name }} (ID: {{ product.id }})</li>
+                    <li class="list-group-item">
+                        <strong>{{ product.name }}</strong> (ID: {{ product.id }})<br>
+                        Description: {{ product.description }}<br>
+                        Price: ${{ product.price }}<br>
+                        Rating: {{ product.rating }}<br>
+                        Category: {{ product.category.name }}<br>
+                        Date of Manufacture: {{ product.date_of_manufacture }}<br>
+                        Date of Expiry: {{ product.date_of_expiry }}<br>
+                        Popularity: {{ product.popularity }}<br>
+                        Is Product of the Week: {{ product.is_product_of_the_week }}
+                    </li>
                 {% endfor %}
             </ul>
         </div>
@@ -51,7 +61,13 @@
             </div>
             <ul class="list-group list-group-flush">
                 {% for order in orders %}
-                    <li class="list-group-item">Order ID: {{ order.id }} - Total Price: {{ order.total_price }}</li>
+                    <li class="list-group-item">
+                        Order ID: {{ order.id }}<br>
+                        Total Price: ${{ order.total_price }}<br>
+                        Order Date: {{ order.order_date }}<br>
+                        Status: {{ order.status }}<br>
+                        Customer: {{ order.customer.name }}
+                    </li>
                 {% endfor %}
             </ul>
         </div>
