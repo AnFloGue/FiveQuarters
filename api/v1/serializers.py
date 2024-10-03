@@ -1,9 +1,12 @@
 # api/v1/serializers.py
+
 from rest_framework import serializers
 from backshop.models import Category, Product, Ingredient, Recipe
 from frontshop.models import Order, OrderItem, DeliveryCompany
 
-# Serializers for Inventory models
+# ================================================
+# Serializers for backshop models
+# ================================================
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -23,8 +26,11 @@ class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = '__all__'
-
+        
+# ================================================
 # Serializers for Frontshop models
+# ================================================
+
 class DeliveryCompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = DeliveryCompany
