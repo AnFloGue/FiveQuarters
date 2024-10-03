@@ -1,4 +1,5 @@
 # inventory/models.py
+from decimal import Decimal
 
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
@@ -39,7 +40,8 @@ class Product(models.Model):
     slug = AutoSlugField(populate_from='name', unique=True, editable=True)  # Make slug editable
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.TextField(blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.00)])
+    price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
+    
     image = models.ImageField(upload_to='photos/products', blank=True, null=True)
     date_of_manufacture = models.DateField()
     date_of_expiry = models.DateField(null=True, blank=True)

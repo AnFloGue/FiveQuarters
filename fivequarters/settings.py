@@ -34,8 +34,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'drf_yasg',
-
-    'accounts',
+    
+    'account',
     'frontshop',
     'inventory',
     'api',
