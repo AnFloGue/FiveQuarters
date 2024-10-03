@@ -2,7 +2,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from inventory.models import Category, Product, Ingredient, Recipe
+from backshop.models import Category, Product, Ingredient, Recipe
 from frontshop.models import Order, OrderItem, DeliveryCompany
 from .serializers import (
     CategorySerializer, ProductSerializer, IngredientSerializer, RecipeSerializer,

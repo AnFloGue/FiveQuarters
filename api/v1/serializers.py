@@ -1,6 +1,6 @@
 # api/v1/serializers.py
 from rest_framework import serializers
-from inventory.models import Category, Product, Ingredient, Recipe
+from backshop.models import Category, Product, Ingredient, Recipe
 from frontshop.models import Order, OrderItem, DeliveryCompany
 
 # Serializers for Inventory models

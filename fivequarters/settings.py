@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     
     'account',
     'frontshop',
-    'inventory',
+    'backshop',
     'api',
 ]
 
