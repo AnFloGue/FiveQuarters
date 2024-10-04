@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .create_services import create_order
 from .read_services import get_category_list, get_product_list, get_deliverycompany_list, get_order_list
+from .forms import OrderForm
+
 
 def inventory_information(request):
     categories = get_category_list()
@@ -23,15 +25,13 @@ def inventory_information(request):
 
 def create_order_view(request):
     if request.method == 'POST':
-        data = {
-            "customer_id": request.POST.get('customer_id'),
-            "product_id": request.POST.get('product_id'),
-            "quantity": request.POST.get('quantity'),
-            "price": request.POST.get('price'),
-            "status": request.POST.get('status')
-        }
-        created_order = create_order(data)
-        return JsonResponse(created_order)
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            created_order = create_order(data)
+            return JsonResponse(created_order)
+        else:
+            return JsonResponse({'errors': form.errors}, status=400)
     return render(request, 'frontshop/order_creation.html')
 
 
