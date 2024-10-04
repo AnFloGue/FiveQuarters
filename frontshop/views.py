@@ -20,7 +20,7 @@ def inventory_information(request):
     return render(request, 'frontshop/inventory-information.html', context)
 
 
-'''
+
 def create_order_view(request):
     if request.method == 'POST':
         data = {
@@ -34,7 +34,8 @@ def create_order_view(request):
         return JsonResponse(created_order)
     return render(request, 'frontshop/order_creation.html')
 
-'''
+
+
 
 # def order_detail(request):
 #     return render(request, 'frontshop/order_detail.html')
