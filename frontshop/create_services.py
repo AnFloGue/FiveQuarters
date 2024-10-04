@@ -23,3 +23,24 @@ def create_order(data):
     except requests.exceptions.RequestException as err:
         print(f"Request error occurred: {err}")
         return {}
+    
+    
+'''
+We need to create a dictionary with the data to send to the API.
+
+Data to be sent to the API
+
+order_data = {
+    "customer_id": 123,
+    "product_id": 456,
+    "quantity": 2,
+    "price": 29.99,
+    "status": "pending"
+}
+
+
+created_order = create_order(order_data)
+
+
+print(created_order)
+'''

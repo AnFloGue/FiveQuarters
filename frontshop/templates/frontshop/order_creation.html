@@ -1,0 +1,43 @@
+<!-- templates/frontshop/order_creation.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Order</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Create Order</h1>
+    <form method="post" action="{% url 'create_order' %}" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="customer_id">Customer ID:</label>
+            <input type="text" class="form-control" id="customer_id" name="customer_id" required>
+            <div class="invalid-feedback">Please provide a customer ID.</div>
+        </div>
+        <div class="form-group">
+            <label for="product_id">Product ID:</label>
+            <input type="text" class="form-control" id="product_id" name="product_id" required>
+            <div class="invalid-feedback">Please provide a product ID.</div>
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="number" class="form-control" id="quantity" name="quantity" required>
+            <div class="invalid-feedback">Please provide a quantity.</div>
+        </div>
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="text" class="form-control" id="price" name="price" required>
+            <div class="invalid-feedback">Please provide a price.</div>
+        </div>
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <input type="text" class="form-control" id="status" name="status" required>
+            <div class="invalid-feedback">Please provide a status.</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Order</button>
+    </form>
+</div>
+</body>
+</html>
