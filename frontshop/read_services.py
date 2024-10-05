@@ -51,8 +51,22 @@ def get_account_details(account_id):
 # UserProfile Views
 # ==============================
 
+def get_user_profile_list():
+    url = f"{API_BASE_URL}/userprofiles/"
+    response = requests.get(url)
+    if response.status_code == 200:
+        try:
+            return response.json()
+        except requests.exceptions.JSONDecodeError:
+            print("Error: Received invalid JSON response")
+            return []
+    else:
+        print(f"Error: Received status code {response.status_code}")
+        print(f"Response content: {response.text}")
+        return []
+
 def get_user_profile_details(user_profile_id):
-    url = f"http://127.0.0.1:8000/api/v1/userprofiles/{user_profile_id}/"
+    url = f"{API_BASE_URL}/userprofiles/{user_profile_id}/"
     response = requests.get(url)
     if response.status_code == 200:
         try:
@@ -67,6 +81,8 @@ def get_user_profile_details(user_profile_id):
         print(f"Error: Received status code {response.status_code}")
         print(f"Response content: {response.text}")
         return None
+    
+
 
 # ==============================
 # Order Views
