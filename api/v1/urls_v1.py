@@ -1,11 +1,16 @@
 # api/v1/urls_v1.py
 from django.urls import path
 from api.v1 import views
+from .views import register, login
 
 urlpatterns = [
+    
+    path('register/', register, name='register'),
+    path('login/', login, name='login'),
+    
     # Account Views
-    path('accounts/', views.account_list, name='account_list'),  # Added this line
-    path('accounts/create/', views.create_account, name='create_account'),  # Changed this line
+    path('accounts/', views.account_list, name='account_list'),
+    path('accounts/create/', views.create_account, name='create_account'),  
     path('accounts/<int:pk>/', views.account_detail, name='account_detail'),
     path('accounts/<int:pk>/update/', views.update_account, name='update_account'),
     path('accounts/<int:pk>/delete/', views.delete_account, name='delete_account'),

@@ -1,10 +1,49 @@
 # frontshop/views.py
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from .create_services import create_order
-from .read_services import get_category_list, get_product_list, get_deliverycompany_list, get_order_list
-from .forms import OrderForm
+from .read_services import (
+    get_category_list,
+    get_product_list,
+    get_deliverycompany_list,
+    get_order_list
+)
+from django.contrib.auth import authenticate, login, logout
+from .forms import LoginForm, RegisterForm
 
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(request, email=email, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')  # Redirect to a home page or dashboard
+            else:
+                form.add_error(None, 'Invalid email or password')
+    else:
+        form = LoginForm()
+    return render(request, 'frontshop/login.html', {'form': form})
+
+def register_view(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')  # Redirect to login page after successful registration
+    else:
+        form = RegisterForm()
+    return render(request, 'frontshop/register.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')  # Redirect to login page after logout
+
+
+
+# ================================================
+# inventory_information Views
+# ================================================
 
 def inventory_information(request):
     categories = get_category_list()
@@ -23,16 +62,10 @@ def inventory_information(request):
 
 
 
-def create_order_view(request):
-    if request.method == 'POST':
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            created_order = create_order(data)
-            return JsonResponse(created_order)
-        else:
-            return JsonResponse({'errors': form.errors}, status=400)
-    return render(request, 'frontshop/order_creation.html')
+
+
+
+
 
 
 

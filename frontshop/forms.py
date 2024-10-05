@@ -1,9 +1,13 @@
 # frontshop/forms.py
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from account.models import Account
 
-class OrderForm(forms.Form):
-    customer_id = forms.IntegerField(required=True)
-    product_id = forms.IntegerField(required=True)
-    quantity = forms.IntegerField(required=True, min_value=1)
-    price = forms.DecimalField(required=True, max_digits=10, decimal_places=2)
-    status = forms.CharField(required=True, max_length=20)
+class LoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+class RegisterForm(UserCreationForm):
+    class Meta:
+        model = Account
+        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
