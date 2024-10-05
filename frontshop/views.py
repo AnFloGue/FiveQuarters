@@ -1,4 +1,5 @@
 # frontshop/views.py
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from .read_services import (
     get_category_list,
@@ -7,32 +8,52 @@ from .read_services import (
     get_order_list
 )
 from django.contrib.auth import authenticate, login, logout
-from .forms import (
-    LoginForm,
-    RegisterForm
-)
+from .forms import LoginForm, RegisterForm
+
+from django import forms
+
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
 
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data['email']
+            username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            user = authenticate(request, email=email, password=password)
+            user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')  # Redirect to a home page or dashboard
+                return redirect('inventory_information')  # Redirect to a home page or dashboard
             else:
-                form.add_error(None, 'Invalid email or password')
+                form.add_error(None, 'Invalid username or password')
     else:
         form = LoginForm()
     return render(request, 'frontshop/login.html', {'form': form})
+
+class RegisterForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+    confirm_password = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name', 'password']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+        if password != confirm_password:
+            self.add_error('confirm_password', 'Passwords do not match')
 
 def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
             return redirect('login')  # Redirect to login page after successful registration
     else:
         form = RegisterForm()
@@ -41,8 +62,6 @@ def register_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')  # Redirect to login page after logout
-
-
 
 # ================================================
 # inventory_information Views
@@ -62,25 +81,3 @@ def inventory_information(request):
     }
 
     return render(request, 'frontshop/inventory-information.html', context)
-
-
-
-
-
-
-
-
-
-
-
-# def order_detail(request):
-#     return render(request, 'frontshop/order_detail.html')
-#
-# def order_item_detail(request):
-#     return render(request, 'frontshop/order_item_detail.html')
-#
-# def order_item_list(request):
-#     return render(request, 'frontshop/order_item_list.html')
-#
-# def order_list(request):
-#     return render(request, 'frontshop/order_list.html')

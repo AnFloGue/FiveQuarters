@@ -23,6 +23,10 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com']
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000', 'https://*.onrender.com']
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 # Applications
 INSTALLED_APPS = [
     'django.contrib.admin',
