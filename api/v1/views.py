@@ -2,18 +2,112 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+
+
 from backshop.models import Category, Product, Ingredient, Recipe
 from frontshop.models import Order, OrderItem, DeliveryCompany
+from account.models import Account, UserProfile
+
+
 from .serializers import (
     CategorySerializer, ProductSerializer, IngredientSerializer, RecipeSerializer,
-    OrderSerializer, OrderItemSerializer, DeliveryCompanySerializer
+    OrderSerializer, OrderItemSerializer, DeliveryCompanySerializer,
+    AccountSerializer, UserProfileSerializer
 )
 from drf_yasg.utils import swagger_auto_schema
 
 
-# ==============================
+
+# ==================================================
+# Account Views
+# ==================================================
+
+@api_view(['POST'])
+def create_account(request):
+    serializer = AccountSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def account_detail(request, pk):
+    try:
+        account = Account.objects.get(pk=pk)
+    except Account.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = AccountSerializer(account)
+    return Response(serializer.data)
+
+@api_view(['PUT'])
+def update_account(request, pk):
+    try:
+        account = Account.objects.get(pk=pk)
+    except Account.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = AccountSerializer(account, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def delete_account(request, pk):
+    try:
+        account = Account.objects.get(pk=pk)
+    except Account.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    account.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# ==================================================
+# UserProfile Views
+# ==================================================
+
+@api_view(['POST'])
+def create_user_profile(request):
+    serializer = UserProfileSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def user_profile_detail(request, pk):
+    try:
+        user_profile = UserProfile.objects.get(pk=pk)
+    except UserProfile.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = UserProfileSerializer(user_profile)
+    return Response(serializer.data)
+
+@api_view(['PUT'])
+def update_user_profile(request, pk):
+    try:
+        user_profile = UserProfile.objects.get(pk=pk)
+    except UserProfile.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = UserProfileSerializer(user_profile, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def delete_user_profile(request, pk):
+    try:
+        user_profile = UserProfile.objects.get(pk=pk)
+    except UserProfile.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    user_profile.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# ==================================================
 # Category Views
-# ==============================
+# ==================================================
+
 @api_view(['GET'])
 def category_list(request):
     categories = Category.objects.all()
@@ -65,9 +159,9 @@ def category_delete(request, pk):
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# ==============================
+# ==================================================
 # Product Views
-# ==============================
+# ==================================================
 @api_view(['GET'])
 def product_list(request):
     products = Product.objects.all()
@@ -119,9 +213,9 @@ def product_delete(request, pk):
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# ==============================
+# ==================================================
 # Ingredient Views
-# ==============================
+# ==================================================
 @api_view(['GET'])
 def ingredient_list(request):
     ingredients = Ingredient.objects.all()

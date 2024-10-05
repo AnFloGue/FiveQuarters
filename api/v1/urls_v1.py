@@ -3,6 +3,19 @@ from django.urls import path
 from api.v1 import views
 
 urlpatterns = [
+    
+    # Account Views
+    path('accounts/', views.create_account, name='create_account'),
+    path('accounts/<int:pk>/', views.account_detail, name='account_detail'),
+    path('accounts/<int:pk>/update/', views.update_account, name='update_account'),
+    path('accounts/<int:pk>/delete/', views.delete_account, name='delete_account'),
+    
+    # UserProfile Views
+    path('userprofiles/', views.create_user_profile, name='create_user_profile'),
+    path('userprofiles/<int:pk>/', views.user_profile_detail, name='user_profile_detail'),
+    path('userprofiles/<int:pk>/update/', views.update_user_profile, name='update_user_profile'),
+    path('userprofiles/<int:pk>/delete/', views.delete_user_profile, name='delete_user_profile'),
+    
     # Category Views
     path('categories/', views.category_list, name='category_list'),
     path('categories/create/', views.category_create, name='category_create'),
@@ -51,4 +64,6 @@ urlpatterns = [
     path('deliverycompanies/<int:pk>/', views.deliverycompany_detail, name='deliverycompany_detail'),
     path('deliverycompanies/<int:pk>/update/', views.deliverycompany_update, name='deliverycompany_update'),
     path('deliverycompanies/<int:pk>/delete/', views.deliverycompany_delete, name='deliverycompany_delete'),
+
+
 ]

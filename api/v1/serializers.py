@@ -1,8 +1,29 @@
 # api/v1/serializers.py
 
 from rest_framework import serializers
+
 from backshop.models import Category, Product, Ingredient, Recipe
 from frontshop.models import Order, OrderItem, DeliveryCompany
+from account.models import Account, UserProfile
+
+
+# ================================================
+# Serializers for account models
+# ================================================
+class AccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = '__all__'
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = Account.objects.create_user(**validated_data)
+        return user
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = '__all__'
 
 # ================================================
 # Serializers for backshop models

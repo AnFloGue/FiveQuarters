@@ -13,7 +13,49 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fivequarters.settings')
 django.setup()
 
 # Use the API base URL from settings
-API_BASE_URL = settings.API_BASE_URL_V1
+API_BASE_URL = "http://127.0.0.1:8000/api/v1"  # Updated to include /v1
+
+
+
+# ==============================
+# Account Views
+# ==============================
+
+def get_account_details(account_id):
+    url = f"{API_BASE_URL}/accounts/{account_id}/"
+    response = requests.get(url)
+    if response.status_code == 200:
+        try:
+            return response.json()
+        except requests.exceptions.JSONDecodeError:
+            print(f"Error: Unable to decode JSON response for account ID {account_id}")
+            print(f"Response content: {response.text}")
+            return None
+    else:
+        print(f"Error: Received status code {response.status_code} for account ID {account_id}")
+        print(f"Response content: {response.text}")
+        return None
+
+# ==============================
+# UserProfile Views
+# ==============================
+
+def get_user_profile_details(user_profile_id):
+    url = f"http://127.0.0.1:8000/api/v1/userprofiles/{user_profile_id}/"
+    response = requests.get(url)
+    if response.status_code == 200:
+        try:
+            return response.json()
+        except requests.exceptions.JSONDecodeError:
+            print("Error: Received invalid JSON response")
+            return None
+    elif response.status_code == 404:
+        print(f"Error: User profile with ID {user_profile_id} not found")
+        return None
+    else:
+        print(f"Error: Received status code {response.status_code}")
+        print(f"Response content: {response.text}")
+        return None
 
 # ==============================
 # Order Views
