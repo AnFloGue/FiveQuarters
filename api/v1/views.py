@@ -39,6 +39,12 @@ def account_detail(request, pk):
     serializer = AccountSerializer(account)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def account_list(request):
+    accounts = Account.objects.all()
+    serializer = AccountSerializer(accounts, many=True)
+    return Response(serializer.data)
+
 @api_view(['PUT'])
 def update_account(request, pk):
     try:
@@ -80,6 +86,12 @@ def user_profile_detail(request, pk):
     except UserProfile.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = UserProfileSerializer(user_profile)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def user_profile_list(request):
+    user_profiles = UserProfile.objects.all()
+    serializer = UserProfileSerializer(user_profiles, many=True)
     return Response(serializer.data)
 
 @api_view(['PUT'])
