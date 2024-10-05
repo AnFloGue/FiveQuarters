@@ -7,7 +7,10 @@ from .read_services import (
     get_order_list
 )
 from django.contrib.auth import authenticate, login, logout
-from .forms import LoginForm, RegisterForm
+from .forms import (
+    LoginForm,
+    RegisterForm
+)
 
 def login_view(request):
     if request.method == 'POST':
