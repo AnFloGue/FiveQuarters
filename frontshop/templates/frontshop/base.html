@@ -57,32 +57,34 @@
             </div>
             <!-- End Search Section -->
 
-            <!-- User and Cart Section -->
-            <div class="col-lg-4 col-md-4 col-6">
-                <div class="widgets-wrap float-right">
-                    <div class="widget-header mr-3">
-                        <a href="#" class="widget-view">
-                            <div class="icon-area">
-                                <i class="fa fa-user"></i>
-                            </div>
-                            <small class="text"> Sign in | Register </small>
-                        </a>
-                    </div>
-                    <div class="widget-header">
-                        <a href="cart.html" class="widget-view">
-                            <div class="icon-area">
-                                <i class="fa fa-shopping-cart"></i>
-                                <span class="notify">0</span>
-                            </div>
-                            <small class="text"> Cart </small>
-                        </a>
-                    </div>
+<!-- User and Cart Section -->
+<div class="col-lg-4 col-md-4 col-6">
+    <div class="widgets-wrap float-right">
+        <div class="widget-header mr-3">
+            <a href="{% url 'login' %}" class="widget-view">
+                <div class="icon-area">
+                    <i class="fa fa-user"></i>
                 </div>
-            </div>
-            <!-- End User and Cart Section -->
+                <small class="text"> Sign in </small>
+            </a>
+            <a href="{% url 'register' %}" class="widget-view">
+                <small class="text"> | Register </small>
+            </a>
+        </div>
+        <div class="widget-header">
+            <a href="{% url 'about' %}" class="widget-view">
+                <div class="icon-area">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span class="notify">0</span>
+                </div>
+                <small class="text"> Cart </small>
+            </a>
         </div>
     </div>
-
+</div>
+<!-- End User and Cart Section -->
+        </div>
+    </div>
     <!-- Navbar Section -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-top border-bottom">
         <div class="container">
@@ -122,9 +124,6 @@
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'about' %}"><i class="fa fa-envelope"></i> Email</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'about' %}"><i class="fa fa-phone"></i> Call us</a>
                     </li>
                 </ul>
             </div>
