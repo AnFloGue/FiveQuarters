@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Shop{% endblock %}
+
+{% block banner %}
+    <!-- Section: Shop Banner -->
+    <section class="section-intro padding-y-sm">
+        <div class="container">
+            <div class="intro-banner-wrap">
+                <img src="{% static 'images/banners/banner-02.jpeg' %}" class="img-fluid rounded">
+            </div>
+        </div>
+    </section>
+    <!-- End Section: Shop Banner -->
+{% endblock %}
+
+{% block content %}
+    <!-- Section: Page Top -->
+    <section class="section-pagetop bg">
+        <div class="container">
+            {% if 'search' in request.path %}
+                <h2 class="title-page">Search Result</h2>
+            {% else %}
+            {% endif %}
+                <h1 class="title-page"><strong>Stock Orders</strong></h1>
+        </div>
+    </section>
+    <!-- End Section: Page Top -->
+
+    <!-- Section: Content -->
+    <section class="section-content padding-y">
+        <div class="container">
+            <div class="row">
+                <!-- Section: Sidebar -->
+                <aside class="col-md-3">
+                    <div class="card">
+        <!-- Section: Categories -->
+        <article class="filter-group">
+            <header class="card-header">
+                <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
+                    <i class="icon-control fa fa-chevron-down"></i>
+                    <h6 class="title">Categories</h6>
+                </a>
+            </header>
+            <div class="filter-content collapse show" id="collapse_1" style="">
+                <div class="card-body">
+                    <ul class="list-menu">
+                        {% for category in categories %}
+                            <li><a href="{{ category.get_url }}">{{ category.category_name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </article>
+        <!-- End Section: Categories -->
+
+                        <!-- Section: Contents -->
+                        <article class="filter-group">
+                            <header class="card-header">
+                                <a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true" class="">
+                                    <i class="icon-control fa fa-chevron-down"></i>
+                                    <h6 class="title">Contents</h6>
+                                </a>
+                            </header>
+                            <div class="filter-content collapse show" id="collapse_4" style="">
+                                <div class="card-body">
+                                    <label class="checkbox-btn">
+                                        <input type="checkbox">
+                                        <span class="btn btn-light">egg</span>
+                                    </label>
+                                    <label class="checkbox-btn">
+                                        <input type="checkbox">
+                                        <span class="btn btn-light">dairy</span>
+                                    </label>
+                                    <label class="checkbox-btn">
+                                        <input type="checkbox">
+                                        <span class="btn btn-light">soy</span>
+                                    </label>
+                                    <label class="checkbox-btn">
+                                        <input type="checkbox">
+                                        <span class="btn btn-light">gluten</span>
+                                    </label>
+                                    <label class="checkbox-btn">
+                                        <input type="checkbox">
+                                        <span class="btn btn-light">nuts</span>
+                                    </label>
+                                    <label class="checkbox-btn">
+                                        <input type="checkbox">
+                                        <span class="btn btn-light">vegan</span>
+                                    </label>
+                                    <label class="checkbox-btn">
+                                        <input type="checkbox">
+                                        <span class="btn btn-light">vegetarian</span>
+                                    </label>
+                                    <label class="checkbox-btn">
+                                        <input type="checkbox">
+                                        <span class="btn btn-light">halal</span>
+                                    </label>
+                                    <label class="checkbox-btn">
+                                        <input type="checkbox">
+                                        <span class="btn btn-light">kosher</span>
+                                    </label>
+                                    <label class="checkbox-btn">
+                                        <input type="checkbox">
+                                        <span class="btn btn-light">sugar-free</span>
+                                    </label>
+                                    <label class="checkbox-btn">
+                                        <input type="checkbox">
+                                        <span class="btn btn-light">lactose-free</span>
+                                    </label>
+                                    <label class="checkbox-btn">
+                                        <input type="checkbox">
+                                        <span class="btn btn-light">organic</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </article>
+                        <!-- End Section: Contents -->
+
+                        <!-- Section: Price Range -->
+                        <article class="filter-group">
+                            <header class="card-header">
+                                <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
+                                    <i class="icon-control fa fa-chevron-down"></i>
+                                    <h6 class="title">Price range</h6>
+                                </a>
+                            </header>
+                            <div class="filter-content collapse show" id="collapse_3" style="">
+                                <div class="card-body">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="minPrice">Min Price</label>
+                                            <input type="number" id="minPrice" class="form-control" placeholder="€0" min="0">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="maxPrice">Max Price</label>
+                                            <input type="number" id="maxPrice" class="form-control" placeholder="€200" min="0">
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-block btn-primary" id="applyPriceRange">Apply</button>
+                                </div>
+                            </div>
+                        </article>
+                        <!-- End Section: Price Range -->
+                    </div>
+                </aside>
+                <!-- End Section: Sidebar -->
+
+                <!-- Section: Main Content -->
+                <main class="col-md-9">
+                    <!-- Section: Items Found -->
+                    <header class="border-bottom mb-4 pb-3">
+                        <div class="form-inline">
+                            <span class="mr-md-auto"><b>{{ product_count }}</b> Items found</span>
+                        </div>
+                    </header>
+                    <!-- End Section: Items Found -->
+
+                    <!-- Section: Products -->
+                    <div class="row">
+                        {% for product in products %}
+                            <div class="col-md-4">
+                                <figure class="card card-product-grid">
+                                    <div class="img-wrap">
+                                        {% if product.product_image %}
+                                            <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}">
+                                        {% else %}
+                                            <img src="{% static 'images/default-product.jpg' %}" alt="Default Image">
+                                        {% endif %}
+                                    </div>
+                                    <figcaption class="info-wrap">
+                                        <div class="fix-height">
+                                            <a href="{{ product.get_absolute_url }}" class="title"><b>{{ product.product_name }}</b></a>
+                                            <div class="price-wrap mt-2">
+                                                <span class="price">€ {{ product.product_price }}</span>
+                                            </div>
+                                            <p class="description">{{ product.product_description }}</p>
+                                        </div>
+                                        <a href="#" class="btn btn-block btn-primary">Request Production</a>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <!-- End Section: Products -->
+
+                    <!-- Section: Pagination -->
+                    <nav class="mt-4" aria-label="Page navigation sample">
+                        <ul class="pagination">
+                            {% if products.has_other_pages %}
+                                {% if products.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">Previous</a></li>
+                                {% endif %}
+                                {% for num in products.paginator.page_range %}
+                                    {% if products.number == num %}
+                                        <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+                                    {% else %}
+                                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if products.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">Next</a></li>
+                                {% endif %}
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    <!-- End Section: Pagination -->
+                </main>
+                <!-- End Section: Main Content -->
+            </div>
+        </div>
+    </section>
+    <!-- End Section: Content -->
+{% endblock %}
+
+<style>
+    .fix-height {
+        height: auto; /* Allow the height to adjust based on content */
+        overflow: visible; /* Ensure content is not hidden */
+    }
+
+    .description {
+        white-space: normal; /* Ensure text wraps properly */
+        overflow: visible; /* Ensure content is not hidden */
+    }
+
+    .btn-light.active {
+        background-color: #ffa500; /* Orange color */
+        color: #fff;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var buttons = document.querySelectorAll('.btn-light');
+
+    buttons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            button.classList.toggle('active');
+        });
+    });
+
+    var minPriceInput = document.getElementById('minPrice');
+    var maxPriceInput = document.getElementById('maxPrice');
+    var applyButton = document.getElementById('applyPriceRange');
+
+    applyButton.addEventListener('click', function () {
+        var minPrice = minPriceInput.value;
+        var maxPrice = maxPriceInput.value;
+
+        // Add your logic to filter products based on the minPrice and maxPrice values
+        console.log('Min Price:', minPrice);
+        console.log('Max Price:', maxPrice);
+    });
+});
+</script>
