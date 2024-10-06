@@ -5,7 +5,8 @@ from .read_services import (
     get_category_list,
     get_product_list,
     get_deliverycompany_list,
-    get_order_list
+    get_order_list,
+    get_ingredient_list,
 )
 from django.contrib.auth import authenticate, login, logout
 from .forms import LoginForm, RegisterForm
@@ -72,12 +73,15 @@ def inventory_information(request):
     products = get_product_list()
     delivery_companies = get_deliverycompany_list()
     orders = get_order_list()
+    ingredients = get_ingredient_list()
+
 
     context = {
         'categories': categories,
         'products': products,
         'delivery_companies': delivery_companies,
         'orders': orders,
+        'ingredients': ingredients,
     }
 
     return render(request, 'frontshop/inventory-information.html', context)
