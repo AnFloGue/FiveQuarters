@@ -1,24 +1,31 @@
+{% extends 'frontshop/base.html' %}
+{% load static %}
+
+{% block title %}login{% endblock %}
+
+{% block content %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Login</title>
     <style>
+        .login-container {
+            margin-left: 200px; /* Move content 200 pixels to the right */
+        }
         body {
             background-color: #FFA500; /* Orange color */
         }
     </style>
 </head>
 <body>
-    <!-- Home Button -->
-    <div class="container mt-3">
-        <a href="http://localhost:8000/frontshop/home/" class="btn btn-primary">Home</a>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
     </div>
-    <!-- End Home Button -->
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
 </body>
 </html>
+{% endblock %}
