@@ -1,0 +1,127 @@
+{% extends 'frontshop/base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+<!-- Section: Intro Banner -->
+{% block banner %}
+<section class="section-intro padding-y-sm">
+    <div class="container">
+        <div class="intro-banner-wrap">
+            <img src="{% static 'images/banners/banner-01.jpeg' %}" class="img-fluid rounded">
+        </div>
+    </div>
+</section>
+{% endblock %}
+<!-- End Section: Intro Banner -->
+
+<!-- Section: Popular Products -->
+{% block content %}
+<section class="section-name padding-y-sm">
+    <div class="container">
+        <header class="section-heading">
+            <a href="./store.html" class="btn btn-outline-primary float-right">See all</a>
+            <h3 class="section-title">Weekly Menu</h3>
+        </header>
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-3">
+                <div class="card card-product-grid">
+                    <a href="./product-detail.html" class="img-wrap">
+                        {% if product.product_image %}
+                            <img src="{{ product.product_image }}" alt="{{ product.product_name }}">
+                        {% else %}
+                            <img src="{% static 'images/default-product-image.jpg' %}" alt="Default Image">
+                        {% endif %}
+                    </a>
+                    <figcaption class="info-wrap">
+                        <a href="./product-detail.html" class="title">{{ product.product_name }}</a>
+                        <div class="price mt-1">€{{ product.product_price }}</div>
+                        {% if product.is_available %}
+                        <div class="availability mt-1">In Stock</div>
+                        {% else %}
+                        <div class="availability mt-1">Product not available at the moment</div>
+                        {% endif %}
+                        <div class="quantity mt-1">Stock: {{ product.product_stock }}</div>
+                    </figcaption>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- End Section: Popular Products -->
+
+    <!-- Section: Categories -->
+    <section class="section-name padding-y-sm">
+        <div class="container">
+            <header class="section-heading">
+                <h3 class="section-title">Categories</h3>
+            </header>
+            <div class="row">
+                {% for category in categories %}
+                <div class="col-md-3">
+                    <div class="card card-category-grid">
+                        <a href="./category/{{ category.slug }}" class="img-wrap">
+                            <img src="{{ category.image }}" alt="{{ category.name }}" class="category-image">
+                        </a>
+                        <figcaption class="info-wrap">
+                            <a href="./category/{{ category.slug }}" class="title">{{ category.name }}</a>
+                            <div class="description mt-1">{{ category.description }}</div>
+                        </figcaption>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- End Section: Categories -->
+
+    <!-- Section: Custom Styles -->
+    <style>
+        .category-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+    <!-- End Section: Custom Styles -->
+
+
+
+{% endblock %}
+
+<!-- Section: Custom Styles -->
+<style>
+    .intro-banner-wrap img {
+        width: auto;
+        height: auto;
+    }
+    .card-product-grid .img-wrap img {
+        max-width: 200px;
+        width: 100%;
+        height: auto;
+    }
+    .card-product-grid .title {
+        font-weight: bold;
+        font-size: 1.25rem; /* Adjust the size as needed */
+    }
+    .card-product-grid .availability,
+    .card-product-grid .quantity {
+        font-weight: bold;
+    }
+    .card-category-grid .img-wrap img {
+        max-width: 200px;
+        width: 100%;
+        height: auto;
+    }
+    .card-category-grid .title {
+        font-weight: bold;
+        font-size: 1.25rem; /* Adjust the size as needed */
+    }
+    .card-category-grid .description {
+        font-weight: normal;
+    }
+</style>
+<!-- End Section: Custom Styles -->

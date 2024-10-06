@@ -1,6 +1,7 @@
 # frontshop/views.py
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+
 from .read_services import (
     get_category_list,
     get_product_list,
@@ -12,6 +13,27 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import LoginForm, RegisterForm
 
 from django import forms
+
+
+
+# ================================================
+# Home Views
+# ================================================
+
+
+
+def home(request):
+    products = get_product_list()
+    categories = get_category_list()
+    context = {
+        'products': products,
+        'categories': categories,
+    }
+    return render(request, 'frontshop/home.html', context)
+
+# ================================================
+# Login, Register, Logout Views
+# ================================================
 
 class LoginForm(forms.Form):
     username = forms.CharField()

@@ -112,7 +112,7 @@ if __name__ == "__main__":
         
         
         
-        '''
+
         # ==============================
         # OrderItem Prints
         # ==============================
@@ -271,7 +271,7 @@ if __name__ == "__main__":
               f"Product: {recipe_details.get('product')}\n"
               f"Ingredient: {recipe_details.get('ingredient')}")
         print("\n")
-        '''
+
         
 
     except KeyboardInterrupt:
