@@ -15,34 +15,54 @@
 {% endblock %}
 <!-- End Section: Intro Banner -->
 
-<!-- Section: Popular Products -->
+<!-- Section: Product of the week-->
 {% block content %}
 <section class="section-name padding-y-sm">
     <div class="container">
         <header class="section-heading">
             <a href="./store.html" class="btn btn-outline-primary float-right">See all</a>
-            <h3 class="section-title">Weekly Menu</h3>
+            <h3 class="section-title">Product of the week</h3>
         </header>
         <div class="row">
             {% for product in products %}
+                {% if product.is_product_of_the_week %}
+                <div class="col-md-3">
+                    <div class="card card-product-grid">
+                        <a href="./product-detail.html" class="img-wrap">
+                            <img src="{{ product.image }}" alt="{{ product.name }}" class="img-fluid">
+                        </a>
+                        <figcaption class="info-wrap">
+                            <a href="./product-detail.html" class="title">{{ product.name }}</a>
+                            <div class="price mt-1">€{{ product.price }}</div>
+                            <div class="availability mt-1">Product of the Week</div>
+                            <div class="quantity mt-1">Stock: {{ product.popularity }}</div>
+                        </figcaption>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+<!-- End Section: Product of the week-->
+
+<!-- Section: Categories -->
+<section class="section-name padding-y-sm">
+    <div class="container">
+        <header class="section-heading">
+            <h3 class="section-title">Categories</h3>
+        </header>
+        <div class="row">
+            {% for category in categories %}
             <div class="col-md-3">
-                <div class="card card-product-grid">
-                    <a href="./product-detail.html" class="img-wrap">
-                        {% if product.product_image %}
-                            <img src="{{ product.product_image }}" alt="{{ product.product_name }}">
-                        {% else %}
-                            <img src="{% static 'images/default-product-image.jpg' %}" alt="Default Image">
-                        {% endif %}
+                <div class="card card-category-grid">
+                    <a href="./category/{{ category.slug }}" class="img-wrap">
+                        <img src="{{ category.image }}" alt="{{ category.name }}" class="category-image">
                     </a>
                     <figcaption class="info-wrap">
-                        <a href="./product-detail.html" class="title">{{ product.product_name }}</a>
-                        <div class="price mt-1">€{{ product.product_price }}</div>
-                        {% if product.is_available %}
-                        <div class="availability mt-1">In Stock</div>
-                        {% else %}
-                        <div class="availability mt-1">Product not available at the moment</div>
-                        {% endif %}
-                        <div class="quantity mt-1">Stock: {{ product.product_stock }}</div>
+                        <a href="./category/{{ category.slug }}" class="title">{{ category.name }}</a>
+                        <div class="description mt-1">{{ category.description }}</div>
                     </figcaption>
                 </div>
             </div>
@@ -50,47 +70,18 @@
         </div>
     </div>
 </section>
-<!-- End Section: Popular Products -->
+<!-- End Section: Categories -->
 
-    <!-- Section: Categories -->
-    <section class="section-name padding-y-sm">
-        <div class="container">
-            <header class="section-heading">
-                <h3 class="section-title">Categories</h3>
-            </header>
-            <div class="row">
-                {% for category in categories %}
-                <div class="col-md-3">
-                    <div class="card card-category-grid">
-                        <a href="./category/{{ category.slug }}" class="img-wrap">
-                            <img src="{{ category.image }}" alt="{{ category.name }}" class="category-image">
-                        </a>
-                        <figcaption class="info-wrap">
-                            <a href="./category/{{ category.slug }}" class="title">{{ category.name }}</a>
-                            <div class="description mt-1">{{ category.description }}</div>
-                        </figcaption>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-    <!-- End Section: Categories -->
-
-    <!-- Section: Custom Styles -->
-    <style>
-        .category-image {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
-    <!-- End Section: Custom Styles -->
-
-
-
-{% endblock %}
+<!-- Section: Custom Styles -->
+<style>
+    .category-image {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+</style>
+<!-- End Section: Custom Styles -->
 
 <!-- Section: Custom Styles -->
 <style>
