@@ -18,82 +18,124 @@
     <div class="container mt-5">
         <h1 class="text-center mb-4">Inventory Information</h1>
 
+        <!-- Section: Categories -->
         <div class="card mb-4">
             <div class="card-header">
                 <h2>Categories</h2>
             </div>
             <ul class="list-group list-group-flush">
                 {% for category in categories %}
-                    <li class="list-group-item">{{ category.name }} (ID: {{ category.id }})</li>
-                {% endfor %}
-            </ul>
-        </div>
-
-        <div class="card mb-4">
-            <div class="card-header">
-                <h2>Products</h2>
-            </div>
-            <ul class="list-group list-group-flush">
-                {% for product in products %}
+                    <div>
                     <li class="list-group-item">
-                        <strong>{{ product.name }}</strong> (ID: {{ product.id }})<br>
-                        Description: {{ product.description }}<br>
-                        Price: ${{ product.price }}<br>
-                        Rating: {{ product.rating }}<br>
-                        Category: {{ product.category.name }}<br>
-                        Date of Manufacture: {{ product.date_of_manufacture }}<br>
-                        Date of Expiry: {{ product.date_of_expiry }}<br>
-                        Popularity: {{ product.popularity }}<br>
-                        Is Product of the Week: {{ product.is_product_of_the_week }}
+                        <strong>{{ category.name }}</strong> (ID: {{ category.id }})<br>
+                        Description: {{ category.description }}<br>
+                        <img src="{{ category.image }}" alt="{{ category.name }}" class="img-fluid small-image">
                     </li>
+                    </div>
+                    <br>
                 {% endfor %}
             </ul>
         </div>
+        <!-- End Section: Categories -->
 
-        <div class="card mb-4">
-            <div class="card-header">
-                <h2>Delivery Companies</h2>
-            </div>
-            <ul class="list-group list-group-flush">
-                {% for company in delivery_companies %}
-                    <li class="list-group-item">{{ company.name }} (ID: {{ company.id }})</li>
-                {% endfor %}
-            </ul>
-        </div>
+        <!-- Custom Styles for Small Images -->
+        <style>
+            .small-image {
+                max-width: 50px; /* Adjust the size as needed */
+                height: auto;
+            }
+        </style>
+        <!-- End of Custom Styles for Small Images -->
 
-        <div class="card mb-4">
-            <div class="card-header">
-                <h2>Orders</h2>
+<!-- Section: Products -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h2>Products</h2>
+    </div>
+    <ul class="list-group list-group-flush">
+        {% for product in products %}
+            <br>
+            <div>
+            <li class="list-group-item">
+                <strong>{{ product.name }}</strong> (ID: {{ product.id }})<br>
+                Description: {{ product.description }}<br>
+                Price: ${{ product.price }}<br>
+                Rating: {{ product.rating }}<br>
+                Category: {{ product.category.name }}<br>
+                Date of Manufacture: {{ product.date_of_manufacture }}<br>
+                Date of Expiry: {{ product.date_of_expiry }}<br>
+                Manufacturing Time: {{ product.manufacturing_time }} hours<br>
+                Popularity: {{ product.popularity }}<br>
+                Is Product of the Week: {{ product.is_product_of_the_week }}
+            </li>
             </div>
-            <ul class="list-group list-group-flush">
-                {% for order in orders %}
-                    <li class="list-group-item">
-                        Order ID: {{ order.id }}<br>
-                        Total Price: ${{ order.total_price }}<br>
-                        Order Date: {{ order.order_date }}<br>
-                        Status: {{ order.status }}<br>
-                        Customer: {{ order.customer.name }}
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+        {% endfor %}
+    </ul>
+</div>
+<!-- End Section: Products -->
 
-        <div class="card mb-4">
-            <div class="card-header">
-                <h2>Ingredients</h2>
+<!-- Section: Delivery Companies -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h2>Delivery Companies</h2>
+    </div>
+    <ul class="list-group list-group-flush">
+        {% for company in delivery_companies %}
+            <li class="list-group-item">{{ company.name }} (ID: {{ company.id }})</li>
+        {% endfor %}
+    </ul>
+</div>
+<!-- End Section: Delivery Companies -->
+
+<!-- Section: Orders -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h2>Orders</h2>
+    </div>
+    <ul class="list-group list-group-flush">
+        {% for order in orders %}
+            <br>
+            <div>
+            <li class="list-group-item">
+                Order ID: {{ order.id }}<br>
+                Total Price: ${{ order.total_price }}<br>
+                Status: {{ order.status }}<br>
+                Customer's Note: {{ order.customers_note }}<br>
+                Tracking Number: {{ order.tracking_number }}<br>
+                Posted Date: {{ order.posted_date }}<br>
+                Received Date: {{ order.received_date }}<br>
+                Created At: {{ order.created_at }}<br>
+                Updated At: {{ order.updated_at }}<br>
+                User ID: {{ order.user }}<br>
+                Delivery Company ID: {{ order.delivery_company }}
+            </li>
             </div>
-            <ul class="list-group list-group-flush">
-                {% for ingredient in ingredients %}
-                    <li class="list-group-item">
-                        <strong>{{ ingredient.name }}</strong><br>
-                        Description: {{ ingredient.description }}<br>
-                        Stock: {{ ingredient.stock }}<br>
-                        Requirement Amount: {{ ingredient.requirement_amount }}<br>
-                        Potential Allergies: {{ ingredient.potential_allergies }}
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+        {% endfor %}
+    </ul>
+</div>
+<!-- End Section: Orders -->
+
+<!-- Section: Ingredients -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h2>Ingredients</h2>
+    </div>
+    <ul class="list-group list-group-flush">
+        {% for ingredient in ingredients %}
+            <br>
+            <div>
+            <li class="list-group-item">
+                <strong>{{ ingredient.name }}</strong><br>
+                Description: {{ ingredient.description }}<br>
+                Stock: {{ ingredient.stock }} {{ ingredient.unit }}<br>
+                Requirement Amount: {{ ingredient.required_amount }} {{ ingredient.unit }}<br>
+                Potential Allergies: {{ ingredient.potential_allergies }}
+            </li>
+            </div>
+        {% endfor %}
+    </ul>
+</div>
+<!-- End Section: Ingredients -->
     </div>
 
     <!-- Bootstrap JS and dependencies -->
@@ -101,4 +143,4 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 </body>
-</html
+</html>

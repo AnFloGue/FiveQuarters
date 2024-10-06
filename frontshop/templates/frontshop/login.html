@@ -2,13 +2,18 @@
 <html>
 <head>
     <title>Login</title>
+    <style>
+        body {
+            background-color: #FFA500; /* Orange color */
+        }
+    </style>
 </head>
-<!-- Home Button -->
-<div class="container mt-3">
-    <a href="http://localhost:8000/frontshop/home/" class="btn btn-primary">Home</a>
-</div>
-<!-- End Home Button -->
 <body>
+    <!-- Home Button -->
+    <div class="container mt-3">
+        <a href="http://localhost:8000/frontshop/home/" class="btn btn-primary">Home</a>
+    </div>
+    <!-- End Home Button -->
     <h2>Login</h2>
     <form method="post">
         {% csrf_token %}

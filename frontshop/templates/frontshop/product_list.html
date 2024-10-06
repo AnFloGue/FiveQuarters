@@ -61,8 +61,8 @@
                                             <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image">
                                         </a>
                                         <figcaption class="info-wrap">
-                                            <a href="./product/{{ product.slug }}" class="title">{{ product.name }}</a>
-                                            <div class="price mt-1">${{ product.price }}</div>
+                                            <a href="./product/{{ product.slug }}" class="title"><strong>{{ product.name }}</strong></a>
+                                            <div class="price mt-1">€{{ product.price }} per unit</div>
                                             <div class="description mt-1">{{ product.description }}</div>
                                             <div class="availability mt-1">
                                                 {% now "Y-m-d" as today %}
