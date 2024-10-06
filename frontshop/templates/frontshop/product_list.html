@@ -1,0 +1,108 @@
+{% extends 'frontshop/base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Section for the top part of the page -->
+    <section class="section-pagetop bg">
+        <div class="container">
+            {% if 'search' in request.path %}
+                <h2 class="title-page">Search Result</h2>
+            {% else %}
+                <h2 class="title-page">Products</h2>
+            {% endif %}
+        </div> <!-- End of container for the top section -->
+    </section>
+    <!-- End of Section for the top part of the page -->
+
+    <!-- Section for the main content of the page -->
+    <section class="section-content padding-y">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar section for filters and categories -->
+                <aside class="col-md-3">
+                    <div class="card">
+                        <article class="filter-group">
+                            <header class="card-header">
+                                <!-- Filter header content goes here -->
+                            </header>
+                            <div class="filter-content collapse show" id="collapse_1">
+                                <!-- Filter options go here -->
+                            </div>
+                        </article> <!-- End of individual filter group -->
+                    </div> <!-- End of card for filters -->
+                </aside> <!-- End of Sidebar section -->
+
+                <!-- Main section for displaying products -->
+                <main class="col-md-9">
+                    <header class="border-bottom mb-4 pb-3">
+                        <div class="form-inline">
+                            <span class="mr-md-auto"><b>{{ products|length }}</b> items found</span>
+                        </div>
+                    </header> <!-- End of header for product count -->
+
+                    <div class="row">
+                        {% if products %}
+                            {% for product in products %}
+                                <div class="col-md-4">
+                                    <div class="card card-product-grid">
+                                        <a href="./product/{{ product.slug }}" class="img-wrap">
+                                            <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image">
+                                        </a>
+                                        <figcaption class="info-wrap">
+                                            <a href="./product/{{ product.slug }}" class="title">{{ product.name }}</a>
+                                            <div class="price mt-1">${{ product.price }}</div>
+                                            <div class="description mt-1">{{ product.description }}</div>
+                                            <div class="availability mt-1">
+                                                {% now "Y-m-d" as today %}
+                                                {% if product.date_of_expiry > today %}
+                                                    <span class="text-success">Available</span>
+                                                {% else %}
+                                                    <span class="text-warning">Order Now</span>
+                                                    <br>
+                                                    <span class="text-info">Manufacturing Time: {{ product.manufacturing_time }} days</span>
+
+                                                {% endif %}
+                                            </div>
+                                            <div class="product-of-the-week mt-1">
+                                                {% if product.is_product_of_the_week %}
+                                                    <span class="badge badge-info">Product of the Week</span>
+                                                {% endif %}
+                                            </div>
+                                        </figcaption>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div>
+                                <p>No products found.</p>
+                            </div>
+                        {% endif %}
+                    </div> <!-- End of row for products -->
+
+                    <!-- Pagination section for navigating through pages of products -->
+                    <nav class="mt-4" aria-label="Page navigation sample">
+                        {% if products.has_other_pages %}
+                            <ul class="pagination">
+                                <!-- Pagination links go here -->
+                            </ul>
+                        {% endif %}
+                    </nav>
+                    <!-- End of Pagination section -->
+                </main> <!-- End of Main section for displaying products -->
+            </div> <!-- End of row containing sidebar and main content -->
+        </div> <!-- End of container for the main content -->
+    </section>
+    <!-- End of Section for the main content of the page -->
+
+    <!-- Custom Styles for Product Images -->
+    <style>
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+    <!-- End of Custom Styles for Product Images -->
+
+{% endblock %}

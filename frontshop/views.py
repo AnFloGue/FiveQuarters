@@ -13,14 +13,13 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import LoginForm, RegisterForm
 
 from django import forms
+from datetime import date
 
 
 
 # ================================================
 # Home Views
 # ================================================
-
-
 
 def home(request):
     products = get_product_list()
@@ -30,6 +29,23 @@ def home(request):
         'categories': categories,
     }
     return render(request, 'frontshop/home.html', context)
+
+
+# ================================================
+# Product Views
+# ================================================
+
+def product_list(request):
+    products = get_product_list()
+    categories = get_category_list()
+    today = date.today()
+    context = {
+        'products': products,
+        'categories': categories,
+        'today': today,
+    }
+    return render(request, 'frontshop/product_list.html', context)
+
 
 # ================================================
 # Login, Register, Logout Views
