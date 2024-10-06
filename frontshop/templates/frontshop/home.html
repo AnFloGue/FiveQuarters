@@ -32,10 +32,12 @@
                             <img src="{{ product.image }}" alt="{{ product.name }}" class="img-fluid">
                         </a>
                         <figcaption class="info-wrap">
-                            <a href="./product-detail.html" class="title">{{ product.name }}</a>
-                            <div class="price mt-1">€{{ product.price }}</div>
-                            <div class="availability mt-1">Product of the Week</div>
-                            <div class="quantity mt-1">Stock: {{ product.popularity }}</div>
+                                <a href="./product-detail.html" class="title"><strong>{{ product.name }}</strong></a>
+                                <div class="price mt-1">€{{ product.price }} per unit</div>
+                            <div class="availability mt-1">
+                                <span class="badge badge-info">Product of the Week</span>
+                            </div>
+                            <div class="description mt-1">{{ product.description }}</div>
                         </figcaption>
                     </div>
                 </div>
@@ -44,8 +46,8 @@
         </div>
     </div>
 </section>
-{% endblock %}
 <!-- End Section: Product of the week-->
+{% endblock %}
 
 <!-- Section: Categories -->
 <section class="section-name padding-y-sm">
