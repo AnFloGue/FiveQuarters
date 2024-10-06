@@ -1,6 +1,18 @@
 {% extends 'frontshop/base.html' %}
 {% load static %}
 
+
+<!-- Section: Intro Banner -->
+{% block banner %}
+<section class="section-intro padding-y-sm">
+    <div class="container">
+        <div class="intro-banner-wrap">
+            <img src="{% static 'images/banners/banner-02.jpeg' %}" class="img-fluid rounded">
+        </div>
+    </div>
+</section>
+{% endblock %}
+<!-- End Section: Intro Banner -->
 {% block content %}
     <!-- Section for the top part of the page -->
     <section class="section-pagetop bg">
@@ -57,7 +69,7 @@
                                                 {% if product.date_of_expiry > today %}
                                                     <span class="text-success">Available</span>
                                                 {% else %}
-                                                    <span class="text-warning">Order Now</span>
+                                                    <span class="text-danger">Pre-order</span>
                                                     <br>
                                                     <span class="text-info">Manufacturing Time: {{ product.manufacturing_time }} days</span>
 

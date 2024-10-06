@@ -123,3 +123,7 @@ def inventory_information(request):
     }
 
     return render(request, 'frontshop/inventory-information.html', context)
+
+
+def about(request):
+    return render(request, 'frontshop/about.html')

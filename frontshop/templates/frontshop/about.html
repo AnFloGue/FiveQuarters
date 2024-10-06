@@ -1,0 +1,106 @@
+{% extends 'frontshop/base.html' %}
+{% load static %}
+
+{% block title %}About Five Quarters{% endblock %}
+
+{% block content %}
+<h1>Project Overview: Five Quarters</h1>
+<p><strong>Five Quarters</strong> is a supplier back-end shop that manages the production of products for various front-end franchises. The system is designed to streamline the ordering and manufacturing process, ensuring that franchises can quickly and efficiently obtain the products they need.</p>
+
+<h2>Key Features</h2>
+
+<h3>Home Page</h3>
+<ul>
+    <li>Displays "Products of the Week" which are pre-made and can be ordered immediately without any waiting time.</li>
+</ul>
+
+<h3>Products Page</h3>
+<ul>
+    <li>Franchise owners can order made-to-order products from this page. Each product is sorted into categories that align with existing ones and includes a detailed recipe showing the required ingredients and potential allergens.</li>
+    <li><strong>Order Fulfillment Notification</strong>: The system checks the stock and notifies the franchise owner about the availability of the order. If the stock is insufficient, it provides an estimated waiting time.</li>
+    <li><strong>Inventory Management</strong>: Upon order placement, the system alerts the inventory administrator to restock items if they are below the designated minimum level.</li>
+    <li><strong>Product Information</strong>: Access detailed recipes for each product, including all ingredients and potential allergens.</li>
+    <li><strong>Reviews and Popularity Index</strong>: Franchise owners can view all reviews and check the popularity index based on previous orders.</li>
+</ul>
+
+<h3>Internal Inventory System</h3>
+<ul>
+    <li>Monitors overall stock levels and notifies the administration if there are insufficient ingredients to fulfill an order, ensuring the inventory is always up-to-date.</li>
+</ul>
+
+<h3>User Feedback</h3>
+<ul>
+    <li>Franchises can rate products and leave comments to help improve product quality.</li>
+</ul>
+
+<h3>User Management</h3>
+<ul>
+    <li>Provides web pages for user registration, login, and account management for different members who have access to the system. There are two tiers of user roles:</li>
+    <li><strong>Inventory Management</strong>: Users in this tier have the possibility of having up to all administrative permissions. They can manage inventory, reorder supplies, and perform other backend administrative actions.</li>
+    <li><strong>Franchise Owner</strong>: Users in this tier can only place orders, cancel orders, and view pages. They do not have access to change inventory or reorder supplies, or perform any typical actions that only the inventory management backend users would do.</li>
+</ul>
+
+<h2>API-First Approach</h2>
+
+<h3>Centralized Logic</h3>
+<ul>
+    <li>Ensures consistency in data access and modification.</li>
+</ul>
+
+<h3>Security</h3>
+<ul>
+    <li>Uniform application of authentication and authorization.</li>
+</ul>
+
+<h3>Scalability</h3>
+<ul>
+    <li>Easier to scale and maintain.</li>
+</ul>
+
+<h3>Separation of Concerns</h3>
+<ul>
+    <li>Front-end and back-end can evolve independently.</li>
+</ul>
+
+<h3>Easier Testing and Monitoring</h3>
+<ul>
+    <li>Simplifies testing, monitoring, and debugging.</li>
+</ul>
+
+<h3>Consistency</h3>
+<ul>
+    <li>Ensures uniform data manipulation rules and validations.</li>
+</ul>
+
+<h2>How It Works</h2>
+
+<h3>Ordering Process</h3>
+<ul>
+    <li>Franchise owners browse the Products Page to find and order products.</li>
+    <li>Orders can be placed for both pre-made and made-to-order products.</li>
+</ul>
+
+<h3>Order Fulfillment</h3>
+<ul>
+    <li>The system checks stock levels and notifies the franchise owner about order availability.</li>
+    <li>If stock is insufficient, an estimated waiting time is provided.</li>
+</ul>
+
+<h3>Inventory Management</h3>
+<ul>
+    <li>Upon order placement, the system alerts the inventory administrator to restock items if they are below the minimum level.</li>
+    <li>The Internal Inventory System continuously monitors stock levels and ensures the inventory is up-to-date.</li>
+</ul>
+
+<h3>Product Information and Feedback</h3>
+<ul>
+    <li>Detailed recipes and ingredient information are available for each product.</li>
+    <li>Franchise owners can view reviews and popularity indices to make informed decisions.</li>
+    <li>User feedback is collected to improve product quality.</li>
+</ul>
+
+<h3>User Management</h3>
+<ul>
+    <li>The system provides functionalities for user registration, login, and account management.</li>
+</ul>
+{% endblock %}
