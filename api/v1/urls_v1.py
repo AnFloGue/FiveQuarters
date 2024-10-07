@@ -3,10 +3,22 @@ from django.urls import path
 from api.v1 import views
 from .views import register, login
 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView
+)
+
+
 urlpatterns = [
     
+    # Auth Views
     path('register/', register, name='register'),
     path('login/', login, name='login'),
+    
+    # Token endpoints
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
     
     # Account Views
     path('accounts/', views.account_list, name='account_list'),

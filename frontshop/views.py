@@ -3,8 +3,8 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.urls import reverse  # Import reverse function
-from .forms import LoginForm, RegisterForm  # Import forms from forms.py
+from django.urls import reverse
+from .forms import LoginForm, RegisterForm
 from .read_services import (
     get_category_list,
     get_product_list,
@@ -13,6 +13,7 @@ from .read_services import (
     get_ingredient_list,
 )
 from datetime import date
+
 
 # ================================================
 # Home Views
@@ -55,12 +56,13 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect(reverse('home'))  
+                return redirect(reverse('home'))
             else:
                 form.add_error(None, 'Invalid username or password')
     else:
         form = LoginForm()
     return render(request, 'frontshop/login.html', {'form': form})
+
 
 def register_view(request):
     if request.method == 'POST':
@@ -69,14 +71,16 @@ def register_view(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
-            return redirect('login')  # Redirect to login page after successful registration
+            return redirect('login')
     else:
         form = RegisterForm()
     return render(request, 'frontshop/register.html', {'form': form})
 
 def logout_view(request):
     logout(request)
-    return redirect('login')  # Redirect to login page after logout
+    return redirect('login')
+
+
 
 
 # ================================================

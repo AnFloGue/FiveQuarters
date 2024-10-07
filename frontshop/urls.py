@@ -21,8 +21,14 @@ urlpatterns = [
     path('product_list/', product_list, name='product_list'),
     
     path ('about/', about, name='about'),
+
+# ================================================
+# Login, Register, Logout URLs
+# ================================================
     
     path('login/', login_view, name='login'),
+    
     path('register/', register_view, name='register'),
+    
     path('logout/', logout_view, name='logout'),
 ]
