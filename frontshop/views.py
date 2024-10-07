@@ -1,11 +1,10 @@
 # frontshop/views.py
 
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from .forms import LoginForm, RegisterForm
-from .read_services import (
+from frontshop.services.read_services import (
     get_category_list,
     get_product_list,
     get_deliverycompany_list,

@@ -1,6 +1,6 @@
 # read_services_print_test.py
 
-from frontshop.read_services import (
+from frontshop.services.read_services import (
     get_orderitem_list, get_orderitem_details,
     get_deliverycompany_list, get_deliverycompany_details,
     get_category_list, get_category_details,
