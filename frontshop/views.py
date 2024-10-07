@@ -1,7 +1,10 @@
 # frontshop/views.py
+
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-
+from django.contrib.auth import authenticate, login, logout
+from django.urls import reverse  # Import reverse function
+from .forms import LoginForm, RegisterForm  # Import forms from forms.py
 from .read_services import (
     get_category_list,
     get_product_list,
@@ -9,13 +12,7 @@ from .read_services import (
     get_order_list,
     get_ingredient_list,
 )
-from django.contrib.auth import authenticate, login, logout
-from .forms import LoginForm, RegisterForm
-
-from django import forms
 from datetime import date
-
-
 
 # ================================================
 # Home Views
@@ -29,7 +26,6 @@ def home(request):
         'categories': categories,
     }
     return render(request, 'frontshop/home.html', context)
-
 
 # ================================================
 # Product Views
@@ -46,14 +42,9 @@ def product_list(request):
     }
     return render(request, 'frontshop/product_list.html', context)
 
-
 # ================================================
 # Login, Register, Logout Views
 # ================================================
-
-class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
 
 def login_view(request):
     if request.method == 'POST':
@@ -64,27 +55,12 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('inventory_information')  # Redirect to a home page or dashboard
+                return redirect(reverse('home'))  
             else:
                 form.add_error(None, 'Invalid username or password')
     else:
         form = LoginForm()
     return render(request, 'frontshop/login.html', {'form': form})
-
-class RegisterForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
-    confirm_password = forms.CharField(widget=forms.PasswordInput)
-
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'password']
-
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get('password')
-        confirm_password = cleaned_data.get('confirm_password')
-        if password != confirm_password:
-            self.add_error('confirm_password', 'Passwords do not match')
 
 def register_view(request):
     if request.method == 'POST':
@@ -102,6 +78,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')  # Redirect to login page after logout
 
+
 # ================================================
 # inventory_information Views
 # ================================================
@@ -113,7 +90,6 @@ def inventory_information(request):
     orders = get_order_list()
     ingredients = get_ingredient_list()
 
-
     context = {
         'categories': categories,
         'products': products,
@@ -123,7 +99,6 @@ def inventory_information(request):
     }
 
     return render(request, 'frontshop/inventory-information.html', context)
-
 
 def about(request):
     return render(request, 'frontshop/about.html')
