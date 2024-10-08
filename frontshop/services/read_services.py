@@ -14,7 +14,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fivequarters.settings')
 django.setup()
 
 # Use the API base URL from settings
-API_BASE_URL = "http://127.0.0.1:8000/api/v1"  # Updated to include /v1
+API_BASE_URL = os.getenv('API_URL_V1')
 
 # ==============================
 # Account Views
@@ -23,7 +23,7 @@ def get_account_list():
     url = f"{API_BASE_URL}/accounts/"
     try:
         response = requests.get(url)
-        response.raise_for_status()  # Raise an HTTPError for bad responses
+        response.raise_for_status()
         return response.json()
     except ConnectionError:
         print("Failed to connect to the server. Please ensure the server is running.")
