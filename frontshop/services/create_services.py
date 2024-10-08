@@ -1,48 +1,67 @@
 import os
-import django
-from django.conf import settings
 import requests
+from dotenv import load_dotenv
 
-# Set the DJANGO_SETTINGS_MODULE environment variable
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fivequarters.settings')
+# environment variables from .env
+load_dotenv()
 
-# Setup Django
-django.setup()
+API_BASE_URL = os.getenv('API_URL_V1')
+API_USERNAME = os.getenv('API_USERNAME')
+API_PASSWORD = os.getenv('API_PASSWORD')
 
-API_BASE_URL = settings.API_BASE_URL_V1
+def get_jwt_token():
+    url = f"{API_BASE_URL}/token/"
+    response = requests.post(url, data={'username': API_USERNAME, 'password': API_PASSWORD})
+    response.raise_for_status()
+    token = response.json()['access']
+    print(f"Generated Token: {token}")  # Print the generated token
+    return token
+
 
 def create_product(data):
-    """
-    Creates a new product using the API.
+    token = get_jwt_token()
+    headers = {
+        'Authorization': f'Bearer {token}'
+    }
+    url = f"{API_BASE_URL}/products/create/"
 
-    Args:
-        data (dict): The data for the new product.
+    # Remove the image field if it's empty
+    if 'image' in data and not data['image']:
+        del data['image']
 
-    Returns:
-        dict: The created product in JSON format.
-    """
-    try:
-        response = requests.post(f"{API_BASE_URL}/products/", json=data)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as err:
-        print(f"Request error occurred: {err}")
-        return {}
+    files = {}
+    if 'image' in data and data['image']:
+        files = {'image': open(data['image'], 'rb')}
+        # Remove image from data dict as it will be sent in files
+        del data['image']
+
+    response = requests.post(url, data=data, files=files, headers=headers)
+    if response.status_code != 201:
+        print(f"Error: {response.status_code}")
+        try:
+            print(response.json())
+        except requests.exceptions.JSONDecodeError:
+            print("Response content is not in JSON format or is empty.")
+        print(f"Response Headers: {response.headers}")
+        print(f"Response Text: {response.text}")
+    response.raise_for_status()
+    return response.json()
+
 
 # Example data to be sent to the API
 product_data = {
-    "name": "New Product",
-    "slug": "new-product",
-    "description": "Description of the new product",
-    "price": "10.00",
-    "image": "/media/photos/products/new_product.jpg",
-    "date_of_manufacture": "2024-10-08",
-    "date_of_expiry": "2025-10-08",
-    "manufacturing_time": "2",
-    "popularity": 0,
+    "name": "Generated",
+    "slug": "generated",
+    "description": "Flaky buttery croissant",
+    "price": "3.00",
+    "image": "",
+    "date_of_manufacture": "2024-09-10",
+    "date_of_expiry": "2024-09-23",
+    "manufacturing_time": "3",
+    "popularity": 33241,
     "is_product_of_the_week": False,
-    "rating": 0,
-    "category": 1
+    "rating": 5,
+    "category": 3
 }
 
 created_product = create_product(product_data)
