@@ -30,7 +30,7 @@
                         <div class="col-md-3">
                             <div class="card card-product-grid">
                                 <a href="./product-detail.html" class="img-wrap">
-                                    <img src="{{ MEDIA_URL }}{{ product.image }}" alt="{{ product.name }}" class="img-fluid small-image">
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid small-image">
                                 </a>
                                 <figcaption class="info-wrap">
                                     <a href="./product-detail.html" class="title"><strong>{{ product.name }}</strong></a>
@@ -40,7 +40,7 @@
                                     </div>
                                     <div class="description mt-1">{{ product.description }}</div>
                                     <!-- Debug Output -->
-                                    <p>Debug - Image URL: {{ product.image }}</p>
+                                    <p>Debug - Image URL: {{ product.image.url }}</p>
                                 </figcaption>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                 <div class="col-md-3">
                     <div class="card card-category-grid">
                         <a href="./category/{{ category.slug }}" class="img-wrap">
-                            <img src="{{ MEDIA_URL }}{{ category.image }}" alt="{{ category.name }}" class="category-image">
+                            <img src="{{ category.image.url }}" alt="{{ category.name }}" class="category-image">
                         </a>
                         <figcaption class="info-wrap">
                             <a href="./category/{{ category.slug }}" class="title">{{ category.name }}</a>
