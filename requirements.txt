@@ -1,59 +1,38 @@
-# asgiref: ASGI utilities for Python web frameworks
 asgiref==3.8.1
-
-# Django: High-level Python web framework
-Django==5.1.1
-
-# django-autoslug: AutoSlugField for Django models
-django-autoslug==1.9.9
-
-# djangorestframework: Toolkit for building Web APIs in Django
-djangorestframework==3.15.2
-
-# drf-yasg: Automated generation of real Swagger/OpenAPI 2.0 specifications from Django Rest Framework code
-drf-yasg==1.21.7
-
-# gunicorn: Python WSGI HTTP Server for UNIX
-gunicorn==20.1.0
-
-# inflection: String manipulation utilities for Python
-inflection==0.5.1
-
-# packaging: Core utilities for Python packages
-packaging==24.1
-
-# pillow: Python Imaging Library (PIL) fork
-pillow==10.4.0
-
-# psycopg2-binary: PostgreSQL database adapter for Python
-psycopg2-binary==2.9.9
-
-# python-dotenv: Read key-value pairs from a .env file and set them as environment variables
-python-dotenv==1.0.1
-
-# pytz: World Timezone Definitions for Python
-pytz==2024.2
-
-# PyYAML: YAML parser and emitter for Python
-PyYAML==6.0.2
-
-# setuptools: Easily download, build, install, upgrade, and uninstall Python packages
-setuptools==75.1.0
-
-# sqlparse: Non-validating SQL parser for Python
-sqlparse==0.5.1
-
-# uritemplate: URI templates for Python
-uritemplate==4.1.1
-
-# whitenoise: Serve static files for Django applications
-whitenoise==6.4.0
-
-# dj-rest-auth: Authentication and registration endpoints for Django Rest Framework
+certifi==2024.8.30
+cffi==1.17.1
+charset-normalizer==3.3.2
+cryptography==43.0.1
+defusedxml==0.7.1
 dj-rest-auth==6.0.0
-
-# django-allauth: Integrated set of Django applications addressing authentication, registration, account management
+Django==5.1.1
 django-allauth==0.54.0
-
-# django-cors-headers: Django app for handling the server headers required for Cross-Origin Resource Sharing (CORS)
+django-autoslug==1.9.9
 django-cors-headers==3.14.0
+djangorestframework==3.15.2
+djangorestframework-simplejwt==5.3.1
+drf-yasg==1.21.7
+flake8==7.1.1
+gunicorn==20.1.0
+idna==3.10
+inflection==0.5.1
+mccabe==0.7.0
+oauthlib==3.2.2
+packaging==24.1
+pillow==10.4.0
+psycopg2-binary==2.9.9
+pycodestyle==2.12.1
+pycparser==2.22
+pyflakes==3.2.0
+PyJWT==2.9.0
+python-dotenv==1.0.1
+python3-openid==3.2.0
+pytz==2024.2
+PyYAML==6.0.2
+requests==2.32.3
+requests-oauthlib==2.0.0
+setuptools==75.1.0
+sqlparse==0.5.1
+uritemplate==4.1.1
+urllib3==2.2.3
+whitenoise==6.4.0
