@@ -24,7 +24,7 @@ def get_account_list():
     try:
         response = requests.get(url)
         response.raise_for_status()
-        return response.json()
+        return response.json()  # Parse the JSON response into a Python dictionary
     except ConnectionError:
         print("Failed to connect to the server. Please ensure the server is running.")
     except Timeout:
@@ -38,7 +38,7 @@ def get_account_details(account_id):
     try:
         response = requests.get(url)
         response.raise_for_status()  # Raise an HTTPError for bad responses
-        return response.json()
+        return response.json() # Parse the JSON response into a Python dictionary
     except ConnectionError:
         print("Failed to connect to the server. Please ensure the server is running.")
     except Timeout:
