@@ -8,14 +8,11 @@ from .views import (
     register_view,
     logout_view,
     product_list
-
-
 )
 
 urlpatterns = [
     path('inventory-information/', inventory_information, name='inventory_information'),
-
-
+    
     path('home/', home, name='home'),
     
     path('product_list/', product_list, name='product_list'),
