@@ -20,8 +20,9 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # Allowed hosts
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com']
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000', 'https://*.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com', 'fivequarters.onrender.com']
+
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000', 'https://*.onrender.com', 'https://fivequarters.onrender.com']
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
