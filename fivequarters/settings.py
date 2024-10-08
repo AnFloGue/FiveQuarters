@@ -57,8 +57,7 @@ INSTALLED_APPS = [
 ]
 
 # API Base URL
-API_BASE_URL_V1 = os.getenv('API_URL')
-
+API_BASE_URL_V1 = os.getenv('API_URL_V1')
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
