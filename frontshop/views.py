@@ -108,8 +108,7 @@ def inventory_information(request):
         'products_with_ingredients': products_with_ingredients
     }
 
-# frontshop/views.py
-
+    return render(request, 'frontshop/inventory-information.html', context)
 def product_detail(request, product_id):
     categories = get_category_list()
     products = get_product_list()

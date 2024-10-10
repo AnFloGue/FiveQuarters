@@ -551,6 +551,7 @@ def deliverycompany_detail(request, pk):
         cache.set(f'deliverycompany_{pk}', delivery_company, timeout=60*15)
     serializer = DeliveryCompanySerializer(delivery_company)
     return Response
+
 @swagger_auto_schema(method='put', request_body=DeliveryCompanySerializer)
 @api_view(['PUT'])
 def deliverycompany_update(request, pk):
@@ -561,6 +562,8 @@ def deliverycompany_update(request, pk):
     serializer = DeliveryCompanySerializer(delivery_company, data=request.data)
     if serializer.is_valid():
         serializer.save()
+        cache.set(f'deliverycompany_{pk}', delivery_company, timeout=60*15)
+        cache.delete('deliverycompany_list')
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -572,4 +575,6 @@ def deliverycompany_delete(request, pk):
     except DeliveryCompany.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     delivery_company.delete()
+    cache.delete(f'deliverycompany_{pk}')
+    cache.delete('deliverycompany_list')
     return Response(status=status.HTTP_204_NO_CONTENT)
