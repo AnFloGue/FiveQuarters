@@ -8,7 +8,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fivequarters.settings')
 
 # Setup Django
 django.setup()
-from api.v1.views import product_full_list
+from api.v1.views import product_full_list, product_full_detail
 from frontshop.services.read_services import (
     get_orderitem_list, get_orderitem_details,
     get_deliverycompany_list, get_deliverycompany_details,
@@ -19,6 +19,7 @@ from frontshop.services.read_services import (
     get_account_details, get_account_list,
     get_user_profile_details, get_user_profile_list,
     product_full_list,
+    product_full_detail,
 )
 
 
@@ -218,6 +219,27 @@ if __name__ == "__main__":
                   f"Ingredients: {', '.join([ingredient['name'] for ingredient in ingredients])}\n"
                   f"Allergens: {', '.join(allergens)}")
             print("\n")
+            
+        # ==============================
+        # Product Full Detail with Ingredients
+        # ==============================
+        product_id = input("Enter the product ID: ")
+        # product_id = int(input("Enter the product ID: "))
+        product_details = product_full_detail(product_id)
+        print("--------------------------------------------------------")
+        print("Product Full Detail with Ingredients:")
+        product_data = product_details.get('product', {})
+        ingredients = product_details.get('ingredients', [])
+        allergens = product_details.get('allergens', [])
+        
+        print(f"Product ID: {product_data.get('id')}\n"
+              f"Name: {product_data.get('name')}\n"
+              f"Description: {product_data.get('description')}\n"
+              f"Price: {product_data.get('price')}\n"
+              f"Ingredients: {', '.join([ingredient['name'] for ingredient in ingredients])}\n"
+              f"Allergens: {', '.join(allergens)}")
+        print("\n")
+
 
     except KeyboardInterrupt:
         print("\n")

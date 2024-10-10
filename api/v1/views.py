@@ -22,6 +22,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import AccountSerializer
 
 import os
+from django.shortcuts import get_object_or_404
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'FiveQuarters.settings')
 
@@ -270,9 +272,9 @@ def product_full_list(request):
     product_details = []
 
     for product in products:
-        category = Category.objects.get(id=product.category.id)
-        recipes = Recipe.objects.filter(product=product)
-        ingredients = [recipe.ingredient for recipe in recipes]
+        category = Category.objects.get(id=product.category.id)  # Fetch category for each product
+        recipes = Recipe.objects.filter(product=product) # Fetch recipes for each product
+        ingredients = [recipe.ingredient for recipe in recipes]  # Fetch ingredients for each recipe
 
         # Fetch allergens for each ingredient
         allergens = set()
@@ -296,6 +298,38 @@ def product_full_list(request):
 
     return Response(product_details, status=status.HTTP_200_OK)
 
+
+
+@api_view(['GET'])
+def product_full_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    category = Category.objects.get(id=product.category.id)  # Fetch category for the product
+    recipes = Recipe.objects.filter(product=product)  # Fetch recipes for the product
+    ingredients = [recipe.ingredient for recipe in recipes]  # Fetch ingredients for each recipe
+
+    # Fetch allergens for each ingredient
+    allergens = set()
+    for ingredient in ingredients:
+        if ingredient.potential_allergens:
+            allergens.add(ingredient.potential_allergens.name)
+
+    allergen_names = list(allergens)
+
+    product_info = {
+        'product': ProductSerializer(product).data,
+        'category': {
+            'name': category.name,
+            'slug': category.slug
+        },
+        'recipes': RecipeSerializer(recipes, many=True).data,
+        'ingredients': IngredientSerializer(ingredients, many=True).data,
+        'allergens': allergen_names  # Serialize allergen names
+    }
+
+    # Log the product_info to verify the data
+    print(product_info)
+
+    return Response(product_info, status=status.HTTP_200_OK)
 
 
 # ==================================================

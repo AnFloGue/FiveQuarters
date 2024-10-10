@@ -36,13 +36,25 @@ def product_full_list():
         print(f"Request error occurred: {err}")
         return []
     
-# # Example usage
-# if __name__ == "__main__":
-#     products_with_ingredients = product_full_list()
-#     for product in products_with_ingredients:
-#         print(product)
+def product_full_detail(product_id):
+    try:
+        response = requests.get(f"{API_BASE_URL}/product-full-detail/{product_id}/")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
+        return {}
+    
 
-#______________________________
+if __name__ == "__main__":
+    
+    # products_with_ingredients = product_full_list()
+    # for product in products_with_ingredients:
+    #     print(product)
+    #     print()
+    
+    products_with_ingredients = product_full_detail(2)
+    print(products_with_ingredients)
 
 # ==============================
 # Account Views
