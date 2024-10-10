@@ -1,20 +1,53 @@
 # frontshop/read_services.py
 
 import os
-import django
-import requests
-from django.conf import settings
-from requests.exceptions import ConnectionError, Timeout, RequestException
 
 # ==============================
 # Set the DJANGO_SETTINGS_MODULE environment variable
 # ==============================
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fivequarters.settings')
+
+import django
 django.setup()
+
+import requests
+from requests.exceptions import ConnectionError, Timeout, RequestException
+from backshop.models import Product
 
 # Use the API base URL from settings
 API_BASE_URL = os.getenv('API_URL_V1')
+
+def list_all_products_with_ingredients():
+    try:
+        products = Product.objects.all().prefetch_related('recipes__ingredient')
+    except Product.DoesNotExist:
+        return []
+
+    product_list = []
+
+    for product in products:
+        ingredients = [recipe.ingredient.name for recipe in product.recipes.all()]
+
+        product_info = {
+            # 'id': product.id,
+            # 'name': product.name,
+            # 'category': product.category.name,
+            # 'description': product.description,
+            # 'price': f"{product.price:.2f}",
+            'ingredients': ingredients
+        }
+        product_list.append(product_info)
+
+    return product_list
+
+if __name__ == "__main__":
+    products_with_ingredients = list_all_products_with_ingredients()
+    for product in products_with_ingredients:
+        print(product)
+
+
+
+
 
 # ==============================
 # Account Views
@@ -24,7 +57,7 @@ def get_account_list():
     try:
         response = requests.get(url)
         response.raise_for_status()
-        return response.json()  # Parse the JSON response into a Python dictionary
+        return response.json()
     except ConnectionError:
         print("Failed to connect to the server. Please ensure the server is running.")
     except Timeout:
@@ -38,7 +71,7 @@ def get_account_details(account_id):
     try:
         response = requests.get(url)
         response.raise_for_status()  # Raise an HTTPError for bad responses
-        return response.json() # Parse the JSON response into a Python dictionary
+        return response.json()
     except ConnectionError:
         print("Failed to connect to the server. Please ensure the server is running.")
     except Timeout:
@@ -81,6 +114,8 @@ def get_user_profile_details(user_profile_id):
         print(f"Error: Received status code {response.status_code}")
         print(f"Response content: {response.text}")
         return None
+    
+
 
 # ==============================
 # Order Views

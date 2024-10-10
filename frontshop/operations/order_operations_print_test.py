@@ -16,12 +16,24 @@ from frontshop.services.read_services import (
 )
 
 if __name__ == "__main__":
-
+    
+    # ==============================
+    # Fetching data
+    # ==============================
+    order_data = get_order_details(1)
+    order_id = 1
+    result = get_order_status(order_id)
+    product_data = get_product_list()
+    orders = get_order_list()
+    order_items = get_orderitem_list()  # Fetch all order items
+    products = get_product_list()  # Fetch all products
+    
     try:
         # ==============================
         # Test calculate_total_order_cost
         # ==============================
-        order_data = get_order_details(1)  # Fetch order details for order ID 1
+
+        print("order_data:", order_data)
         result = calculate_total_order_cost(order_data)
         print("--------------------------------------------------------")
         print("--------------------------------------------------------")
@@ -31,8 +43,7 @@ if __name__ == "__main__":
         # ==============================
         # Test estimate_manufacturability
         # ==============================
-        order_data = get_order_details(1)  # Fetch order details for order ID 1
-        product_data = get_product_list()  # Fetch all products
+        
         result = estimate_manufacturability(order_data, product_data)
         print("--------------------------------------------------------")
         print("--------------------------------------------------------")
@@ -42,8 +53,7 @@ if __name__ == "__main__":
         # ==============================
         # Test get_order_status
         # ==============================
-        order_id = 1
-        result = get_order_status(order_id)
+
         print("--------------------------------------------------------")
         print("--------------------------------------------------------")
         print(f"Order Status for ID {order_id}: {result}")
@@ -93,7 +103,6 @@ if __name__ == "__main__":
         # ==============================
         # Test get_orders_by_status
         # ==============================
-        orders = get_order_list()  # Fetch all orders
         status = 'pending'
         result = get_orders_by_status(orders, status)
         print("--------------------------------------------------------")
@@ -108,8 +117,7 @@ if __name__ == "__main__":
         # ==============================
         # Test get_most_ordered_products
         # ==============================
-        order_items = get_orderitem_list()  # Fetch all order items
-        products = get_product_list()  # Fetch all products
+
         limit = 2
         result = get_most_ordered_products(order_items, products, limit)
         print("--------------------------------------------------------")
