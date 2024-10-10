@@ -200,10 +200,7 @@ if __name__ == "__main__":
               f"Rating: {product_details.get('rating')}\n"
               f"Category: {product_details.get('category')}")
         print("\n")'''
-
-        # ==============================
-        # Product Full List with Ingredients
-        # ==============================
+        
         products_with_ingredients = product_full_list()
         print("--------------------------------------------------------")
         print("Product Full List with Ingredients:")
@@ -212,19 +209,21 @@ if __name__ == "__main__":
             ingredients = product.get('ingredients', [])
             allergens = product.get('allergens', [])
             
+            ingredients_list = ', '.join([ingredient['name'] for ingredient in ingredients]) if ingredients else "None"
+            allergens_list = ', '.join(allergens) if allergens else "None"
+            
             print(f"Product ID: {product_data.get('id')}\n"
                   f"Name: {product_data.get('name')}\n"
                   f"Description: {product_data.get('description')}\n"
                   f"Price: {product_data.get('price')}\n"
-                  f"Ingredients: {', '.join([ingredient['name'] for ingredient in ingredients])}\n"
-                  f"Allergens: {', '.join(allergens)}")
+                  f"Ingredients: {ingredients_list}\n"
+                  f"Allergens: {allergens_list}")
             print("\n")
-            
+        
         # ==============================
         # Product Full Detail with Ingredients
         # ==============================
-        product_id = input("Enter the product ID: ")
-        # product_id = int(input("Enter the product ID: "))
+        product_id = int(input("Enter the product ID: "))
         product_details = product_full_detail(product_id)
         print("--------------------------------------------------------")
         print("Product Full Detail with Ingredients:")
@@ -232,15 +231,17 @@ if __name__ == "__main__":
         ingredients = product_details.get('ingredients', [])
         allergens = product_details.get('allergens', [])
         
+        ingredients_list = ', '.join([ingredient['name'] for ingredient in ingredients]) if ingredients else "None"
+        allergens_list = ', '.join(allergens) if allergens else "None"
+        
         print(f"Product ID: {product_data.get('id')}\n"
               f"Name: {product_data.get('name')}\n"
               f"Description: {product_data.get('description')}\n"
               f"Price: {product_data.get('price')}\n"
-              f"Ingredients: {', '.join([ingredient['name'] for ingredient in ingredients])}\n"
-              f"Allergens: {', '.join(allergens)}")
+              f"Ingredients: {ingredients_list}\n"
+              f"Allergens: {allergens_list}")
         print("\n")
-
-
+        
     except KeyboardInterrupt:
         print("\n")
         print("\nProcess interrupted by...me!!!. Exiting gracefully...cool, isn't it?")

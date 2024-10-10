@@ -8,12 +8,11 @@ from .views import (
     register_view,
     logout_view,
     product_list,
-    production_test
+    
 )
 
 urlpatterns = [
     
-    path('production_test/', production_test, name='production_test'),
     
     path('home/', home, name='home'),
     

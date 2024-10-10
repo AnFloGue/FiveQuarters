@@ -46,15 +46,15 @@ def product_full_detail(product_id):
         return {}
     
 
-if __name__ == "__main__":
-    
-    # products_with_ingredients = product_full_list()
-    # for product in products_with_ingredients:
-    #     print(product)
-    #     print()
-    
-    products_with_ingredients = product_full_detail(2)
-    print(products_with_ingredients)
+# if __name__ == "__main__":
+#
+#     products_with_ingredients = product_full_list()
+#     for product in products_with_ingredients:
+#         print(product)
+#         print()
+#
+#     products_with_ingredients = product_full_detail(2)
+#     print(products_with_ingredients)
 
 # ==============================
 # Account Views

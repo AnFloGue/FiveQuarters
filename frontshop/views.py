@@ -10,19 +10,10 @@ from frontshop.services.read_services import (
     get_deliverycompany_list,
     get_order_list,
     get_ingredient_list,
-    product_full_list
+    product_full_list, product_full_detail
 )
 from datetime import date
 
-def production_test(request):
-    products = get_product_list()
-    categories = get_category_list()
-    context = {
-        'products': products,
-        'categories': categories,
-    }
-    return render(request, 'frontshop/production_test.html', context)
-    
 
 
 # ================================================
@@ -104,7 +95,8 @@ def inventory_information(request):
     delivery_companies = get_deliverycompany_list()
     orders = get_order_list()
     ingredients = get_ingredient_list()
-    product_details = product_full_list()  # Fetch product details
+    product_details = product_full_list()
+    products_with_ingredients = product_full_detail(2)
 
     context = {
         'categories': categories,
@@ -112,9 +104,12 @@ def inventory_information(request):
         'delivery_companies': delivery_companies,
         'orders': orders,
         'ingredients': ingredients,
-        'product_details': product_details  # Add product details to context
+        'product_details': product_details,
+        'products_with_ingredients': products_with_ingredients
     }
 
     return render(request, 'frontshop/inventory-information.html', context)
+
+
 def about(request):
     return render(request, 'frontshop/about.html')
