@@ -81,8 +81,6 @@ def get_user_profile_details(user_profile_id):
         print(f"Error: Received status code {response.status_code}")
         print(f"Response content: {response.text}")
         return None
-    
-
 
 # ==============================
 # Order Views

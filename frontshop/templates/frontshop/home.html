@@ -1,55 +1,51 @@
 {% extends 'frontshop/base.html' %}
-
 {% load static %}
 
 {% block title %}Home{% endblock %}
 
 <!-- Section: Intro Banner -->
 {% block banner %}
-    <section class="section-intro padding-y-sm">
-        <div class="container">
-            <div class="intro-banner-wrap">
-                <img src="{% static 'images/banners/banner-01.jpeg' %}" class="img-fluid rounded">
-            </div>
+<section class="section-intro padding-y-sm">
+    <div class="container">
+        <div class="intro-banner-wrap">
+            <img src="{% static 'images/banners/banner-01.jpeg' %}" class="img-fluid rounded">
         </div>
-    </section>
+    </div>
+</section>
 {% endblock %}
 <!-- End Section: Intro Banner -->
 
 <!-- Section: Product of the week-->
 {% block content %}
-    <section class="section-name padding-y-sm">
-        <div class="container">
-            <header class="section-heading">
-                <a href="{% url 'product_list' %}" class="btn btn-outline-primary float-right">See all</a>
-                <h3 class="section-title">Product of the week</h3>
-            </header>
-            <div class="row">
-                {% for product in products %}
-                    {% if product.is_product_of_the_week %}
-                        <div class="col-md-3">
-                            <div class="card card-product-grid">
-                                <a href="./product-detail.html" class="img-wrap">
-                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid small-image">
-                                </a>
-                                <figcaption class="info-wrap">
-                                    <a href="./product-detail.html" class="title"><strong>{{ product.name }}</strong></a>
-                                    <div class="price mt-1">€{{ product.price }} per unit</div>
-                                    <div class="availability mt-1">
-                                        <span class="badge badge-info">Product of the Week</span>
-                                    </div>
-                                    <div class="description mt-1">{{ product.description }}</div>
-                                    <!-- Debug Output -->
-                                    <p>Debug - Image URL: {{ product.image }}</p>
-                                </figcaption>
+<section class="section-name padding-y-sm">
+    <div class="container">
+        <header class="section-heading">
+            <a href="{% url 'product_list' %}" class="btn btn-outline-primary float-right">See all</a>            <h3 class="section-title">Product of the week</h3>
+        </header>
+        <div class="row">
+            {% for product in products %}
+                {% if product.is_product_of_the_week %}
+                <div class="col-md-3">
+                    <div class="card card-product-grid">
+                        <a href="./product-detail.html" class="img-wrap">
+                            <img src="{{ product.image }}" alt="{{ product.name }}" class="img-fluid">
+                        </a>
+                        <figcaption class="info-wrap">
+                                <a href="./product-detail.html" class="title"><strong>{{ product.name }}</strong></a>
+                                <div class="price mt-1">€{{ product.price }} per unit</div>
+                            <div class="availability mt-1">
+                                <span class="badge badge-info">Product of the Week</span>
                             </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
+                            <div class="description mt-1">{{ product.description }}</div>
+                        </figcaption>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
         </div>
-    </section>
-    <!-- End Section: Product of the week-->
+    </div>
+</section>
+<!-- End Section: Product of the week-->
 {% endblock %}
 
 <!-- Section: Categories -->
@@ -60,17 +56,17 @@
         </header>
         <div class="row">
             {% for category in categories %}
-                <div class="col-md-3">
-                    <div class="card card-category-grid">
-                        <a href="./category/{{ category.slug }}" class="img-wrap">
-                            <img src="{{ category.image.url }}" alt="{{ category.name }}" class="category-image">
-                        </a>
-                        <figcaption class="info-wrap">
-                            <a href="./category/{{ category.slug }}" class="title">{{ category.name }}</a>
-                            <div class="description mt-1">{{ category.description }}</div>
-                        </figcaption>
-                    </div>
+            <div class="col-md-3">
+                <div class="card card-category-grid">
+                    <a href="./category/{{ category.slug }}" class="img-wrap">
+                        <img src="{{ category.image }}" alt="{{ category.name }}" class="category-image">
+                    </a>
+                    <figcaption class="info-wrap">
+                        <a href="./category/{{ category.slug }}" class="title">{{ category.name }}</a>
+                        <div class="description mt-1">{{ category.description }}</div>
+                    </figcaption>
                 </div>
+            </div>
             {% endfor %}
         </div>
     </div>
@@ -85,10 +81,11 @@
         display: block;
         margin: 0 auto;
     }
-    .small-image {
-        max-width: 100px; /* Adjust the size as needed */
-        height: auto;
-    }
+</style>
+<!-- End Section: Custom Styles -->
+
+<!-- Section: Custom Styles -->
+<style>
     .intro-banner-wrap img {
         width: auto;
         height: auto;

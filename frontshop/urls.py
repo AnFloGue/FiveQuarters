@@ -7,13 +7,17 @@ from .views import (
     login_view,
     register_view,
     logout_view,
-    product_list
+    product_list,
+    production_test
 )
 
 urlpatterns = [
-    path('inventory-information/', inventory_information, name='inventory_information'),
+    
+    path('production_test/', production_test, name='production_test'),
     
     path('home/', home, name='home'),
+    
+    path('inventory-information/', inventory_information, name='inventory_information'),
     
     path('product_list/', product_list, name='product_list'),
     

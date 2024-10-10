@@ -13,6 +13,16 @@ from frontshop.services.read_services import (
 )
 from datetime import date
 
+def production_test(request):
+    products = get_product_list()
+    categories = get_category_list()
+    context = {
+        'products': products,
+        'categories': categories,
+    }
+    return render(request, 'frontshop/production_test.html', context)
+    
+
 
 # ================================================
 # Home Views

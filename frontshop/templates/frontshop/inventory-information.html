@@ -32,31 +32,31 @@
         }
     </style>
     <!-- End of Custom Styles for Small Images -->
-
-    <!-- Section: Products -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <h2>Products</h2>
-        </div>
-        <ul class="list-group list-group-flush">
-            {% for product in products %}
-                <li class="list-group-item">
-                    <strong>{{ product.name }}</strong> (ID: {{ product.id }})<br>
-                    Description: {{ product.description }}<br>
-                    Price: ${{ product.price }}<br>
-                    Rating: {{ product.rating }}<br>
-                    Category: {{ product.category.name }}<br>
-                    Date of Manufacture: {{ product.date_of_manufacture }}<br>
-                    Date of Expiry: {{ product.date_of_expiry }}<br>
-                    Manufacturing Time: {{ product.manufacturing_time }} hours<br>
-                    Popularity: {{ product.popularity }}<br>
-                    Is Product of the Week: {{ product.is_product_of_the_week }}
-                </li>
-            {% endfor %}
-        </ul>
+<!-- Section: Products -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h2>Products</h2>
     </div>
-    <!-- End Section: Products -->
+    <ul class="list-group list-group-flush">
+        {% for product in products %}
+            <li class="list-group-item">
+                <strong>{{ product.name }}</strong> (ID: {{ product.id }})<br>
+                <img src="{{ product.image }}" alt="{{ product.name }}" class="img-fluid small-image">    <br>
 
+                Description: {{ product.description }}<br>
+                Price: ${{ product.price }}<br>
+                Rating: {{ product.rating }}<br>
+                Category: {{ product.category.name }}<br>
+                Date of Manufacture: {{ product.date_of_manufacture }}<br>
+                Date of Expiry: {{ product.date_of_expiry }}<br>
+                Manufacturing Time: {{ product.manufacturing_time }} hours<br>
+                Popularity: {{ product.popularity }}<br>
+                Is Product of the Week: {{ product.is_product_of_the_week }}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+<!-- End Section: Products -->
     <!-- Section: Delivery Companies -->
     <div class="card mb-4">
         <div class="card-header">
