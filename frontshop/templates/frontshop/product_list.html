@@ -34,38 +34,38 @@
     <section class="section-content padding-y">
         <div class="container">
             <div class="row">
-                <!-- Sidebar section for filters and categories -->
-                <aside class="col-md-3">
-                    <div class="card">
-                        <article class="filter-group">
-                            <header class="card-header">
-                                <h6 class="title">Categories</h6>
-                            </header>
-                            <div class="filter-content collapse show" id="collapse_1">
-                                <ul class="list-unstyled">
-                                    {% for category in categories %}
-                                        <li>
-                                            <a href="{% url 'product_list' %}?category={{ category.slug }}">
-                                                <img src="{{ category.image }}" alt="{{ category.name }}" class="category-image">
-                                                {{ category.name }}
-                                            </a>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </article> <!-- End of individual filter group -->
-                    </div> <!-- End of card for filters -->
-
-                    <!-- Custom Styles for Category Images -->
-                    <style>
-                        .category-image {
-                            width: 20px;
-                            height: 20px;
-                            margin-right: 10px;
-                        }
-                    </style>
-                    <!-- End of Custom Styles for Category Images -->
-                </aside> <!-- End of Sidebar section -->
+{#                <!-- Sidebar section for filters and categories -->#}
+{#                <aside class="col-md-3">#}
+{#                    <div class="card">#}
+{#                        <article class="filter-group">#}
+{#                            <header class="card-header">#}
+{#                                <h6 class="title">Categories</h6>#}
+{#                            </header>#}
+{#                            <div class="filter-content collapse show" id="collapse_1">#}
+{#                                <ul class="list-unstyled">#}
+{#                                    {% for category in categories %}#}
+{#                                        <li>#}
+{#                                            <a href="{% url 'product_list' %}?category={{ category.slug }}">#}
+{#                                                <img src="{{ category.image }}" alt="{{ category.name }}" class="category-image">#}
+{#                                                {{ category.name }}#}
+{#                                            </a>#}
+{#                                        </li>#}
+{#                                    {% endfor %}#}
+{#                                </ul>#}
+{#                            </div>#}
+{#                        </article> <!-- End of individual filter group -->#}
+{#                    </div> <!-- End of card for filters -->#}
+{##}
+{#                    <!-- Custom Styles for Category Images -->#}
+{#                    <style>#}
+{#                        .category-image {#}
+{#                            width: 20px;#}
+{#                            height: 20px;#}
+{#                            margin-right: 10px;#}
+{#                        }#}
+{#                    </style>#}
+{#                    <!-- End of Custom Styles for Category Images -->#}
+{#                </aside> <!-- End of Sidebar section -->#}
 
                 <!-- Main section for displaying products -->
                 <main class="col-md-9">
