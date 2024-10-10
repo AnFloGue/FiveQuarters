@@ -1,5 +1,9 @@
+<!-- frontshop/templates/frontshop/product_list.html-->
+
+
 {% extends 'frontshop/base.html' %}
 {% load static %}
+{% block title %}product list{% endblock %}
 
 <!-- Section: Intro Banner -->
 {% block banner %}
@@ -32,35 +36,35 @@
             <div class="row">
                 <!-- Sidebar section for filters and categories -->
                 <aside class="col-md-3">
-<div class="card">
-    <article class="filter-group">
-        <header class="card-header">
-            <h6 class="title">Categories</h6>
-        </header>
-        <div class="filter-content collapse show" id="collapse_1">
-            <ul class="list-unstyled">
-                {% for category in categories %}
-                    <li>
-                        <a href="{% url 'product_list' %}?category={{ category.slug }}">
-                            <img src="{{ category.image }}" alt="{{ category.name }}" class="category-image">
-                            {{ category.name }}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </article> <!-- End of individual filter group -->
-</div> <!-- End of card for filters -->
+                    <div class="card">
+                        <article class="filter-group">
+                            <header class="card-header">
+                                <h6 class="title">Categories</h6>
+                            </header>
+                            <div class="filter-content collapse show" id="collapse_1">
+                                <ul class="list-unstyled">
+                                    {% for category in categories %}
+                                        <li>
+                                            <a href="{% url 'product_list' %}?category={{ category.slug }}">
+                                                <img src="{{ category.image }}" alt="{{ category.name }}" class="category-image">
+                                                {{ category.name }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </article> <!-- End of individual filter group -->
+                    </div> <!-- End of card for filters -->
 
-<!-- Custom Styles for Category Images -->
-<style>
-    .category-image {
-        width: 20px;
-        height: 20px;
-        margin-right: 10px;
-    }
-</style>
-<!-- End of Custom Styles for Category Images -->
+                    <!-- Custom Styles for Category Images -->
+                    <style>
+                        .category-image {
+                            width: 20px;
+                            height: 20px;
+                            margin-right: 10px;
+                        }
+                    </style>
+                    <!-- End of Custom Styles for Category Images -->
                 </aside> <!-- End of Sidebar section -->
 
                 <!-- Main section for displaying products -->
@@ -71,41 +75,41 @@
                         </div>
                     </header> <!-- End of header for product count -->
 
-                <div class="row">
-                    {% if products %}
-                        {% for product in products %}
-                            <div class="col-md-4">
-                                <div class="card card-product-grid">
-                                    <a href="./product/{{ product.slug }}" class="img-wrap">
-                                        <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image">
-                                    </a>
-                                    <figcaption class="info-wrap">
-                                        <a href="./product/{{ product.slug }}" class="title">{{ product.name }}</a>
-                                        <div class="price mt-1">${{ product.price }}</div>
-                                        <div class="description mt-1">{{ product.description }}</div>
-<div class="availability mt-1">
-    {% if product.date_of_expiry|date:"Y-m-d" > today|date:"Y-m-d" %}
-        <span class="text-success">Available</span>
-    {% else %}
-        <span class="text-warning">Pre-Order</span>
-        <span class="text-info">Manufacturing Time: {{ product.manufacturing_time }} days</span>
-    {% endif %}
-</div>
-                                        <div class="product-of-the-week mt-1">
-                                            {% if product.is_product_of_the_week %}
-                                                <span class="badge badge-info">Product of the Week</span>
-                                            {% endif %}
-                                        </div>
-                                    </figcaption>
+                    <div class="row">
+                        {% if products %}
+                            {% for product in products %}
+                                <div class="col-md-4">
+                                    <div class="card card-product-grid">
+                                        <a href="{% url 'product_detail' product.id %}" class="img-wrap">
+                                            <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image">
+                                        </a>
+                                        <figcaption class="info-wrap">
+                                            <a href="{% url 'product_detail' product.id %}" class="title">{{ product.name }}</a>
+                                            <div class="price mt-1">${{ product.price }}</div>
+                                            <div class="description mt-1">{{ product.description }}</div>
+                                            <div class="availability mt-1">
+                                                {% if product.date_of_expiry|date:"Y-m-d" > today|date:"Y-m-d" %}
+                                                    <span class="text-success">Available</span>
+                                                {% else %}
+                                                    <span class="text-warning">Pre-Order</span>
+                                                {% endif %}
+                                                <span class="text-info">Manufacturing Time: {{ product.manufacturing_time }} days</span>
+                                            </div>
+                                            <div class="product-of-the-week mt-1">
+                                                {% if product.is_product_of_the_week %}
+                                                    <span class="badge badge-info">Product of the Week</span>
+                                                {% endif %}
+                                            </div>
+                                        </figcaption>
+                                    </div>
                                 </div>
+                            {% endfor %}
+                        {% else %}
+                            <div>
+                                <p>No products found.</p>
                             </div>
-                        {% endfor %}
-                    {% else %}
-                        <div>
-                            <p>No products found.</p>
-                        </div>
-                    {% endif %}
-                </div> <!-- End of row for products -->
+                        {% endif %}
+                    </div> <!-- End of row for products -->
 
                     <!-- Pagination section for navigating through pages of products -->
                     <nav class="mt-4" aria-label="Page navigation sample">

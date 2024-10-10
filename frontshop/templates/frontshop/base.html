@@ -1,3 +1,5 @@
+<!-- frontshop/templates/frontshop/base.html-->
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -6,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Home{% endblock %}</title>
+    <title>{% block title %}Default Title{% endblock %}</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -38,11 +40,11 @@
     <div class="container">
         <div class="row align-items-center">
             <!-- Logo Section -->
-            <div class="col-lg-2 col-md-3 col-6">
-                <a href="#" class="brand-wrap">
-                    <img class="logo" src="{% static 'images/logo.png' %}" alt="Logo">
-                </a>
-            </div>
+{#            <div class="col-lg-2 col-md-3 col-6">#}
+{#                <a href="#" class="brand-wrap">#}
+{#                    <img class="logo" src="{% static 'images/logo.png' %}" alt="Logo">#}
+{#                </a>#}
+{#            </div>#}
             <!-- End Logo Section -->
 
             <!-- Search Section -->
@@ -59,84 +61,84 @@
                 </form>
             </div>
             <!-- End Search Section -->
-<!-- User and Cart Section -->
-<div class="col-lg-4 col-md-4 col-6">
-    <div class="widgets-wrap float-right">
-        <div class="widget-header mr-3">
-            <a href="{% url 'login' %}" class="widget-view">
-                <div class="icon-area">
-                    <i class="fa fa-user"></i>
-                </div>
-                <small class="text"> Sign in </small>
-            </a>
-            <a href="{% url 'register' %}" class="widget-view">
-                <small class="text"> | Register </small>
-            </a>
-            <a href="{% url 'logout' %}" class="widget-view">
-                <small class="text"> | Logout </small>
-            </a>
-        </div>
-        <div class="widget-header">
-            <a href="{% url 'about' %}" class="widget-view">
-                <div class="icon-area">
-                    <i class="fa fa-shopping-cart"></i>
-                    <span class="notify">0</span>
-                </div>
-                <small class="text"> Cart </small>
-            </a>
-        </div>
-    </div>
-</div>
-<!-- End User and Cart Section -->
 
-            
-        </div>
-    </div>
-<!-- Navbar Section -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-top border-bottom">
-    <div class="container">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav" aria-controls="main_nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="main_nav">
-            <ul class="navbar-nav mr-auto">
-                <!-- Product Dropdown Section -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle btn pastel-primary nav-button" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <strong style="font-size: 1.2em;"><i class="fa fa-bars"></i> Products</strong>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {% for category in links %}
-                            <a class="dropdown-item" href="{{ category.get_url }}">{{ category.category_name }}</a>
-                        {% endfor %}
+            <!-- User and Cart Section -->
+            <div class="col-lg-4 col-md-4 col-6">
+                <div class="widgets-wrap float-right">
+                    <div class="widget-header mr-3">
+                        <a href="{% url 'login' %}" class="widget-view">
+                            <div class="icon-area">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <small class="text"> Sign in </small>
+                        </a>
+                        <a href="{% url 'register' %}" class="widget-view">
+                            <small class="text"> | Register </small>
+                        </a>
+                        <a href="{% url 'logout' %}" class="widget-view">
+                            <small class="text"> | Logout </small>
+                        </a>
                     </div>
-                </li>
-                <!-- End Product Dropdown Section -->
-
-                <!-- Other Navbar Links -->
-                <li class="nav-item">
-                    <a class="nav-link btn pastel-success nav-button" href="/frontshop/home/"><strong style="font-size: 1.2em;">Home</strong></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link btn pastel-info nav-button" href="/frontshop/product_list/"><strong style="font-size: 1.2em;">Products</strong></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link btn pastel-warning nav-button" href="{% url 'about' %}"><strong style="font-size: 1.2em;">About</strong></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link btn pastel-danger nav-button" href="{% url 'inventory_information' %}"><strong style="font-size: 1.2em;">inventory_information</strong></a>
-                </li>
-                <!-- End Other Navbar Links -->
-            </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}"><i class="fa fa-envelope"></i> Email</a>
-                </li>
-            </ul>
+                    <div class="widget-header">
+                        <a href="{% url 'about' %}" class="widget-view">
+                            <div class="icon-area">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span class="notify">0</span>
+                            </div>
+                            <small class="text"> Cart </small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- End User and Cart Section -->
         </div>
     </div>
-</nav>
-<!-- End Navbar Section -->
+
+    <!-- Navbar Section -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-top border-bottom">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav" aria-controls="main_nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="main_nav">
+                <ul class="navbar-nav mr-auto">
+                    <!-- Product Dropdown Section -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle btn pastel-primary nav-button" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <strong style="font-size: 1.2em;"><i class="fa fa-bars"></i> Products</strong>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% for category in links %}
+                                <a class="dropdown-item" href="{{ category.get_url }}">{{ category.category_name }}</a>
+                            {% endfor %}
+                        </div>
+                    </li>
+                    <!-- End Product Dropdown Section -->
+
+                    <!-- Other Navbar Links -->
+                    <li class="nav-item">
+                        <a class="nav-link btn pastel-success nav-button" href="/frontshop/home/"><strong style="font-size: 1.2em;">Home</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn pastel-info nav-button" href="/frontshop/product_list/"><strong style="font-size: 1.2em;">Products</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn pastel-warning nav-button" href="{% url 'about' %}"><strong style="font-size: 1.2em;">About</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn pastel-danger nav-button" href="{% url 'inventory_information' %}"><strong style="font-size: 1.2em;">Inventory Information</strong></a>
+                    </li>
+                    <!-- End Other Navbar Links -->
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}"><i class="fa fa-envelope"></i> Email</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- End Navbar Section -->
 </header>
 <!-- End Header Section -->
 
@@ -163,7 +165,6 @@
                     <h6 class="title">Company</h6>
                     <ul class="list-unstyled">
                         <li><a href="{% url 'about' %}">About us</a></li>
-
                     </ul>
                 </div>
                 <!-- End Company Info Section -->
@@ -173,8 +174,6 @@
                     <h6 class="title">Help</h6>
                     <ul class="list-unstyled">
                         <li><a href="{% url 'about' %}">Contact us</a></li>
-
-
                     </ul>
                 </div>
                 <!-- End Help Section -->
@@ -200,8 +199,6 @@
                     &copy; 2024 eQuarters
                     <br>
                 </p>
-            </div>
-
             </div>
         </section>
         <!-- End Footer Bottom Section -->

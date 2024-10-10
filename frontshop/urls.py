@@ -8,21 +8,31 @@ from .views import (
     register_view,
     logout_view,
     product_list,
+    product_detail,
     
 )
 
 urlpatterns = [
     
+# ================================================
+# Home, Product List, Product Detail URLs
+# ================================================
     
     path('home/', home, name='home'),
     
-    path('inventory-information/', inventory_information, name='inventory_information'),
+    path('product_detail/<int:product_id>/', product_detail, name='product_detail'),
     
     path('product_list/', product_list, name='product_list'),
     
-    path ('about/', about, name='about'),
-
+    
 # ================================================
+# Inventory Information, About URLs
+# ================================================
+    path('inventory-information/', inventory_information, name='inventory_information'),
+    
+    path('about/', about, name='about'),
+    
+    # ================================================
 # Login, Register, Logout URLs
 # ================================================
     
