@@ -10,6 +10,7 @@ from frontshop.services.read_services import (
     get_deliverycompany_list,
     get_order_list,
     get_ingredient_list,
+    product_full_list
 )
 from datetime import date
 
@@ -96,12 +97,14 @@ def logout_view(request):
 # inventory_information Views
 # ================================================
 
+
 def inventory_information(request):
     categories = get_category_list()
     products = get_product_list()
     delivery_companies = get_deliverycompany_list()
     orders = get_order_list()
     ingredients = get_ingredient_list()
+    product_details = product_full_list()  # Fetch product details
 
     context = {
         'categories': categories,
@@ -109,9 +112,9 @@ def inventory_information(request):
         'delivery_companies': delivery_companies,
         'orders': orders,
         'ingredients': ingredients,
+        'product_details': product_details  # Add product details to context
     }
 
     return render(request, 'frontshop/inventory-information.html', context)
-
 def about(request):
     return render(request, 'frontshop/about.html')

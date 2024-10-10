@@ -36,11 +36,11 @@ def product_full_list():
         print(f"Request error occurred: {err}")
         return []
     
-# Example usage
-if __name__ == "__main__":
-    products_with_ingredients = product_full_list()
-    for product in products_with_ingredients:
-        print(product)
+# # Example usage
+# if __name__ == "__main__":
+#     products_with_ingredients = product_full_list()
+#     for product in products_with_ingredients:
+#         print(product)
 
 #______________________________
 
