@@ -327,7 +327,7 @@ def product_full_detail(request, pk):
     }
 
     # Log the product_info to verify the data
-    print(product_info)
+
 
     return Response(product_info, status=status.HTTP_200_OK)
 
