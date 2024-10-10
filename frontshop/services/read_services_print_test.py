@@ -207,12 +207,16 @@ if __name__ == "__main__":
         print("--------------------------------------------------------")
         print("Product Full List with Ingredients:")
         for product in products_with_ingredients:
-            print(f"Product ID: {product.get('id')}\n"
-                  f"Name: {product.get('name')}\n"
-                  f"Description: {product.get('description')}\n"
-                  f"Price: {product.get('price')}\n"
-                  f"Ingredients: {', '.join([ingredient['name'] for ingredient in product.get('ingredients', [])])}\n"
-                  f"Allergens: {', '.join([str(ingredient['potential_allergens']) for ingredient in product.get('ingredients', []) if ingredient['potential_allergens']])}")
+            product_data = product.get('product', {})
+            ingredients = product.get('ingredients', [])
+            allergens = product.get('allergens', [])
+            
+            print(f"Product ID: {product_data.get('id')}\n"
+                  f"Name: {product_data.get('name')}\n"
+                  f"Description: {product_data.get('description')}\n"
+                  f"Price: {product_data.get('price')}\n"
+                  f"Ingredients: {', '.join([ingredient['name'] for ingredient in ingredients])}\n"
+                  f"Allergens: {', '.join(allergens)}")
             print("\n")
 
     except KeyboardInterrupt:
