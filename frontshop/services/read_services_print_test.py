@@ -1,5 +1,14 @@
 # read_services_print_test.py
 
+import os
+import django
+
+# Set the DJANGO_SETTINGS_MODULE environment variable
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fivequarters.settings')
+
+# Setup Django
+django.setup()
+from api.v1.views import product_full_list
 from frontshop.services.read_services import (
     get_orderitem_list, get_orderitem_details,
     get_deliverycompany_list, get_deliverycompany_details,
@@ -8,16 +17,18 @@ from frontshop.services.read_services import (
     get_ingredient_list, get_ingredient_details,
     get_recipe_list, get_recipe_details,
     get_account_details, get_account_list,
-    get_user_profile_details, get_user_profile_list
+    get_user_profile_details, get_user_profile_list,
+    product_full_list,
 )
+
 
 if __name__ == "__main__":
     try:
-        
+        '''
         # ==============================
         # Account Prints
         # ==============================
-        
+
         # Fetch and print the full list of accounts
         account_list = get_account_list()
         print("--------------------------------------------------------")
@@ -25,44 +36,28 @@ if __name__ == "__main__":
         for account_details in account_list:
             print(f"Account Details for Account ID {account_details.get('id')}:")
             print(f"Account ID: {account_details.get('id')}\n"
-                  f"First Name: {account_details.get('first_name')}\n"
-                  f"Last Name: {account_details.get('last_name')}\n"
-                  f"Username: {account_details.get('username')}\n"
+                  f"Name: {account_details.get('name')}\n"
                   f"Email: {account_details.get('email')}\n"
-                  f"Phone Number: {account_details.get('phone_number')}\n"
                   f"Date Joined: {account_details.get('date_joined')}\n"
-                  f"Last Login: {account_details.get('last_login')}\n"
-                  f"Is Admin: {account_details.get('is_admin')}\n"
-                  f"Is Staff: {account_details.get('is_staff')}\n"
-                  f"Is Active: {account_details.get('is_active')}\n"
-                  f"Is Superadmin: {account_details.get('is_superadmin')}\n"
-                  f"User Type: {account_details.get('user_type')}")
+                  f"Last Login: {account_details.get('last_login')}")
             print("\n")
-        
+
         # Ask for a specific account ID and print its details
         account_id = input("Enter the account ID: ")
         account_details = get_account_details(account_id)
-    
+
         if account_details:
             print("--------------------------------------------------------")
             print(f"Account Details for Account ID {account_id}:")
             print(f"Account ID: {account_details.get('id')}\n"
-                  f"First Name: {account_details.get('first_name')}\n"
-                  f"Last Name: {account_details.get('last_name')}\n"
-                  f"Username: {account_details.get('username')}\n"
+                  f"Name: {account_details.get('name')}\n"
                   f"Email: {account_details.get('email')}\n"
-                  f"Phone Number: {account_details.get('phone_number')}\n"
                   f"Date Joined: {account_details.get('date_joined')}\n"
-                  f"Last Login: {account_details.get('last_login')}\n"
-                  f"Is Admin: {account_details.get('is_admin')}\n"
-                  f"Is Staff: {account_details.get('is_staff')}\n"
-                  f"Is Active: {account_details.get('is_active')}\n"
-                  f"Is Superadmin: {account_details.get('is_superadmin')}\n"
-                  f"User Type: {account_details.get('user_type')}")
+                  f"Last Login: {account_details.get('last_login')}")
             print("\n")
         else:
             print(f"Failed to retrieve account details for ID {account_id}")
-            
+
         # ==============================
         # UserProfile Prints
         # ==============================
@@ -75,15 +70,9 @@ if __name__ == "__main__":
             print(f"User Profile Details for User Profile ID {user_profile_details.get('id')}:")
             print(f"User Profile ID: {user_profile_details.get('id')}\n"
                   f"User: {user_profile_details.get('user')}\n"
-                  f"Phone Number: {user_profile_details.get('phone_number')}\n"
-                  f"Address Line 1: {user_profile_details.get('address_line_1')}\n"
-                  f"Address Line 2: {user_profile_details.get('address_line_2')}\n"
-                  f"City: {user_profile_details.get('city')}\n"
-                  f"Postal Code: {user_profile_details.get('postal_code')}\n"
-                  f"State: {user_profile_details.get('state')}\n"
-                  f"Country: {user_profile_details.get('country')}\n"
-                  f"Avatar: {user_profile_details.get('avatar')}\n"
-                  f"User Type: {user_profile_details.get('user_type')}")
+                  f"Bio: {user_profile_details.get('bio')}\n"
+                  f"Location: {user_profile_details.get('location')}\n"
+                  f"Birth Date: {user_profile_details.get('birth_date')}")
             print("\n")
 
         # Ask for a specific user profile ID and print its details
@@ -95,23 +84,12 @@ if __name__ == "__main__":
             print(f"User Profile Details for User Profile ID {sample_user_profile_id}:")
             print(f"User Profile ID: {user_profile_details.get('id')}\n"
                   f"User: {user_profile_details.get('user')}\n"
-                  f"Phone Number: {user_profile_details.get('phone_number')}\n"
-                  f"Address Line 1: {user_profile_details.get('address_line_1')}\n"
-                  f"Address Line 2: {user_profile_details.get('address_line_2')}\n"
-                  f"City: {user_profile_details.get('city')}\n"
-                  f"Postal Code: {user_profile_details.get('postal_code')}\n"
-                  f"State: {user_profile_details.get('state')}\n"
-                  f"Country: {user_profile_details.get('country')}\n"
-                  f"Avatar: {user_profile_details.get('avatar')}\n"
-                  f"User Type: {user_profile_details.get('user_type')}")
+                  f"Bio: {user_profile_details.get('bio')}\n"
+                  f"Location: {user_profile_details.get('location')}\n"
+                  f"Birth Date: {user_profile_details.get('birth_date')}")
             print("\n")
         else:
             print(f"No details found for User Profile ID {sample_user_profile_id}")
-
-
-        
-        
-        
 
         # ==============================
         # OrderItem Prints
@@ -220,59 +198,22 @@ if __name__ == "__main__":
               f"Is Product of the Week: {product_details.get('is_product_of_the_week')}\n"
               f"Rating: {product_details.get('rating')}\n"
               f"Category: {product_details.get('category')}")
-        print("\n")
+        print("\n")'''
 
         # ==============================
-        # Ingredient Prints
+        # Product Full List with Ingredients
         # ==============================
-
-        ingredient_list = get_ingredient_list()
+        products_with_ingredients = product_full_list()
         print("--------------------------------------------------------")
-        print("Ingredient Full List:")
-        for ingredient in ingredient_list:
-            print(f"Ingredient ID: {ingredient.get('id')}, Name: {ingredient.get('name')}, "
-                  f"Slug: {ingredient.get('slug')}, Stock: {ingredient.get('stock')}, "
-                  f"Unit: {ingredient.get('unit')}, Required Amount: {ingredient.get('required_amount')}, "
-                  f"Potential Allergens: {ingredient.get('potential_allergens')}")
-        print("\n")
-
-        sample_ingredient_id = input("Enter the ingredient ID: ")
-
-        ingredient_details = get_ingredient_details(sample_ingredient_id)
-        print("--------------------------------------------------------")
-        print(f"Ingredient Details for Ingredient ID {sample_ingredient_id}:")
-        print(f"Ingredient ID: {ingredient_details.get('id')}\n"
-              f"Name: {ingredient_details.get('name')}\n"
-              f"Slug: {ingredient_details.get('slug')}\n"
-              f"Stock: {ingredient_details.get('stock')}\n"
-              f"Unit: {ingredient_details.get('unit')}\n"
-              f"Required Amount: {ingredient_details.get('required_amount')}\n"
-              f"Potential Allergens: {ingredient_details.get('potential_allergens')}")
-        print("\n")
-
-        # ==============================
-        # Recipe Prints
-        # ==============================
-
-        recipe_list = get_recipe_list()
-        print("--------------------------------------------------------")
-        print("Recipe Full List:")
-        for recipe in recipe_list:
-            print(f"Recipe ID: {recipe['id']}, Quantity: {recipe['quantity']}, Product: {recipe['product']}, Ingredient: {recipe['ingredient']}")
-        print("\n")
-
-        sample_recipe_id = input("Enter the recipe ID: ")
-
-        recipe_details = get_recipe_details(sample_recipe_id)
-        print("--------------------------------------------------------")
-        print(f"Recipe Details for Recipe ID {sample_recipe_id}:")
-        print(f"Recipe ID: {recipe_details.get('id')}\n"
-              f"Quantity: {recipe_details.get('quantity')}\n"
-              f"Product: {recipe_details.get('product')}\n"
-              f"Ingredient: {recipe_details.get('ingredient')}")
-        print("\n")
-
-        
+        print("Product Full List with Ingredients:")
+        for product in products_with_ingredients:
+            print(f"Product ID: {product.get('id')}\n"
+                  f"Name: {product.get('name')}\n"
+                  f"Description: {product.get('description')}\n"
+                  f"Price: {product.get('price')}\n"
+                  f"Ingredients: {', '.join([ingredient['name'] for ingredient in product.get('ingredients', [])])}\n"
+                  f"Allergens: {', '.join([str(ingredient['potential_allergens']) for ingredient in product.get('ingredients', []) if ingredient['potential_allergens']])}")
+            print("\n")
 
     except KeyboardInterrupt:
         print("\n")

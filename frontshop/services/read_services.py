@@ -1,10 +1,7 @@
 # frontshop/read_services.py
-
 import os
 
-# ==============================
 # Set the DJANGO_SETTINGS_MODULE environment variable
-# ==============================
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fivequarters.settings')
 
 import django
@@ -17,37 +14,35 @@ from backshop.models import Product
 # Use the API base URL from settings
 API_BASE_URL = os.getenv('API_URL_V1')
 
-def list_all_products_with_ingredients():
+def get_api_data(url):
     try:
-        products = Product.objects.all().prefetch_related('recipes__ingredient')
-    except Product.DoesNotExist:
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
+        return None
+    
+    
+
+
+
+def product_full_list():
+    try:
+        response = requests.get(f"{API_BASE_URL}/product-full-list/")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
         return []
-
-    product_list = []
-
-    for product in products:
-        ingredients = [recipe.ingredient.name for recipe in product.recipes.all()]
-
-        product_info = {
-            # 'id': product.id,
-            # 'name': product.name,
-            # 'category': product.category.name,
-            # 'description': product.description,
-            # 'price': f"{product.price:.2f}",
-            'ingredients': ingredients
-        }
-        product_list.append(product_info)
-
-    return product_list
-
+    
+# Example usage
 if __name__ == "__main__":
-    products_with_ingredients = list_all_products_with_ingredients()
+    products_with_ingredients = product_full_list()
     for product in products_with_ingredients:
         print(product)
 
-
-
-
+#______________________________
 
 # ==============================
 # Account Views

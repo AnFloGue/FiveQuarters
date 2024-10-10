@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
-from backshop.models import Category, Product, Ingredient, Recipe
+from backshop.models import Product, Category, Recipe, Ingredient, Allergen
 from frontshop.models import Order, OrderItem, DeliveryCompany
 from account.models import Account, UserProfile
 
@@ -20,6 +20,11 @@ from drf_yasg.utils import swagger_auto_schema
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import AccountSerializer
+
+import os
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'FiveQuarters.settings')
+
 
 
 # ==================================================
@@ -257,6 +262,40 @@ def product_delete(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
     product.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+def product_full_list(request):
+    products = Product.objects.all()
+    product_details = []
+
+    for product in products:
+        category = Category.objects.get(id=product.category.id)
+        recipes = Recipe.objects.filter(product=product)
+        ingredients = [recipe.ingredient for recipe in recipes]
+
+        # Fetch allergens for each ingredient
+        allergens = set()
+        for ingredient in ingredients:
+            if ingredient.potential_allergens:
+                allergens.add(ingredient.potential_allergens.name)
+
+        allergen_names = list(allergens)
+
+        product_info = {
+            'product': ProductSerializer(product).data,
+            'category': {
+                'name': category.name,
+                'slug': category.slug
+            },
+            'recipes': RecipeSerializer(recipes, many=True).data,
+            'ingredients': IngredientSerializer(ingredients, many=True).data,
+            'allergens': allergen_names  # Serialize allergen names
+        }
+        product_details.append(product_info)
+
+    return Response(product_details, status=status.HTTP_200_OK)
+
 
 
 # ==================================================
