@@ -19,6 +19,9 @@ from .views import (
     order_product,
     order_summary,
 
+    # ================================================
+    submit_review,
+
 )
 
 urlpatterns = [
@@ -40,7 +43,7 @@ urlpatterns = [
     path('order_summary/<int:product_id>/<int:amount>/', order_summary, name='order_summary'),
     
     # ================================================
-# Inventory Information, About URLs
+    # Inventory Information, About URLs
     # ================================================
     
     path('inventory-information/', inventory_information, name='inventory_information'),
@@ -48,7 +51,7 @@ urlpatterns = [
     path('about/', about, name='about'),
     
     # ================================================
-# Login, Register, Logout URLs
+    # Login, Register, Logout URLs
     # ================================================
     
     path('login/', login_view, name='login'),
@@ -56,4 +59,11 @@ urlpatterns = [
     path('register/', register_view, name='register'),
     
     path('logout/', logout_view, name='logout'),
+    
+    # ================================================
+    # Submit Review URL
+    # ================================================
+    
+    path('submit_review/<int:product_id>/', submit_review, name='submit_review'),
+
 ]

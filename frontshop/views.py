@@ -212,3 +212,6 @@ def logout_view(request):
 def about(request):
     return render(request, 'frontshop/about.html')
 
+
+def submit_review(request):
+    return render(request, 'frontshop/about.html')
