@@ -16,7 +16,9 @@ from .views import (
     inventory_information,
 
     # ================================================
-    order_product
+    order_product,
+    order_summary,
+
 )
 
 urlpatterns = [
@@ -35,7 +37,7 @@ urlpatterns = [
     # Order Product URL
     # ================================================
     path('order/<int:product_id>/', order_product, name='order_product'),
-
+    path('order_summary/<int:product_id>/<int:amount>/', order_summary, name='order_summary'),
     
     # ================================================
 # Inventory Information, About URLs

@@ -1,135 +1,162 @@
-<!-- frontshop/templates/frontshop/product_detail.html -->
-
 {% extends 'frontshop/base.html' %}
 {% load static %}
 
 {% block title %}Product Detail{% endblock %}
 
 {% block content %}
-<section class="section-content padding-y">
-    <div class="container">
-        <div class="row">
-            <main class="col-md-9">
-                <div class="card card-product-grid">
-                    <div class="row no-gutters">
-                        <div class="col-md-4 position-relative">
-                            {% if products_with_ingredients.product.is_product_of_the_week %}
-                                <span class="badge badge-info position-absolute product-of-the-week-badge">Product of the Week</span>
-                            {% endif %}
-                            <div class="img-wrap">
-                                <img src="{{ products_with_ingredients.product.image }}" alt="{{ products_with_ingredients.product.name }}" class="product-image">
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <figcaption class="info-wrap">
-                                <h2 class="title">{{ products_with_ingredients.product.name }}</h2>
-                                <div class="price mt-1">${{ products_with_ingredients.product.price }}</div>
-                                <div class="description mt-1">{{ products_with_ingredients.product.description }}</div>
-                                <div class="availability mt-1">
-                                    <p><strong>Date of Manufacture:</strong> {{ products_with_ingredients.product.date_of_manufacture }}</p>
-                                    <p><strong>Date of Expiry:</strong> {{ products_with_ingredients.product.date_of_expiry }}</p>
-                                    <p><strong>Manufacturing Time:</strong> {{ products_with_ingredients.product.manufacturing_time }} hours</p>
-                                    <p><strong>Popularity:</strong> {{ products_with_ingredients.product.popularity }}</p>
-                                    <p><strong>Rating:</strong> {{ products_with_ingredients.product.rating }}</p>
-                                    <p><strong>Category:</strong> {{ products_with_ingredients.category.name }}</p>
-                                    {% if products_with_ingredients.product.date_of_expiry|date:"Y-m-d" > today|date:"Y-m-d" %}
-                                    {% else %}
-                                    {% endif %}
-                                        <span class="text-warning">Pre-Order</span>
-                                        <span class="text-success">Available</span>
+    <section class="section-content padding-y">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-9">
+                    <!-- Section: Product Card -->
+                    <div class="card card-product-grid">
+                        <div class="row no-gutters">
+                            <div class="col-md-4 position-relative">
+                                {% if products_with_ingredients.product.is_product_of_the_week %}
+                                    <span class="badge badge-info position-absolute product-of-the-week-badge">Product of the Week</span>
+                                {% endif %}
+                                <!-- Section: Product Image -->
+                                <div class="img-wrap">
+                                    <img src="{{ products_with_ingredients.product.image }}" alt="{{ products_with_ingredients.product.name }}" class="product-image">
                                 </div>
-                            </figcaption>
+                                <!-- End Section: Product Image -->
+                            </div>
+                            <div class="col-md-8">
+                                    <!-- Section: Product Info -->
+                                    <figcaption class="info-wrap">
+                                        <h2 class="title {% if products_with_ingredients.product.date_of_expiry|date:"Y-m-d" > today|date:"Y-m-d" %}available{% else %}not-available{% endif %}">
+                                            {{ products_with_ingredients.product.name }}
+                                        </h2>
+                                        <div class="price mt-1">${{ products_with_ingredients.product.price }}</div>
+                                        <div class="description mt-1">{{ products_with_ingredients.product.description }}</div>
+                                        <div class="availability mt-1">
+                                            <p><strong>Date of Manufacture:</strong> {{ products_with_ingredients.product.date_of_manufacture }}</p>
+                                            <p><strong>Date of Expiry:</strong> {{ products_with_ingredients.product.date_of_expiry }}</p>
+                                            <p><strong>Manufacturing Time:</strong> {{ products_with_ingredients.product.manufacturing_time }} hours</p>
+                                            <p><strong>Popularity:</strong> {{ products_with_ingredients.product.popularity }}</p>
+                                            <p><strong>Rating:</strong> {{ products_with_ingredients.product.rating }}</p>
+                                            <p><strong>Category:</strong> {{ products_with_ingredients.category.name }}</p>
+                                            {% if products_with_ingredients.product.date_of_expiry|date:"Y-m-d" > today|date:"Y-m-d" %}
+                                                <span class="text-success">Available</span>
+                                            {% else %}
+                                                <span class="text-warning">Pre-Order</span>
+                                            {% endif %}
+                                        </div>
+                                    </figcaption>
+<!-- End Section: Product Info -->
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <!-- End Section: Product Card -->
 
-                <div class="card mt-4">
-                    <div class="card-header">
-                        <h4>Order Product</h4>
+                    <!-- Section: Order Form -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h4>Order Product Form</h4>
+                        </div>
+                        <div class="card-body">
+                            <form method="post" action="{% url 'order_product' products_with_ingredients.product.id %}">
+                                {% csrf_token %}
+                                <div class="form-group d-flex align-items-center">
+                                    <label for="amount" class="mr-2">Amount of Units:</label>
+                                    <input type="number" class="form-control outlined-input mr-2" id="amount" name="amount" min="1" required style="width: 100px;">
+                                    <button type="submit" class="btn btn-primary">Add to basket</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <form method="post" action="{% url 'order_product' products_with_ingredients.product.id %}">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="amount">Amount of Units:</label>
-                                <input type="number" class="form-control" id="amount" name="amount" min="1" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Order</button>
-                        </form>
-                    </div>
-                </div>
+                    <!-- End Section: Order Form -->
 
-                <div class="row mt-4">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Allergens</h4>
+                    <!-- Section: Allergens and Ingredients -->
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Allergens</h4>
+                                </div>
+                                <div class="card-body">
+                                    <ul>
+                                        {% for allergen in products_with_ingredients.allergens %}
+                                            <li>{{ allergen }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <ul>
-                                    {% for allergen in products_with_ingredients.allergens %}
-                                        <li>{{ allergen }}</li>
-                                    {% endfor %}
-                                </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Ingredients</h4>
+                                </div>
+                                <div class="card-body">
+                                    <ul>
+                                        {% for ingredient in products_with_ingredients.ingredients %}
+                                            <li>
+                                                <strong>{{ ingredient.name }}</strong> (ID: {{ ingredient.id }})<br>
+                                                Stock: {{ ingredient.stock }} {{ ingredient.unit }}<br>
+                                                Required Amount: {{ ingredient.required_amount }} {{ ingredient.unit }}<br>
+                                                Potential Allergens: {{ ingredient.potential_allergens }}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Ingredients</h4>
-                            </div>
-                            <div class="card-body">
-                                <ul>
-                                    {% for ingredient in products_with_ingredients.ingredients %}
-                                        <li>
-                                            <strong>{{ ingredient.name }}</strong> (ID: {{ ingredient.id }})<br>
-                                            Stock: {{ ingredient.stock }} {{ ingredient.unit }}<br>
-                                            Required Amount: {{ ingredient.required_amount }} {{ ingredient.unit }}<br>
-                                            Potential Allergens: {{ ingredient.potential_allergens }}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <!-- End Section: Allergens and Ingredients -->
 
-                <div class="row mt-4">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Recipes</h4>
-                            </div>
-                            <div class="card-body">
-                                <ul>
-                                    {% for recipe in products_with_ingredients.recipes %}
-                                        <li>Ingredient ID: {{ recipe.ingredient }}, Quantity: {{ recipe.quantity }}</li>
-                                    {% endfor %}
-                                </ul>
+                    <!-- Section: Recipes -->
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Recipes</h4>
+                                </div>
+                                <div class="card-body">
+                                    <ul>
+                                        {% for recipe in products_with_ingredients.recipes %}
+                                            <li>Ingredient ID: {{ recipe.ingredient }}, Quantity: {{ recipe.quantity }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </main>
+                    <!-- End Section: Recipes -->
+                </main>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Custom Styles for product images and badge -->
-<style>
-    .product-image {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin: 0 auto;
-    }
-    .product-of-the-week-badge {
-        top: 10px;
-        left: 10px;
-        z-index: 1;
-    }
-</style>
-<!-- End of Custom Styles for product images and badge -->
+    <!-- Custom Styles -->
+    <style>
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .product-of-the-week-badge {
+            top: 10px;
+            left: 10px;
+            z-index: 1;
+        }
+        .outlined-input {
+            outline: 2px solid #007bff;
+        }
+        .title.available {
+            background-color: green;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .title.not-available {
+            background-color: orange;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+    <!-- End of Custom Styles -->
 
 {% endblock %}

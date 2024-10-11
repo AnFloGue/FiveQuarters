@@ -1,6 +1,5 @@
 <!-- frontshop/templates/frontshop/product_list.html-->
 
-
 {% extends 'frontshop/base.html' %}
 {% load static %}
 {% block title %}product list{% endblock %}
@@ -34,39 +33,6 @@
     <section class="section-content padding-y">
         <div class="container">
             <div class="row">
-{#                <!-- Sidebar section for filters and categories -->#}
-{#                <aside class="col-md-3">#}
-{#                    <div class="card">#}
-{#                        <article class="filter-group">#}
-{#                            <header class="card-header">#}
-{#                                <h6 class="title">Categories</h6>#}
-{#                            </header>#}
-{#                            <div class="filter-content collapse show" id="collapse_1">#}
-{#                                <ul class="list-unstyled">#}
-{#                                    {% for category in categories %}#}
-{#                                        <li>#}
-{#                                            <a href="{% url 'product_list' %}?category={{ category.slug }}">#}
-{#                                                <img src="{{ category.image }}" alt="{{ category.name }}" class="category-image">#}
-{#                                                {{ category.name }}#}
-{#                                            </a>#}
-{#                                        </li>#}
-{#                                    {% endfor %}#}
-{#                                </ul>#}
-{#                            </div>#}
-{#                        </article> <!-- End of individual filter group -->#}
-{#                    </div> <!-- End of card for filters -->#}
-{##}
-{#                    <!-- Custom Styles for Category Images -->#}
-{#                    <style>#}
-{#                        .category-image {#}
-{#                            width: 20px;#}
-{#                            height: 20px;#}
-{#                            margin-right: 10px;#}
-{#                        }#}
-{#                    </style>#}
-{#                    <!-- End of Custom Styles for Category Images -->#}
-{#                </aside> <!-- End of Sidebar section -->#}
-
                 <!-- Main section for displaying products -->
                 <main class="col-md-9">
                     <header class="border-bottom mb-4 pb-3">
@@ -87,15 +53,15 @@
                                             <a href="{% url 'product_detail' product.id %}" class="title">{{ product.name }}</a>
                                             <div class="price mt-1">${{ product.price }}</div>
                                             <div class="description mt-1">{{ product.description }}</div>
-                                            <div class="availability mt-1">
-                                                {% if product.date_of_expiry|date:"Y-m-d" > today|date:"Y-m-d" %}
-                                                    <span class="text-success">Available</span>
-                                                {% else %}
-                                                    <span class="text-warning">Pre-Order</span>
-                                                {% endif %}
-                                                <span class="text-info">Manufacturing Time: {{ product.manufacturing_time }} days</span>
-                                            </div>
-                                            <div class="product-of-the-week mt-1">
+                                        <div class="availability mt-1">
+                                            {% if product.is_available %}
+                                                <span class="text-success">Available</span>
+                                            {% else %}
+                                                <span class="text-danger">Pre-Order</span>
+                                                <span class="text-info">Lead Time: <span class="text-danger">{{ product.manufacturing_time  }}</span>  days</span>
+                                            {% endif %}
+                                        </div>
+                                                                                    <div class="product-of-the-week mt-1">
                                                 {% if product.is_product_of_the_week %}
                                                     <span class="badge badge-info">Product of the Week</span>
                                                 {% endif %}

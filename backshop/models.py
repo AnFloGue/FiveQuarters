@@ -5,6 +5,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.urls import reverse
 from autoslug import AutoSlugField
+from django.utils import timezone
 
 
 # ==============================
@@ -34,14 +35,16 @@ class Category(models.Model):
 # ==============================
 
 
+# backshop/models.py
+
+
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
-    slug = AutoSlugField(populate_from='name', unique=True, editable=True)  # Make slug editable
+    slug = AutoSlugField(populate_from='name', unique=True, editable=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
-    
     image = models.ImageField(upload_to='photos/products', blank=True, null=True)
     date_of_manufacture = models.DateField()
     date_of_expiry = models.DateField(null=True, blank=True)
@@ -50,6 +53,9 @@ class Product(models.Model):
     is_product_of_the_week = models.BooleanField(default=False)
     rating = models.PositiveIntegerField(default=1, validators=[MinValueValidator(0), MaxValueValidator(5)])
 
+    @property
+    def is_available(self):
+        return self.date_of_expiry > timezone.now().date()
 
     @property
     def product_name(self):

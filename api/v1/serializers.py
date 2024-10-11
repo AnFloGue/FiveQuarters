@@ -29,6 +29,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 # ================================================
 # Serializers for backshop models
 # ================================================
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -36,11 +37,16 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    is_available = serializers.SerializerMethodField()
+
     class Meta:
         model = Product
         fields = '__all__'
 
-
+    def get_is_available(self, obj):
+        return obj.is_available
+    
+    
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient

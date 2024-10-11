@@ -1,0 +1,100 @@
+<!-- frontshop/templates/frontshop/order_summary.html -->
+
+{% extends 'frontshop/base.html' %}
+{% load static %}
+
+{% block title %}Order Summary{% endblock %}
+
+{% block content %}
+<section class="section-content padding-y">
+    <div class="container">
+        <div class="row">
+            <main class="col-md-12 d-flex flex-column">
+                <!-- Section: Alerts Notifications -->
+                <div class="card mb-4" style="min-width: 300px;">
+                    <div class="card-body text-center">
+                        <!-- Example alert notification -->
+                        <div class="alert alert-info" role="alert">
+                            <h2 class="title"><strong>Notification!</strong> </h2><br>
+                            <p class="title"> This is an alert notification. item <strong>{{ product.name }}</strong> is not available. Preorder!</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Section: Alerts Notifications -->
+
+                <div class="d-flex">
+                    <!-- Section: Product Card -->
+                    <div class="card card-product-grid flex-grow-1">
+                        <div class="row no-gutters">
+                            <div class="col-md-4 position-relative">
+                                <!-- Section: Product Badge -->
+                                {% if product.is_product_of_the_week %}
+                                {% endif %}
+                                    <span class="badge badge-info position-absolute product-of-the-week-badge">Product of the Week</span>
+                                <!-- End Section: Product Badge -->
+                                <!-- Section: Product Image -->
+                                <div class="img-wrap">
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                                </div>
+                                <!-- End Section: Product Image -->
+                            </div>
+                            <div class="col-md-8">
+                                <!-- Section: Product Info -->
+                                <figcaption class="info-wrap">
+                                    <h2 class="title">{{ product.name }}</h2>
+                                    <div class="price mt-1">${{ product.price }}</div>
+                                    <div class="availability mt-1">
+                                        {% if product.date_of_expiry|date:"Y-m-d" > today|date:"Y-m-d" %}
+                                            <span class="text-success">Available</span>
+                                        {% else %}
+                                        {% endif %}
+                                            <span class="text-warning">Pre-Order</span>
+                                        <p><strong>Manufacturing Time:</strong> {{ product.manufacturing_time }} hours</p>
+                                    </div>
+                                    <div class="order-details mt-3">
+                                        <p><strong>Amount Ordered:</strong> {{ amount }}</p>
+                                        <p><strong>Price per Unit:</strong> ${{ product.price }}</p>
+                                        <p><strong>Total Amount:</strong> ${{ total_amount }}</p>
+                                    </div>
+                                </figcaption>
+                                <!-- End Section: Product Info -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Section: Product Card -->
+
+                    <!-- Section: Order Summary -->
+                    <div class="card ml-4" style="min-width: 300px;">
+                        <div class="card-header">
+                            <h4>Order Summary</h4>
+                        </div>
+                        <div class="card-body">
+                            <a href="{% url 'product_list' %}" class="btn btn-primary mb-3">Keep Shopping</a>
+                            <a href="#" class="btn btn-warning mb-3" disabled>Proceed with Payment</a>
+                            <p><strong>Total Amount:</strong> ${{ total_amount }}</p>
+                        </div>
+                    </div>
+                    <!-- End Section: Order Summary -->
+                </div>
+            </main>
+        </div>
+    </div>
+</section>
+
+<!-- Custom Styles for product images and badge -->
+<style>
+    .product-image {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+    .product-of-the-week-badge {
+        top: 10px;
+        left: 10px;
+        z-index: 1;
+    }
+</style>
+<!-- End of Custom Styles for product images and badge -->
+
+{% endblock %}

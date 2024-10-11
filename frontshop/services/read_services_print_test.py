@@ -161,7 +161,7 @@ if __name__ == "__main__":
               f"Description: {category_details.get('description')}\n"
               f"Image: {category_details.get('image')}")
         print("\n")
-
+        '''
         # ==============================
         # Product Prints
         # ==============================
@@ -169,7 +169,11 @@ if __name__ == "__main__":
         product_list = get_product_list()
         print("--------------------------------------------------------")
         print("Product Full List:")
+        
+        available_products = []
         for product in product_list:
+            if product.get('is_available'):
+                available_products.append(product)
             print(f"Product ID: {product.get('id')}, Name: {product.get('name')}, "
                   f"Slug: {product.get('slug')}, Description: {product.get('description')}, "
                   f"Price: {product.get('price')}, Image: {product.get('image')}, "
@@ -178,8 +182,12 @@ if __name__ == "__main__":
                   f"Manufacturing Time: {product.get('manufacturing_time')}, "
                   f"Popularity: {product.get('popularity')}, "
                   f"Is Product of the Week: {product.get('is_product_of_the_week')}, "
-                  f"Rating: {product.get('rating')}, Category: {product.get('category')}")
-        print("\n")
+                  f"Rating: {product.get('rating')}, Category: {product.get('category')}, "
+                  f"Is Available: {product.get('is_available')}")
+            print("\n")
+        
+        print("Available Products:")
+
 
         sample_product_id = input("Enter the product ID: ")
 
@@ -199,7 +207,7 @@ if __name__ == "__main__":
               f"Is Product of the Week: {product_details.get('is_product_of_the_week')}\n"
               f"Rating: {product_details.get('rating')}\n"
               f"Category: {product_details.get('category')}")
-        print("\n")'''
+        print("\n")
         
         products_with_ingredients = product_full_list()
         print("--------------------------------------------------------")

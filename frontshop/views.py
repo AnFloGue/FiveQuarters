@@ -1,8 +1,12 @@
 # frontshop/views.py
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
+from django.http import HttpResponseRedirect
+
+
+from backshop.models import Product
 from .forms import LoginForm, RegisterForm
 from frontshop.services.read_services import (
     get_category_list,
@@ -13,6 +17,7 @@ from frontshop.services.read_services import (
     product_full_list, product_full_detail
 )
 from datetime import date
+
 
 
 
@@ -29,6 +34,19 @@ def home(request):
     }
     return render(request, 'frontshop/home.html', context)
 
+# frontshop/views.py
+
+from django.shortcuts import render, get_object_or_404
+from backshop.models import Product
+from frontshop.services.read_services import (
+    get_category_list,
+    get_product_list,
+    get_ingredient_list,
+    product_full_list,
+    product_full_detail
+)
+from datetime import date
+
 # ================================================
 # Product Views
 # ================================================
@@ -36,13 +54,15 @@ def home(request):
 def product_list(request):
     products = get_product_list()
     categories = get_category_list()
-    today = date.today()
+    
+
     context = {
         'products': products,
         'categories': categories,
-        'today': today,
     }
     return render(request, 'frontshop/product_list.html', context)
+
+
 
 
 def product_detail(request, product_id):
@@ -52,17 +72,20 @@ def product_detail(request, product_id):
     product_details = product_full_list()
     products_with_ingredients = product_full_detail(product_id)
 
+    # Get the specific product and its availability status
+    product = get_object_or_404(Product, id=product_id)
+
     context = {
         'categories': categories,
         'products': products,
         'ingredients': ingredients,
         'product_details': product_details,
-        'products_with_ingredients': products_with_ingredients
+        'products_with_ingredients': products_with_ingredients,
+        'product': product,
+        'is_available': product.is_available,
     }
 
     return render(request, 'frontshop/product_detail.html', context)
-
-
 
 # ================================================
 # inventory_information Views
@@ -95,11 +118,51 @@ def inventory_information(request):
 # Order Product Views
 # ================================================
 
+from django.urls import reverse
+
+from django.urls import reverse
+
 def order_product(request, product_id):
+    categories = get_category_list()
+    products = get_product_list()
+    delivery_companies = get_deliverycompany_list()
+    orders = get_order_list()
+    ingredients = get_ingredient_list()
+    product_details = product_full_list()
+    products_with_ingredients = product_full_detail(product_id)
+    
+    if request.method == 'POST':
+        amount = int(request.POST.get('amount', 0))
+        product = get_object_or_404(Product, id=product_id)
+        total_amount = product.price * amount
+        
+        # Redirect to order summary with necessary information
+        return HttpResponseRedirect(reverse('order_summary', args=[product_id, amount]))
+    
     context = {
-        'product_id': product_id,
+        'categories': categories,
+        'products': products,
+        'delivery_companies': delivery_companies,
+        'orders': orders,
+        'ingredients': ingredients,
+        'product_details': product_details,
+        'products_with_ingredients': products_with_ingredients,
     }
+    
     return render(request, 'frontshop/order_product.html', context)
+
+
+def order_summary(request, product_id, amount):
+    product = get_object_or_404(Product, id=product_id)
+    total_amount = product.price * int(amount)
+    
+    context = {
+        'product': product,
+        'amount': amount,
+        'total_amount': total_amount,
+    }
+    
+    return render(request, 'frontshop/order_summary.html', context)
 
 
 # ================================================
