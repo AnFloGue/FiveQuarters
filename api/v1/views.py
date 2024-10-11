@@ -254,8 +254,6 @@ def product_delete(request, pk):
     cache.delete('product_list')
     return Response(status=status.HTTP_204_NO_CONTENT)
 
-# api/v1/views.py
-
 @api_view(['GET'])
 def product_full_list(request):
     products = Product.objects.select_related('category').prefetch_related('recipes__ingredient').all()
@@ -281,15 +279,13 @@ def product_full_list(request):
             },
             'recipes': RecipeSerializer(recipes, many=True).data,
             'ingredients': IngredientSerializer(ingredients, many=True).data,
-            'allergens': allergen_names,
-            'is_available': product.is_available
-
+            'allergens': allergen_names
         }
         product_details.append(product_info)
 
     return Response(product_details, status=status.HTTP_200_OK)
 
-
+@api_view(['GET'])
 def product_full_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
     category = product.category
@@ -311,12 +307,10 @@ def product_full_detail(request, pk):
         },
         'recipes': RecipeSerializer(recipes, many=True).data,
         'ingredients': IngredientSerializer(ingredients, many=True).data,
-        'allergens': allergen_names,
-        'is_available': product.is_available
+        'allergens': allergen_names
     }
 
     return Response(product_info, status=status.HTTP_200_OK)
-
 
 # ==================================================
 # Ingredient Views

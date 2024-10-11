@@ -1,5 +1,4 @@
 <!-- frontshop/templates/frontshop/order_summary.html -->
-
 {% extends 'frontshop/base.html' %}
 {% load static %}
 
@@ -13,10 +12,11 @@
                 <!-- Section: Alerts Notifications -->
                 <div class="card mb-4" style="min-width: 300px;">
                     <div class="card-body text-center">
-                        <!-- Example alert notification -->
+                        <!-- Alert notification -->
                         <div class="alert alert-info" role="alert">
                             <h2 class="title"><strong>Notification!</strong> </h2><br>
-                            <p class="title"> This is an alert notification. item <strong>{{ product.name }}</strong> is not available. Preorder!</p>
+                            <h5 class="title"> This is an alert notification. item {{ product.name }} is not avalible. Preorder!</h5>
+
                         </div>
                     </div>
                 </div>
@@ -29,8 +29,8 @@
                             <div class="col-md-4 position-relative">
                                 <!-- Section: Product Badge -->
                                 {% if product.is_product_of_the_week %}
-                                {% endif %}
                                     <span class="badge badge-info position-absolute product-of-the-week-badge">Product of the Week</span>
+                                {% endif %}
                                 <!-- End Section: Product Badge -->
                                 <!-- Section: Product Image -->
                                 <div class="img-wrap">
@@ -41,15 +41,20 @@
                             <div class="col-md-8">
                                 <!-- Section: Product Info -->
                                 <figcaption class="info-wrap">
-                                    <h2 class="title">{{ product.name }}</h2>
+                                    <h2 class="title {% if product.is_available %}available{% else %}not-available{% endif %}">
+                                        {{ product.name }}
+                                        {% if not product.is_available %}
+                                            <span class="out-of-order">Out of Order</span>
+                                        {% endif %}
+                                    </h2>
                                     <div class="price mt-1">${{ product.price }}</div>
                                     <div class="availability mt-1">
-                                        {% if product.date_of_expiry|date:"Y-m-d" > today|date:"Y-m-d" %}
+                                        {% if product.is_available %}
                                             <span class="text-success">Available</span>
                                         {% else %}
+                                            <span class="text-danger"><strong>Pre-Order</strong></span>
+                                            <span class="text-info">Lead Time: <span class="text-danger"><strong>{{ product.manufacturing_time }}</strong></span> days</span>
                                         {% endif %}
-                                            <span class="text-warning">Pre-Order</span>
-                                        <p><strong>Manufacturing Time:</strong> {{ product.manufacturing_time }} hours</p>
                                     </div>
                                     <div class="order-details mt-3">
                                         <p><strong>Amount Ordered:</strong> {{ amount }}</p>
@@ -93,6 +98,27 @@
         top: 10px;
         left: 10px;
         z-index: 1;
+    }
+    .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 30px 5px 20px;
+        border-radius: 5px;
+    }
+    .title.available {
+        background-color: blue;
+        color: white;
+    }
+    .title.not-available {
+        background-color: orange;
+        color: white;
+    }
+    .out-of-order {
+        font-size: 0.8em;
+        color: red;
+        margin-left: 10px;
+        padding: 5px 10px;
     }
 </style>
 <!-- End of Custom Styles for product images and badge -->

@@ -22,28 +22,26 @@
                                 <!-- End Section: Product Image -->
                             </div>
                             <div class="col-md-8">
-                                    <!-- Section: Product Info -->
-                                    <figcaption class="info-wrap">
-                                        <h2 class="title {% if products_with_ingredients.product.date_of_expiry|date:"Y-m-d" > today|date:"Y-m-d" %}available{% else %}not-available{% endif %}">
-                                            {{ products_with_ingredients.product.name }}
-                                        </h2>
-                                        <div class="price mt-1">${{ products_with_ingredients.product.price }}</div>
-                                        <div class="description mt-1">{{ products_with_ingredients.product.description }}</div>
-                                        <div class="availability mt-1">
-                                            <p><strong>Date of Manufacture:</strong> {{ products_with_ingredients.product.date_of_manufacture }}</p>
-                                            <p><strong>Date of Expiry:</strong> {{ products_with_ingredients.product.date_of_expiry }}</p>
-                                            <p><strong>Manufacturing Time:</strong> {{ products_with_ingredients.product.manufacturing_time }} hours</p>
-                                            <p><strong>Popularity:</strong> {{ products_with_ingredients.product.popularity }}</p>
-                                            <p><strong>Rating:</strong> {{ products_with_ingredients.product.rating }}</p>
-                                            <p><strong>Category:</strong> {{ products_with_ingredients.category.name }}</p>
-                                            {% if products_with_ingredients.product.date_of_expiry|date:"Y-m-d" > today|date:"Y-m-d" %}
-                                                <span class="text-success">Available</span>
-                                            {% else %}
-                                                <span class="text-warning">Pre-Order</span>
-                                            {% endif %}
-                                        </div>
-                                    </figcaption>
-<!-- End Section: Product Info -->
+                                <!-- Section: Product Info -->
+                                <figcaption class="info-wrap">
+                                    <h2 class="title {% if products_with_ingredients.product.is_available %}available{% else %}not-available{% endif %}">
+                                        {{ products_with_ingredients.product.name }}
+                                        {% if not products_with_ingredients.product.is_available %}
+                                            <span class="out-of-order">Out of Order</span>
+                                        {% endif %}
+                                    </h2>
+                                    <div class="price mt-1">${{ products_with_ingredients.product.price }}</div>
+                                    <div class="description mt-1">{{ products_with_ingredients.product.description }}</div>
+                                    <div class="availability mt-1">
+                                        {% if products_with_ingredients.product.is_available %}
+                                            <span class="text-success">Available</span>
+                                        {% else %}
+                                            <span class="text-danger"><strong>Pre-Order</strong></span>
+                                            <span class="text-info">Lead Time: <span class="text-danger"><strong>{{ products_with_ingredients.product.manufacturing_time }}</strong></span> days</span>
+                                        {% endif %}
+                                    </div>
+                                </figcaption>
+                                <!-- End Section: Product Info -->
                             </div>
                         </div>
                     </div>
@@ -130,31 +128,46 @@
 
     <!-- Custom Styles -->
     <style>
+        .title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 30px 5px 20px; /* Increase padding to the right */
+            border-radius: 5px;
+        }
+
+        .out-of-order {
+            font-size: 0.8em;
+            color: red;
+            margin-left: 10px;
+            padding: 5px 10px; /* Add padding to the left and right */
+        }
+
         .product-image {
             max-width: 100%;
             height: auto;
             display: block;
             margin: 0 auto;
         }
+
         .product-of-the-week-badge {
             top: 10px;
             left: 10px;
             z-index: 1;
         }
+
         .outlined-input {
             outline: 2px solid #007bff;
         }
+
         .title.available {
-            background-color: green;
+            background-color: blue;
             color: white;
-            padding: 5px;
-            border-radius: 5px;
         }
+
         .title.not-available {
             background-color: orange;
             color: white;
-            padding: 5px;
-            border-radius: 5px;
         }
     </style>
     <!-- End of Custom Styles -->
