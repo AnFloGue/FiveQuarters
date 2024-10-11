@@ -92,6 +92,17 @@ def inventory_information(request):
 
 
 # ================================================
+# Order Product Views
+# ================================================
+
+def order_product(request, product_id):
+    context = {
+        'product_id': product_id,
+    }
+    return render(request, 'frontshop/order_product.html', context)
+
+
+# ================================================
 # Login, Register, Logout Views
 # ================================================
 

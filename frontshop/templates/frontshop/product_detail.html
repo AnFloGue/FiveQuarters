@@ -43,6 +43,22 @@
                     </div>
                 </div>
 
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h4>Order Product</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="{% url 'order_product' products_with_ingredients.product.id %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="amount">Amount of Units:</label>
+                                <input type="number" class="form-control" id="amount" name="amount" min="1" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Order</button>
+                        </form>
+                    </div>
+                </div>
+
                 <div class="row mt-4">
                     <div class="col-md-6">
                         <div class="card">
