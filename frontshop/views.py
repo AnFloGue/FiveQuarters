@@ -47,7 +47,7 @@ from datetime import date
 
 def home(request):
     products = get_product_list()
-    recommended_products = get_recommended_products()[:3]  # Limit to 3 products
+    recommended_products = get_recommended_products()[:3]
 
     context = {
         'products': products,

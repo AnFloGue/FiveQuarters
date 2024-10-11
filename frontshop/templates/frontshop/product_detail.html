@@ -14,6 +14,8 @@
                             <div class="col-md-4 position-relative">
                                 {% if products_with_ingredients.product.is_product_of_the_week %}
                                     <span class="badge badge-info position-absolute product-of-the-week-badge">Product of the Week</span>
+                                {% elif products_with_ingredients.product.is_recommended %}
+                                    <span class="badge badge-danger position-absolute product-of-the-week-badge">Recommended</span>
                                 {% endif %}
                                 <!-- Section: Product Image -->
                                 <div class="img-wrap">
@@ -120,15 +122,15 @@
                                     <h4>Potential Allergens:</h4>
                                 </div>
                                 <div class="card-body">
-<ul>
-    {% if products_with_ingredients.allergens %}
-        {% for allergen in products_with_ingredients.allergens %}
-            <li><h3 style="color: red; font-weight: bold;">{{ allergen }}</h3></li>
-        {% endfor %}
-    {% else %}
-        <li><h4 style="color: black;">No allergens</h4></li>
-    {% endif %}
-</ul>
+                                    <ul>
+                                        {% if products_with_ingredients.allergens %}
+                                            {% for allergen in products_with_ingredients.allergens %}
+                                                <li><h3 style="color: red; font-weight: bold;">{{ allergen }}</h3></li>
+                                            {% endfor %}
+                                        {% else %}
+                                            <li><h4 style="color: black;">No allergens</h4></li>
+                                        {% endif %}
+                                    </ul>
                                 </div>
                             </div>
                         </div>
