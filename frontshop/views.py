@@ -1,20 +1,36 @@
 # frontshop/views.py
 
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from django.urls import reverse
 from django.http import HttpResponseRedirect
 
-
-from backshop.models import Product
 from .forms import LoginForm, RegisterForm
+
+from django.shortcuts import render,redirect, get_object_or_404
+from backshop.models import Product
+
+
 from frontshop.services.read_services import (
+    get_recommended_products,
     get_category_list,
     get_product_list,
     get_deliverycompany_list,
     get_order_list,
     get_ingredient_list,
-    product_full_list, product_full_detail
+    product_full_list,
+    product_full_detail,
+    get_account_list,
+    get_account_details,
+    get_user_profile_list,
+    get_user_profile_details,
+    get_order_details,
+    get_orderitem_list,
+    get_orderitem_details,
+    get_deliverycompany_details,
+    get_category_details,
+    get_product_details,
+    get_ingredient_details,
+    get_recipe_list,
+    get_recipe_details
 )
 from datetime import date
 
@@ -25,27 +41,21 @@ from datetime import date
 # Home Views
 # ================================================
 
-def home(request):
-    products = get_product_list()
-    categories = get_category_list()
-    context = {
-        'products': products,
-        'categories': categories,
-    }
-    return render(request, 'frontshop/home.html', context)
+
 
 # frontshop/views.py
 
-from django.shortcuts import render, get_object_or_404
-from backshop.models import Product
-from frontshop.services.read_services import (
-    get_category_list,
-    get_product_list,
-    get_ingredient_list,
-    product_full_list,
-    product_full_detail
-)
-from datetime import date
+def home(request):
+    products = get_product_list()
+    recommended_products = get_recommended_products()[:3]  # Limit to 3 products
+
+    context = {
+        'products': products,
+        'recommended_products': recommended_products,
+    }
+    return render(request, 'frontshop/home.html', context)
+
+
 
 # ================================================
 # Product Views

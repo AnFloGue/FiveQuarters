@@ -1,3 +1,5 @@
+<!-- frontshop/templates/frontshop/home.html -->
+
 {% extends 'frontshop/base.html' %}
 {% load static %}
 
@@ -47,24 +49,27 @@
     </div>
 </section>
 <!-- End Section: Product of the week-->
-{% endblock %}
 
-<!-- Section: Categories -->
+<!-- Section: Recommendations -->
 <section class="section-name padding-y-sm">
     <div class="container">
         <header class="section-heading">
-            <h3 class="section-title">Categories</h3>
+            <h3 class="section-title">Recommendations</h3>
         </header>
         <div class="row">
-            {% for category in categories %}
+            {% for product in recommended_products %}
             <div class="col-md-3">
-                <div class="card card-category-grid">
-                    <a href="./category/{{ category.slug }}" class="img-wrap">
-                        <img src="{{ category.image }}" alt="{{ category.name }}" class="category-image">
+                <div class="card card-product-grid">
+                    <a href="{% url 'product_detail' product.product.id %}" class="img-wrap">
+                        <img src="{{ product.product.image }}" alt="{{ product.product.name }}" class="img-fluid">
                     </a>
                     <figcaption class="info-wrap">
-                        <a href="./category/{{ category.slug }}" class="title">{{ category.name }}</a>
-                        <div class="description mt-1">{{ category.description }}</div>
+                        <a href="{% url 'product_detail' product.product.id %}" class="title"><strong>{{ product.product.name }}</strong></a>
+                        <div class="price mt-1">€{{ product.product.price }} per unit</div>
+                        <div class="description mt-1">
+                            {{ product.product.description }}<br>
+                            <strong>Popularity:</strong> {{ product.product.popularity }}
+                        </div>
                     </figcaption>
                 </div>
             </div>
@@ -72,49 +77,5 @@
         </div>
     </div>
 </section>
-<!-- End Section: Categories -->
-
-<!-- Section: Custom Styles -->
-<style>
-    .category-image {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin: 0 auto;
-    }
-</style>
-<!-- End Section: Custom Styles -->
-
-<!-- Section: Custom Styles -->
-<style>
-    .intro-banner-wrap img {
-        width: auto;
-        height: auto;
-    }
-    .card-product-grid .img-wrap img {
-        max-width: 200px;
-        width: 100%;
-        height: auto;
-    }
-    .card-product-grid .title {
-        font-weight: bold;
-        font-size: 1.25rem; /* Adjust the size as needed */
-    }
-    .card-product-grid .availability,
-    .card-product-grid .quantity {
-        font-weight: bold;
-    }
-    .card-category-grid .img-wrap img {
-        max-width: 200px;
-        width: 100%;
-        height: auto;
-    }
-    .card-category-grid .title {
-        font-weight: bold;
-        font-size: 1.25rem; /* Adjust the size as needed */
-    }
-    .card-category-grid .description {
-        font-weight: normal;
-    }
-</style>
-<!-- End Section: Custom Styles -->
+<!-- End Section: Recommendations -->
+{% endblock %}

@@ -1,19 +1,43 @@
 # frontshop/services/read_services.py
+
 import os
 from django.core.cache import cache
 
-# Set the DJANGO_SETTINGS_MODULE environment variable
+# DJANGO_SETTINGS_MODULE environment variable
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fivequarters.settings')
 
 import django
 django.setup()
 
+# We use the API base URL from settings
+API_BASE_URL = os.getenv('API_URL_V1')
+
 import requests
 from requests.exceptions import ConnectionError, Timeout, RequestException
-from backshop.models import Product
 
-# Use the API base URL from settings
-API_BASE_URL = os.getenv('API_URL_V1')
+
+
+# frontshop/services/read_services.py
+
+def get_recommended_products():
+    cache_key = 'recommended_products'
+    cached_data = get_cached_data(cache_key)
+    if cached_data:
+        return cached_data
+    try:
+        response = requests.get(f"{API_BASE_URL}/product-full-list/")
+        response.raise_for_status()
+        products = response.json()
+        # Sort products by popularity
+        sorted_products = sorted(products, key=lambda x: x['product']['popularity'], reverse=True)
+        cache_data(cache_key, sorted_products)
+        return sorted_products
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
+        return []
+    
+    
+
 
 def get_api_data(url):
     try:
@@ -59,6 +83,8 @@ def product_full_detail(product_id):
     except requests.exceptions.RequestException as err:
         print(f"Request error occurred: {err}")
         return {}
+    
+    
 
 def get_account_list():
     cache_key = 'account_list'
