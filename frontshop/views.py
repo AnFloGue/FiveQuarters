@@ -44,6 +44,53 @@ def product_list(request):
     }
     return render(request, 'frontshop/product_list.html', context)
 
+
+def product_detail(request, product_id):
+    categories = get_category_list()
+    products = get_product_list()
+    ingredients = get_ingredient_list()
+    product_details = product_full_list()
+    products_with_ingredients = product_full_detail(product_id)
+
+    context = {
+        'categories': categories,
+        'products': products,
+        'ingredients': ingredients,
+        'product_details': product_details,
+        'products_with_ingredients': products_with_ingredients
+    }
+
+    return render(request, 'frontshop/product_detail.html', context)
+
+
+
+# ================================================
+# inventory_information Views
+# ================================================
+
+
+def inventory_information(request):
+    categories = get_category_list()
+    products = get_product_list()
+    delivery_companies = get_deliverycompany_list()
+    orders = get_order_list()
+    ingredients = get_ingredient_list()
+    product_details = product_full_list()
+    products_with_ingredients = product_full_detail(2)
+
+    context = {
+        'categories': categories,
+        'products': products,
+        'delivery_companies': delivery_companies,
+        'orders': orders,
+        'ingredients': ingredients,
+        'product_details': product_details,
+        'products_with_ingredients': products_with_ingredients
+    }
+
+    return render(request, 'frontshop/inventory-information.html', context)
+
+
 # ================================================
 # Login, Register, Logout Views
 # ================================================
@@ -84,47 +131,9 @@ def logout_view(request):
 
 
 
-# ================================================
-# inventory_information Views
-# ================================================
 
 
-def inventory_information(request):
-    categories = get_category_list()
-    products = get_product_list()
-    delivery_companies = get_deliverycompany_list()
-    orders = get_order_list()
-    ingredients = get_ingredient_list()
-    product_details = product_full_list()
-    products_with_ingredients = product_full_detail(2)
 
-    context = {
-        'categories': categories,
-        'products': products,
-        'delivery_companies': delivery_companies,
-        'orders': orders,
-        'ingredients': ingredients,
-        'product_details': product_details,
-        'products_with_ingredients': products_with_ingredients
-    }
-
-    return render(request, 'frontshop/inventory-information.html', context)
-def product_detail(request, product_id):
-    categories = get_category_list()
-    products = get_product_list()
-    ingredients = get_ingredient_list()
-    product_details = product_full_list()
-    products_with_ingredients = product_full_detail(product_id)
-    #
-    context = {
-        'categories': categories,
-        'products': products,
-        'ingredients': ingredients,
-        'product_details': product_details,
-        'products_with_ingredients': products_with_ingredients
-    }
-
-    return render(request, 'frontshop/product_detail.html', context)
 
 def about(request):
     return render(request, 'frontshop/about.html')
