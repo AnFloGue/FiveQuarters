@@ -1,4 +1,4 @@
-<!-- frontshop/templates/frontshop/product_detail.html  -->
+<!-- frontshop/templates/frontshop/product_detail.html -->
 
 {% extends 'frontshop/base.html' %}
 {% load static %}
@@ -6,65 +6,114 @@
 {% block title %}Product Detail{% endblock %}
 
 {% block content %}
-    <!-- Section: Product Full Detail -->
-    <div class="container mt-4">
-        <div class="card">
-            <div class="card-header">
-                <h2>{{ products_with_ingredients.product.name }}</h2>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <img src="{{ products_with_ingredients.product.image }}" alt="{{ products_with_ingredients.product.name }}" class="img-fluid mb-3">
-                    </div>
-                    <div class="col-md-6">
-                        <p><strong>ID:</strong> {{ products_with_ingredients.product.id }}</p>
-                        <p><strong>Description:</strong> {{ products_with_ingredients.product.description }}</p>
-                        <p><strong>Price:</strong> ${{ products_with_ingredients.product.price }}</p>
-                        <p><strong>Date of Manufacture:</strong> {{ products_with_ingredients.product.date_of_manufacture }}</p>
-                        <p><strong>Date of Expiry:</strong> {{ products_with_ingredients.product.date_of_expiry }}</p>
-                        <p><strong>Manufacturing Time:</strong> {{ products_with_ingredients.product.manufacturing_time }} hours</p>
-                        <p><strong>Popularity:</strong> {{ products_with_ingredients.product.popularity }}</p>
-                        <p><strong>Is Product of the Week:</strong> {{ products_with_ingredients.product.is_product_of_the_week }}</p>
-                        <p><strong>Rating:</strong> {{ products_with_ingredients.product.rating }}</p>
-                        <p><strong>Category:</strong> {{ products_with_ingredients.category.name }}</p>
+<section class="section-content padding-y">
+    <div class="container">
+        <div class="row">
+            <main class="col-md-9">
+                <div class="card card-product-grid">
+                    <div class="row no-gutters">
+                        <div class="col-md-4 position-relative">
+                            {% if products_with_ingredients.product.is_product_of_the_week %}
+                                <span class="badge badge-info position-absolute product-of-the-week-badge">Product of the Week</span>
+                            {% endif %}
+                            <div class="img-wrap">
+                                <img src="{{ products_with_ingredients.product.image }}" alt="{{ products_with_ingredients.product.name }}" class="product-image">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <figcaption class="info-wrap">
+                                <h2 class="title">{{ products_with_ingredients.product.name }}</h2>
+                                <div class="price mt-1">${{ products_with_ingredients.product.price }}</div>
+                                <div class="description mt-1">{{ products_with_ingredients.product.description }}</div>
+                                <div class="availability mt-1">
+                                    <p><strong>Date of Manufacture:</strong> {{ products_with_ingredients.product.date_of_manufacture }}</p>
+                                    <p><strong>Date of Expiry:</strong> {{ products_with_ingredients.product.date_of_expiry }}</p>
+                                    <p><strong>Manufacturing Time:</strong> {{ products_with_ingredients.product.manufacturing_time }} hours</p>
+                                    <p><strong>Popularity:</strong> {{ products_with_ingredients.product.popularity }}</p>
+                                    <p><strong>Rating:</strong> {{ products_with_ingredients.product.rating }}</p>
+                                    <p><strong>Category:</strong> {{ products_with_ingredients.category.name }}</p>
+                                    {% if products_with_ingredients.product.date_of_expiry|date:"Y-m-d" > today|date:"Y-m-d" %}
+                                    {% else %}
+                                    {% endif %}
+                                        <span class="text-warning">Pre-Order</span>
+                                        <span class="text-success">Available</span>
+                                </div>
+                            </figcaption>
+                        </div>
                     </div>
                 </div>
+
                 <div class="row mt-4">
                     <div class="col-md-6">
-                        <h4>Allergens</h4>
-                        <ul>
-                            {% for allergen in products_with_ingredients.allergens %}
-                                <li>{{ allergen }}</li>
-                            {% endfor %}
-                        </ul>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Allergens</h4>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    {% for allergen in products_with_ingredients.allergens %}
+                                        <li>{{ allergen }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <h4>Ingredients</h4>
-                        <ul>
-                            {% for ingredient in products_with_ingredients.ingredients %}
-                                <li>
-                                    <strong>{{ ingredient.name }}</strong> (ID: {{ ingredient.id }})<br>
-                                    Stock: {{ ingredient.stock }} {{ ingredient.unit }}<br>
-                                    Required Amount: {{ ingredient.required_amount }} {{ ingredient.unit }}<br>
-                                    Potential Allergens: {{ ingredient.potential_allergens }}
-                                </li>
-                            {% endfor %}
-                        </ul>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Ingredients</h4>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    {% for ingredient in products_with_ingredients.ingredients %}
+                                        <li>
+                                            <strong>{{ ingredient.name }}</strong> (ID: {{ ingredient.id }})<br>
+                                            Stock: {{ ingredient.stock }} {{ ingredient.unit }}<br>
+                                            Required Amount: {{ ingredient.required_amount }} {{ ingredient.unit }}<br>
+                                            Potential Allergens: {{ ingredient.potential_allergens }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
                 <div class="row mt-4">
                     <div class="col-md-12">
-                        <h4>Recipes</h4>
-                        <ul>
-                            {% for recipe in products_with_ingredients.recipes %}
-                                <li>Ingredient ID: {{ recipe.ingredient }}, Quantity: {{ recipe.quantity }}</li>
-                            {% endfor %}
-                        </ul>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Recipes</h4>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    {% for recipe in products_with_ingredients.recipes %}
+                                        <li>Ingredient ID: {{ recipe.ingredient }}, Quantity: {{ recipe.quantity }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </main>
         </div>
     </div>
-    <!-- End Section: Product Full Detail -->
+</section>
+
+<!-- Custom Styles for product images and badge -->
+<style>
+    .product-image {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+    .product-of-the-week-badge {
+        top: 10px;
+        left: 10px;
+        z-index: 1;
+    }
+</style>
+<!-- End of Custom Styles for product images and badge -->
+
 {% endblock %}
