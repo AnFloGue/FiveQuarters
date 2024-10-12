@@ -8,6 +8,7 @@ from .forms import LoginForm, RegisterForm
 from django.shortcuts import render,redirect, get_object_or_404
 from backshop.models import Product
 
+import logging
 
 from frontshop.services.read_services import (
     get_recommended_products,
@@ -34,7 +35,12 @@ from frontshop.services.read_services import (
 )
 from datetime import date
 
-
+# Configure logging
+logging.basicConfig(
+    filename='/Users/antoniofloresguerrero/PycharmProjects/_FINAL PROJ/#01/FiveQuarters/logs/django_errors.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 
 # ================================================
@@ -188,13 +194,14 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
+                logging.info(f"Login successful for user: {username}")
                 return redirect(reverse('home'))
             else:
                 form.add_error(None, 'Invalid username or password')
+                logging.warning(f"Login failed for user: {username}")
     else:
         form = LoginForm()
     return render(request, 'frontshop/login.html', {'form': form})
-
 
 def register_view(request):
     if request.method == 'POST':
@@ -203,20 +210,19 @@ def register_view(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
+            logging.info(f"Registration successful for user: {user.username}")
             return redirect('login')
+        else:
+            logging.warning("Registration failed due to invalid form data")
     else:
         form = RegisterForm()
     return render(request, 'frontshop/register.html', {'form': form})
 
 def logout_view(request):
+    username = request.user.username
     logout(request)
+    logging.info(f"Logout successful for user: {username}")
     return redirect('login')
-
-
-
-
-
-
 
 
 def about(request):
