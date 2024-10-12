@@ -9,9 +9,11 @@ load_dotenv()
 # Base directory of the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 # Ensure the logs directory exists
 LOG_DIR = BASE_DIR / 'logs'
 LOG_DIR.mkdir(exist_ok=True)
+LOGIN_URL = '/frontshop/login/'
 
 # SECRET_KEY
 SECRET_KEY = os.getenv('SECRET_KEY')

@@ -1,15 +1,13 @@
 # frontshop/views.py
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
-
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from .forms import LoginForm, RegisterForm
-
-from django.shortcuts import render,redirect, get_object_or_404
 from backshop.models import Product
-
 import logging
-
 from frontshop.services.read_services import (
     get_recommended_products,
     get_category_list,
@@ -19,10 +17,7 @@ from frontshop.services.read_services import (
     get_ingredient_list,
     product_full_list,
     product_full_detail,
-    get_account_list,
-
 )
-from datetime import date
 
 # Configure logging
 logging.basicConfig(
@@ -31,15 +26,11 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-
 # ================================================
 # Home Views
 # ================================================
 
-
-
-# frontshop/views.py
-
+@login_required
 def home(request):
     products = get_product_list()
     recommended_products = get_recommended_products()[:3]
@@ -50,16 +41,14 @@ def home(request):
     }
     return render(request, 'frontshop/home.html', context)
 
-
-
 # ================================================
 # Product Views
 # ================================================
 
+@login_required
 def product_list(request):
     products = get_product_list()
     categories = get_category_list()
-    
 
     context = {
         'products': products,
@@ -67,9 +56,7 @@ def product_list(request):
     }
     return render(request, 'frontshop/product_list.html', context)
 
-
-
-
+@login_required
 def product_detail(request, product_id):
     categories = get_category_list()
     products = get_product_list()
@@ -93,10 +80,10 @@ def product_detail(request, product_id):
     return render(request, 'frontshop/product_detail.html', context)
 
 # ================================================
-# inventory_information Views
+# Inventory Information Views
 # ================================================
 
-
+@login_required
 def inventory_information(request):
     categories = get_category_list()
     products = get_product_list()
@@ -118,15 +105,11 @@ def inventory_information(request):
 
     return render(request, 'frontshop/inventory-information.html', context)
 
-
 # ================================================
 # Order Product Views
 # ================================================
 
-from django.urls import reverse
-
-from django.urls import reverse
-
+@login_required
 def order_product(request, product_id):
     categories = get_category_list()
     products = get_product_list()
@@ -135,15 +118,15 @@ def order_product(request, product_id):
     ingredients = get_ingredient_list()
     product_details = product_full_list()
     products_with_ingredients = product_full_detail(product_id)
-    
+
     if request.method == 'POST':
         amount = int(request.POST.get('amount', 0))
         product = get_object_or_404(Product, id=product_id)
         total_amount = product.price * amount
-        
+
         # Redirect to order summary with necessary information
         return HttpResponseRedirect(reverse('order_summary', args=[product_id, amount]))
-    
+
     context = {
         'categories': categories,
         'products': products,
@@ -153,22 +136,21 @@ def order_product(request, product_id):
         'product_details': product_details,
         'products_with_ingredients': products_with_ingredients,
     }
-    
+
     return render(request, 'frontshop/order_product.html', context)
 
-
+@login_required
 def order_summary(request, product_id, amount):
     product = get_object_or_404(Product, id=product_id)
     total_amount = product.price * int(amount)
-    
+
     context = {
         'product': product,
         'amount': amount,
         'total_amount': total_amount,
     }
-    
-    return render(request, 'frontshop/order_summary.html', context)
 
+    return render(request, 'frontshop/order_summary.html', context)
 
 # ================================================
 # Login, Register, Logout Views
@@ -207,16 +189,15 @@ def register_view(request):
         form = RegisterForm()
     return render(request, 'frontshop/register.html', {'form': form})
 
+@login_required
 def logout_view(request):
     username = request.user.username
     logout(request)
     logging.info(f"Logout successful for user: {username}")
     return redirect('login')
 
-
 def about(request):
     return render(request, 'frontshop/about.html')
-
 
 def submit_review(request):
     return render(request, 'frontshop/about.html')
