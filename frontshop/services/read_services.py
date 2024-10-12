@@ -1,7 +1,7 @@
-# frontshop/services/read_services.py
-
 import os
+import requests
 from django.core.cache import cache
+from requests.exceptions import ConnectionError, Timeout, RequestException
 
 # DJANGO_SETTINGS_MODULE environment variable
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fivequarters.settings')
@@ -12,12 +12,36 @@ django.setup()
 # We use the API base URL from settings
 API_BASE_URL = os.getenv('API_URL_V1')
 
-import requests
-from requests.exceptions import ConnectionError, Timeout, RequestException
+# Token management
+def get_token():
+    token = cache.get('auth_token')
+    if not token:
+        # Implement token retrieval logic here
+        # For example, you can call the login API to get a new token
+        response = requests.post(f"{API_BASE_URL}/login/", data={'username': 'your_username', 'password': 'your_password'})
+        if response.status_code == 200:
+            token = response.json().get('access')
+            cache.set('auth_token', token, timeout=60*15)  # Cache the token for 15 minutes
+    return token
 
+def get_headers():
+    token = get_token()
+    return {'Authorization': f'Bearer {token}'}
 
+def cache_data(key, data, timeout=300):
+    cache.set(key, data, timeout)
 
-# frontshop/services/read_services.py
+def get_cached_data(key):
+    return cache.get(key)
+
+def get_api_data(url):
+    try:
+        response = requests.get(url, headers=get_headers())
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
+        return None
 
 def get_recommended_products():
     cache_key = 'recommended_products'
@@ -25,7 +49,7 @@ def get_recommended_products():
     if cached_data:
         return cached_data
     try:
-        response = requests.get(f"{API_BASE_URL}/product-full-list/")
+        response = requests.get(f"{API_BASE_URL}/product-full-list/", headers=get_headers())
         response.raise_for_status()
         products = response.json()
         # Sort products by popularity
@@ -35,24 +59,6 @@ def get_recommended_products():
     except requests.exceptions.RequestException as err:
         print(f"Request error occurred: {err}")
         return []
-    
-    
-
-
-def get_api_data(url):
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as err:
-        print(f"Request error occurred: {err}")
-        return None
-
-def cache_data(key, data, timeout=300):
-    cache.set(key, data, timeout)
-
-def get_cached_data(key):
-    return cache.get(key)
 
 def product_full_list():
     cache_key = 'product_full_list'
@@ -60,7 +66,7 @@ def product_full_list():
     if cached_data:
         return cached_data
     try:
-        response = requests.get(f"{API_BASE_URL}/product-full-list/")
+        response = requests.get(f"{API_BASE_URL}/product-full-list/", headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
@@ -75,7 +81,7 @@ def product_full_detail(product_id):
     if cached_data:
         return cached_data
     try:
-        response = requests.get(f"{API_BASE_URL}/product-full-detail/{product_id}/")
+        response = requests.get(f"{API_BASE_URL}/product-full-detail/{product_id}/", headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
@@ -83,8 +89,6 @@ def product_full_detail(product_id):
     except requests.exceptions.RequestException as err:
         print(f"Request error occurred: {err}")
         return {}
-    
-    
 
 def get_account_list():
     cache_key = 'account_list'
@@ -93,7 +97,7 @@ def get_account_list():
         return cached_data
     url = f"{API_BASE_URL}/accounts/"
     try:
-        response = requests.get(url)
+        response = requests.get(url, headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
@@ -113,7 +117,7 @@ def get_account_details(account_id):
         return cached_data
     url = f"{API_BASE_URL}/accounts/{account_id}/"
     try:
-        response = requests.get(url)
+        response = requests.get(url, headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
@@ -132,7 +136,7 @@ def get_user_profile_list():
     if cached_data:
         return cached_data
     url = f"{API_BASE_URL}/userprofiles/"
-    response = requests.get(url)
+    response = requests.get(url, headers=get_headers())
     if response.status_code == 200:
         try:
             data = response.json()
@@ -152,7 +156,7 @@ def get_user_profile_details(user_profile_id):
     if cached_data:
         return cached_data
     url = f"{API_BASE_URL}/userprofiles/{user_profile_id}/"
-    response = requests.get(url)
+    response = requests.get(url, headers=get_headers())
     if response.status_code == 200:
         try:
             data = response.json()
@@ -175,7 +179,7 @@ def get_order_list():
     if cached_data:
         return cached_data
     try:
-        response = requests.get(f"{API_BASE_URL}/orders/")
+        response = requests.get(f"{API_BASE_URL}/orders/", headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
@@ -190,7 +194,7 @@ def get_order_details(order_id):
     if cached_data:
         return cached_data
     try:
-        response = requests.get(f"{API_BASE_URL}/orders/{order_id}/")
+        response = requests.get(f"{API_BASE_URL}/orders/{order_id}/", headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
@@ -205,7 +209,7 @@ def get_orderitem_list():
     if cached_data:
         return cached_data
     try:
-        response = requests.get(f"{API_BASE_URL}/orderitems/")
+        response = requests.get(f"{API_BASE_URL}/orderitems/", headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
@@ -220,7 +224,7 @@ def get_orderitem_details(orderitem_id):
     if cached_data:
         return cached_data
     try:
-        response = requests.get(f"{API_BASE_URL}/orderitems/{orderitem_id}/")
+        response = requests.get(f"{API_BASE_URL}/orderitems/{orderitem_id}/", headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
@@ -235,7 +239,7 @@ def get_deliverycompany_list():
     if cached_data:
         return cached_data
     try:
-        response = requests.get(f"{API_BASE_URL}/deliverycompanies/")
+        response = requests.get(f"{API_BASE_URL}/deliverycompanies/", headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
@@ -250,7 +254,7 @@ def get_deliverycompany_details(deliverycompany_id):
     if cached_data:
         return cached_data
     try:
-        response = requests.get(f"{API_BASE_URL}/deliverycompanies/{deliverycompany_id}/")
+        response = requests.get(f"{API_BASE_URL}/deliverycompanies/{deliverycompany_id}/", headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
@@ -265,7 +269,7 @@ def get_category_list():
     if cached_data:
         return cached_data
     try:
-        response = requests.get(f"{API_BASE_URL}/categories/")
+        response = requests.get(f"{API_BASE_URL}/categories/", headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
@@ -280,7 +284,7 @@ def get_category_details(category_id):
     if cached_data:
         return cached_data
     try:
-        response = requests.get(f"{API_BASE_URL}/categories/{category_id}/")
+        response = requests.get(f"{API_BASE_URL}/categories/{category_id}/", headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
@@ -295,7 +299,7 @@ def get_product_list():
     if cached_data:
         return cached_data
     try:
-        response = requests.get(f"{API_BASE_URL}/products/")
+        response = requests.get(f"{API_BASE_URL}/products/", headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
@@ -310,7 +314,7 @@ def get_product_details(product_id):
     if cached_data:
         return cached_data
     try:
-        response = requests.get(f"{API_BASE_URL}/products/{product_id}/")
+        response = requests.get(f"{API_BASE_URL}/products/{product_id}/", headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
@@ -325,7 +329,7 @@ def get_ingredient_list():
     if cached_data:
         return cached_data
     try:
-        response = requests.get(f"{API_BASE_URL}/ingredients/")
+        response = requests.get(f"{API_BASE_URL}/ingredients/", headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
@@ -340,7 +344,7 @@ def get_ingredient_details(ingredient_id):
     if cached_data:
         return cached_data
     try:
-        response = requests.get(f"{API_BASE_URL}/ingredients/{ingredient_id}/")
+        response = requests.get(f"{API_BASE_URL}/ingredients/{ingredient_id}/", headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
@@ -355,7 +359,7 @@ def get_recipe_list():
     if cached_data:
         return cached_data
     try:
-        response = requests.get(f"{API_BASE_URL}/recipes/")
+        response = requests.get(f"{API_BASE_URL}/recipes/", headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
@@ -370,7 +374,7 @@ def get_recipe_details(recipe_id):
     if cached_data:
         return cached_data
     try:
-        response = requests.get(f"{API_BASE_URL}/recipes/{recipe_id}/")
+        response = requests.get(f"{API_BASE_URL}/recipes/{recipe_id}/", headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)
