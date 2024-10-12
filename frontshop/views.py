@@ -20,18 +20,7 @@ from frontshop.services.read_services import (
     product_full_list,
     product_full_detail,
     get_account_list,
-    get_account_details,
-    get_user_profile_list,
-    get_user_profile_details,
-    get_order_details,
-    get_orderitem_list,
-    get_orderitem_details,
-    get_deliverycompany_details,
-    get_category_details,
-    get_product_details,
-    get_ingredient_details,
-    get_recipe_list,
-    get_recipe_details
+
 )
 from datetime import date
 
