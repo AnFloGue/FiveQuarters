@@ -196,6 +196,11 @@ def logout_view(request):
     logging.info(f"Logout successful for user: {username}")
     return redirect('login')
 
+# ================================================
+# Other Views
+# ================================================
+
+
 def about(request):
     return render(request, 'frontshop/about.html')
 
