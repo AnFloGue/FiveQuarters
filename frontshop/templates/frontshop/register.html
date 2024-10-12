@@ -1,35 +1,26 @@
-<!-- frontshop/templates/frontshop/register.html -->
-
 {% extends 'frontshop/base.html' %}
 {% load static %}
 
 {% block title %}Register{% endblock %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <style>
-        .register-container {
-            margin-left: 200px; /* Move content 200 pixels to the right */
-        }
-        body {
-            background-color: #FFA500; /* Orange color */
-        }
-    </style>
-</head>
-<body>
-    <div class="register-container">
-        <h2>Register</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Register</button>
-        </form>
-    </div>
-</body>
-</html>
+<div class="register-container">
+    <h2>Register</h2>
+    <form method="post" action="{% url 'register' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+</div>
+<style>
+    .register-container {
+        margin-left: 200px; /* Move content 200 pixels to the right */
+    }
+    body {
+        background-color: #FFA500; /* Orange color */
+    }
+</style>
 {% endblock %}
