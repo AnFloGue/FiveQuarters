@@ -1,5 +1,7 @@
 # frontshop/views.py
 
+
+import logging
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
@@ -18,6 +20,11 @@ from frontshop.services.read_services import (
     product_full_list,
     product_full_detail,
 )
+from frontshop.services.create_services import (
+    create_order,
+    create_order_item,
+)
+
 
 # Configure logging
 logging.basicConfig(
@@ -109,6 +116,8 @@ def inventory_information(request):
 # Order Product Views
 # ================================================
 
+
+
 @login_required
 def order_product(request, product_id):
     categories = get_category_list()
@@ -124,21 +133,45 @@ def order_product(request, product_id):
         product = get_object_or_404(Product, id=product_id)
         total_amount = product.price * amount
 
-        # Redirect to order summary with necessary information
-        return HttpResponseRedirect(reverse('order_summary', args=[product_id, amount]))
+        # Create order data
+        order_data = {
+            "customer": request.user.id,
+            "status": "pending",
+            "total_price": total_amount,
+            "delivery_address": request.POST.get('delivery_address', ''),
+            "delivery_company": request.POST.get('delivery_company', 1)  # Assuming delivery company ID is 1
+        }
 
-    context = {
-        'categories': categories,
-        'products': products,
-        'delivery_companies': delivery_companies,
-        'orders': orders,
-        'ingredients': ingredients,
-        'product_details': product_details,
-        'products_with_ingredients': products_with_ingredients,
-    }
+        # Create the order
+        created_order = create_order(order_data)
 
-    return render(request, 'frontshop/order_product.html', context)
+        # Create order item data
+        order_item_data = {
+            "order": created_order['id'],
+            "product": product.id,
+            "quantity": amount,
+            "price": product.price
+        }
 
+        # Create the order item
+        create_order_item(order_item_data)
+
+        return redirect(reverse('order_summary', args=[product_id, amount]))
+    else:
+        context = {
+            'categories': categories,
+            'products': products,
+            'delivery_companies': delivery_companies,
+            'orders': orders,
+            'ingredients': ingredients,
+            'product_details': product_details,
+            'products_with_ingredients': products_with_ingredients,
+        }
+
+        return render(request, 'frontshop/order_product.html', context)
+    
+    
+    
 @login_required
 def order_summary(request, product_id, amount):
     product = get_object_or_404(Product, id=product_id)

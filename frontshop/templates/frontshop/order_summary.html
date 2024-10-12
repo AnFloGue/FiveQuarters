@@ -16,7 +16,6 @@
                         <div class="alert alert-info" role="alert">
                             <h2 class="title"><strong>Notification!</strong> </h2><br>
                             <h5 class="title"> This is an alert notification. item {{ product.name }} is not avalible. Preorder!</h5>
-
                         </div>
                     </div>
                 </div>
@@ -75,8 +74,11 @@
                         </div>
                         <div class="card-body">
                             <a href="{% url 'product_list' %}" class="btn btn-primary mb-3">Keep Shopping</a>
-                            <a href="#" class="btn btn-warning mb-3" disabled>Proceed with Payment</a>
-                            <p><strong>Total Amount:</strong> ${{ total_amount }}</p>
+                            <form method="post" action="{% url 'order_summary' product.id amount %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-warning mb-3">Proceed with Payment</button>
+                                <p><strong>Total Amount:</strong> ${{ total_amount }}</p>
+                            </form>
                         </div>
                     </div>
                     <!-- End Section: Order Summary -->

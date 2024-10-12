@@ -1,80 +1,86 @@
 import os
 import requests
 from dotenv import load_dotenv
+from datetime import datetime, timedelta
 
-# environment variables from .env
+# Load environment variables from .env
 load_dotenv()
 
 API_BASE_URL = os.getenv('API_URL_V1')
 API_USERNAME = os.getenv('API_USERNAME')
 API_PASSWORD = os.getenv('API_PASSWORD')
 
+# Global variables to store the token and its expiration time
+token = None
+token_expiration = None
+
 def get_jwt_token():
+    global token, token_expiration
+    if token and token_expiration and datetime.now() < token_expiration:
+        return token
+
     url = f"{API_BASE_URL}/token/"
-    response = requests.post(url, data={'username': API_USERNAME, 'password': API_PASSWORD})
-    response.raise_for_status()
-    token = response.json()['access']
-    print(f"Generated Token: {token}")  # Print the generated token for testing
-    return token
+    try:
+        response = requests.post(url, data={'username': API_USERNAME, 'password': API_PASSWORD})
+        response.raise_for_status()
+        token = response.json()['access']
+        # Assuming the token is valid for 1 hour
+        token_expiration = datetime.now() + timedelta(hours=1)
+        print(f"Generated Token: {token}")  # Print the generated token for testing
+        return token
+    except requests.exceptions.RequestException as e:
+        print(f"Error obtaining JWT token: {e}")
+        return None
 
-# Generate the token once and reuse it
-token = get_jwt_token()
-headers = {
-    'Authorization': f'Bearer {token}'
+def get_headers():
+    token = get_jwt_token()
+    if token:
+        return {
+            'Authorization': f'Bearer {token}'
+        }
+    else:
+        return {}
+
+def create_order(data):
+    url = f"{API_BASE_URL}/orders/create/"
+    try:
+        response = requests.post(url, data=data, headers=get_headers())
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"Error creating order: {e}")
+        return None
+
+def create_order_item(data):
+    url = f"{API_BASE_URL}/orderitems/create/"
+    try:
+        response = requests.post(url, data=data, headers=get_headers())
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"Error creating order item: {e}")
+        return None
+
+# Example usage
+order_data = {
+    "customer": 1,  # Assuming customer ID is 1
+    "status": "pending",
+    "total_price": "100.00",
+    "delivery_address": "123 Main St",
+    "delivery_company": 1  # Assuming delivery company ID is 1
 }
 
-def create_product(data):
-    url = f"{API_BASE_URL}/products/create/"
-    response = requests.post(url, data=data, headers=headers)
-    if response.status_code != 201:
-        print(f"Error: {response.status_code}")
-        try:
-            print(response.json())
-        except requests.exceptions.JSONDecodeError:
-            print("Response content is not in JSON format or is empty.")
-        print(f"Response Headers: {response.headers}")
-    response.raise_for_status()
-    return response.json()
+created_order = create_order(order_data)
+if created_order:
+    print(created_order)
 
-product_data = {
-    "name": "test product1",
-    "slug": "test-product1",
-    "description": "test product description",
-    "price": "3.00",
-    "image": "",
-    "date_of_manufacture": "2024-09-10",
-    "date_of_expiry": "2024-12-23",
-    "manufacturing_time": "1",
-    "popularity": 9999,
-    "is_product_of_the_week": False,
-    "rating": 5,
-    "category": 3
-}
+    order_item_data = {
+        "order": created_order['id'],
+        "product": 1,  # Assuming product ID is 1
+        "quantity": 2,
+        "price": "50.00"
+    }
 
-created_product = create_product(product_data)
-print(created_product)
-
-def create_ingredient(data):
-    url = f"{API_BASE_URL}/ingredients/create/"
-    response = requests.post(url, data=data, headers=headers)
-    if response.status_code != 201:
-        print(f"Error: {response.status_code}")
-        try:
-            print(response.json())
-        except requests.exceptions.JSONDecodeError:
-            print("Response content is not in JSON format or is empty.")
-        print(f"Response Headers: {response.headers}")
-    response.raise_for_status()
-    return response.json()
-
-ingredient_data = {
-    "name": "test ingredient3",
-    "slug": "test-ingredient3",
-    "stock": 100,
-    "unit": "kg",
-    "required_amount": 10,
-    "potential_allergens": 1
-}
-
-created_ingredient = create_ingredient(ingredient_data)
-print(created_ingredient)
+    created_order_item = create_order_item(order_item_data)
+    if created_order_item:
+        print(created_order_item)

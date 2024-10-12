@@ -183,3 +183,6 @@ LOGGING = {
         },
     },
 }
+print(f"API_BASE_URL_V1: {os.getenv('API_URL_V1')}")
+print(f"API_USERNAME: {os.getenv('API_USERNAME')}")
+print(f"API_PASSWORD: {os.getenv('API_PASSWORD')}")
