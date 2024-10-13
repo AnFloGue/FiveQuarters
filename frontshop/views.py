@@ -118,70 +118,10 @@ def inventory_information(request):
 # ================================================
 
 
+# views.py
 @login_required
 def order_product(request, product_id):
-    categories = get_category_list()
-    products = get_product_list()
-    delivery_companies = get_deliverycompany_list()
-    orders = get_order_list()
-    ingredients = get_ingredient_list()
-    product_details = product_full_list()
-    products_with_ingredients = product_full_detail(product_id)
-
-    if request.method == 'POST':
-        amount = int(request.POST.get('amount', 0))
-        product = get_object_or_404(Product, id=product_id)
-        total_amount = product.price * amount
-
-        # Create order data
-        order_data = {
-            "customer": request.user.id,
-            "status": "pending",
-            "total_price": total_amount,
-            "delivery_address": request.POST.get('delivery_address', ''),
-            "delivery_company": request.POST.get('delivery_company', 1)  # hardcoded delivery company ID 1
-        }
-
-        # Create the order using the API
-        created_order = create_order(order_data)
-
-        if created_order:
-            # Create order item data
-            order_item_data = {
-                "order": created_order['id'],
-                "product": product.id,
-                "quantity": amount,
-                "price": product.price
-            }
-
-            # Create the order item using the API
-            create_order_item(order_item_data)
-
-            return redirect('basketitem_list')
-        else:
-            # Handle order creation failure
-            return render(request, 'frontshop/order_product.html', {
-                'error': 'Failed to create order. Please try again.',
-                'categories': categories,
-                'products': products,
-                'delivery_companies': delivery_companies,
-                'orders': orders,
-                'ingredients': ingredients,
-                'product_details': product_details,
-                'products_with_ingredients': products_with_ingredients,
-            })
-    else:
-        context = {
-            'categories': categories,
-            'products': products,
-            'delivery_companies': delivery_companies,
-            'orders': orders,
-            'ingredients': ingredients,
-            'product_details': product_details,
-            'products_with_ingredients': products_with_ingredients,
-        }
-
-        return render(request, 'frontshop/order_product.html', context)
+ pass
     
 # ================================================
 # Basket Views
