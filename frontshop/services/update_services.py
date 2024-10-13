@@ -26,7 +26,7 @@ def get_jwt_token():
         token = response.json()['access']
         # Assuming the token is valid for 1 hour
         token_expiration = datetime.now() + timedelta(hours=1)
-        print(f"Generated Token: {token}")  # Print the generated token for testing
+        print(f"frontshop/services/update_services.py, Generated Token: {token}")  # Print the generated token for testing
         return token
     except requests.exceptions.RequestException as e:
         print(f"Error obtaining JWT token: {e}")
@@ -140,3 +140,4 @@ def update_order_summary(pk, data):
     if response.status_code == 200:
         return response.json()
     return None
+

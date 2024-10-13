@@ -34,8 +34,11 @@ def register(request):
         user = serializer.save()
         refresh = RefreshToken.for_user(user)
         return Response({
+            # The 'refresh' token is a long-lived token that can be used to obtain new access tokens.
             'refresh': str(refresh),
+            # The 'access' token is a short-lived token used for authenticating API requests.
             'access': str(refresh.access_token),
+            
         }, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -47,7 +50,9 @@ def login(request):
     if user is not None:
         refresh = RefreshToken.for_user(user)
         return Response({
+            # The 'refresh' token is a long-lived token that can be used to obtain new access tokens.
             'refresh': str(refresh),
+            # The 'access' token is a short-lived token used for authenticating API requests.
             'access': str(refresh.access_token),
         })
     return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)

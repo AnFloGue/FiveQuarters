@@ -26,7 +26,7 @@ def get_jwt_token():
         token = response.json()['access']
         # Assuming the token is valid for 1 hour
         token_expiration = datetime.now() + timedelta(hours=1)
-        print(f"Generated Token: {token}")  # Print the generated token for testing
+        print(f"frontshop/services/delete_services.py, Generated Token: {token}")  # Print the generated token for testing
         return token
     except requests.exceptions.RequestException as e:
         print(f"Error obtaining JWT token: {e}")
@@ -120,3 +120,4 @@ def delete_delivery_company(pk):
 def delete_order_summary(pk):
     response = requests.delete(f'{API_BASE_URL}/order-summaries/{pk}/', headers=get_headers())
     return response.status_code == 204
+

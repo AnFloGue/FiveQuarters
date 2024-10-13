@@ -11,6 +11,13 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fivequarters.settings')
 # We use the API base URL from settings
 API_BASE_URL = os.getenv('API_URL_V1')
 
+
+
+#==================================================
+# Functions for API requests
+#==================================================
+
+# Function to get headers for API requests
 def get_headers():
     username = os.getenv('API_USERNAME')
     password = os.getenv('API_PASSWORD')
@@ -18,12 +25,7 @@ def get_headers():
         "Authorization": f"Basic {HTTPBasicAuth(username, password)}"
     }
 
-def cache_data(key, data, timeout=300):
-    cache.set(key, data, timeout)
-
-def get_cached_data(key):
-    return cache.get(key)
-
+# Function to make a GET request to a specified URL and return the JSON response
 def get_api_data(url):
     try:
         response = requests.get(url, headers=get_headers())
@@ -33,9 +35,21 @@ def get_api_data(url):
         print(f"Request error occurred: {err}")
         return None
 
-# ==================
+#==================================================
+# Functions for caching
+#==================================================
+
+# Function to cache data with a specified key and timeout
+def cache_data(key, data, timeout=300):
+    cache.set(key, data, timeout) # Cache in milliseconds, for 5 minutes
+
+# Function to retrieve cached data for a specified key
+def get_cached_data(key):
+    return cache.get(key)
+
+#==================================================
 # Category Services
-# ==================
+#==================================================
 
 def get_category_list():
     cache_key = 'category_list'
@@ -52,9 +66,9 @@ def get_category_list():
         print(f"Request error occurred: {err}")
         return []
 
-# ==================
+#==================================================
 # Product Services
-# ==================
+#==================================================
 
 def get_product_list():
     cache_key = 'product_list'
@@ -117,9 +131,9 @@ def product_full_detail(product_id):
         print(f"Request error occurred: {err}")
         return {}
 
-# ==================
+#==================================================
 # Ingredient Services
-# ==================
+#==================================================
 
 def get_ingredient_list():
     cache_key = 'ingredient_list'
@@ -136,9 +150,9 @@ def get_ingredient_list():
         print(f"Request error occurred: {err}")
         return []
 
-# ==================
+#==================================================
 # Account Services
-# ==================
+#==================================================
 
 def get_account_list():
     cache_key = 'account_list'
@@ -155,9 +169,9 @@ def get_account_list():
         print(f"Request error occurred: {err}")
         return []
 
-# ==================
+#==================================================
 # DeliveryCompany Services
-# ==================
+#==================================================
 
 def get_deliverycompany_list():
     cache_key = 'deliverycompany_list'
@@ -174,9 +188,9 @@ def get_deliverycompany_list():
         print(f"Request error occurred: {err}")
         return []
 
-# ==================
+#==================================================
 # Order Services
-# ==================
+#==================================================
 
 def get_order_list():
     cache_key = 'order_list'
@@ -193,34 +207,21 @@ def get_order_list():
         print(f"Request error occurred: {err}")
         return []
 
-# ==================
+#==================================================
 # OrderSummary Services
-# ==================
+#==================================================
 
+# Function to get a list of order summaries
 def get_order_summaries():
-    response = requests.get(f'{API_BASE_URL}/order-summaries/')
+    response = requests.get(f'{API_BASE_URL}/order-summaries/', headers=get_headers())
     if response.status_code == 200:
         return response.json()
     return []
 
+# Function to get the details of a specific order summary
 def get_order_summary_detail(pk):
-    response = requests.get(f'{API_BASE_URL}/order-summaries/{pk}/')
+    response = requests.get(f'{API_BASE_URL}/order-summaries/{pk}/', headers=get_headers())
     if response.status_code == 200:
         return response.json()
     return None
 
-def create_order_summary(data):
-    response = requests.post(f'{API_BASE_URL}/order-summaries/create/', json=data)
-    if response.status_code == 201:
-        return response.json()
-    return None
-
-def update_order_summary(pk, data):
-    response = requests.put(f'{API_BASE_URL}/order-summaries/{pk}/update/', json=data)
-    if response.status_code == 200:
-        return response.json()
-    return None
-
-def delete_order_summary(pk):
-    response = requests.delete(f'{API_BASE_URL}/order-summaries/{pk}/delete/')
-    return response.status_code == 204

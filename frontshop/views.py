@@ -243,22 +243,39 @@ def order_summary(request, product_id, amount):
     }
     return render(request, 'frontshop/order_summary.html', context)
 
-def add_to_order_summary(request, product_id, quantity):
+from .models import OrderSummary, Product
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
+from django.shortcuts import redirect
+
+@login_required
+def order_summary(request, product_id, amount):
+    # Fetch all order summaries for the specific customer
+    order_summaries = OrderSummary.objects.filter(user=request.user)
+
+    # Calculate the total amount of all items in OrderSummary
+    total_amount = sum(summary.total_price for summary in order_summaries)
+
+    # Add the new product's total price to the total amount
     product = get_object_or_404(Product, id=product_id)
-    user = request.user
-    price_per_unit = product.price
-    total_price = price_per_unit * int(quantity)
+    new_product_total = product.price * amount
+    total_amount += new_product_total
 
-    OrderSummary.objects.create(
-        user=user,
-        product=product,
-        quantity=quantity,
-        price_per_unit=price_per_unit,
-        total_price=total_price
-    )
-
-    return redirect('order_summary_list')  # Redirect to a view that lists the order summaries
-
+    # Render the order summary page with context
+    context = {
+        'product': product,
+        'amount': amount,
+        'total_amount': total_amount,
+        'order_summaries': order_summaries,
+    }
+    # debug print
+    print()
+    for key, value in context.items():
+        print(f"order_summary: {key}: {value}")
+    print()
+    
+    return render(request, 'frontshop/order_summary.html', context)
 
 # ================================================
 # Login, Register, Logout Views
