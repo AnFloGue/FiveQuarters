@@ -95,6 +95,7 @@ class BasketItemSerializer(serializers.ModelSerializer):
 
 class BasketSerializer(serializers.ModelSerializer):
     items = BasketItemSerializer(many=True, read_only=True)
+    user_id = serializers.IntegerField(source='user.id', read_only=True)
 
     class Meta:
         model = Basket

@@ -129,14 +129,16 @@ def order_product(request, product_id):
 
 
 
-# frontshop/views.py
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+from .models import BasketItem, Product
 
 @login_required
 def basketitem_list(request, product_id=None, user=None):
     if user is None:
         user = request.user
     user_id = user.id
-    basketitems = get_basketitem_list(user_id)
+    basketitems = BasketItem.objects.filter(basket__user_id=user_id)
 
     categories = get_category_list()
     products = get_product_list()
@@ -146,7 +148,7 @@ def basketitem_list(request, product_id=None, user=None):
 
     product = get_object_or_404(Product, id=product_id) if product_id else None
 
-    if basketitems:
+    if basketitems.exists():
         basket = {
             'id': basketitems[0].basket.id,
             'created_at': basketitems[0].basket.created_at,
