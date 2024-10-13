@@ -424,7 +424,7 @@ def recipe_delete(request, pk):
 def order_list(request):
     orders = cache.get('order_list')
     if not orders:
-        orders = Order.objects.all()
+        orders = list(Order.objects.all())
         cache.set('order_list', orders, timeout=60*15)
     serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data)

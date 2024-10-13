@@ -60,27 +60,3 @@ def create_order_item(data):
     except requests.exceptions.RequestException as e:
         print(f"Error creating order item: {e}")
         return None
-
-# Example usage
-order_data = {
-    "customer": 1,  # Assuming customer ID is 1
-    "status": "pending",
-    "total_price": "100.00",
-    "delivery_address": "123 Main St",
-    "delivery_company": 1  # Assuming delivery company ID is 1
-}
-
-created_order = create_order(order_data)
-if created_order:
-    print(created_order)
-
-    order_item_data = {
-        "order": created_order['id'],
-        "product": 1,  # Assuming product ID is 1
-        "quantity": 2,
-        "price": "50.00"
-    }
-
-    created_order_item = create_order_item(order_item_data)
-    if created_order_item:
-        print(created_order_item)

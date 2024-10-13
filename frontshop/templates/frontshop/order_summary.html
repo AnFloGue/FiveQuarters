@@ -1,4 +1,3 @@
-<!-- frontshop/templates/frontshop/order_summary.html -->
 {% extends 'frontshop/base.html' %}
 {% load static %}
 
@@ -15,7 +14,7 @@
                         <!-- Alert notification -->
                         <div class="alert alert-info" role="alert">
                             <h2 class="title"><strong>Notification!</strong> </h2><br>
-                            <h5 class="title"> This is an alert notification. item {{ product.name }} is not avalible. Preorder!</h5>
+                            <h5 class="title"> This is an alert notification. item {{ product.name }} is not available. Preorder!</h5>
                         </div>
                     </div>
                 </div>
@@ -76,7 +75,7 @@
                             <a href="{% url 'product_list' %}" class="btn btn-primary mb-3">Keep Shopping</a>
                             <form method="post" action="{% url 'order_summary' product.id amount %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-warning mb-3">Proceed with Payment</button>
+                                <button type="submit" class="btn btn-warning mb-3">Confirm Order</button>
                                 <p><strong>Total Amount:</strong> ${{ total_amount }}</p>
                             </form>
                         </div>

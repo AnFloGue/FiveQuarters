@@ -35,9 +35,6 @@ class Category(models.Model):
 # ==============================
 
 
-# backshop/models.py
-
-
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
