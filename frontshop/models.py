@@ -4,16 +4,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from backshop.models import Product
 
-
 # ==============================
 # Delivery Company Model
 # ==============================
 class DeliveryCompany(models.Model):
     name = models.CharField(max_length=100)
-    
+
     def __str__(self):
         return self.name
-
 
 # ==============================
 # Order Model
@@ -30,33 +28,15 @@ class Order(models.Model):
     received_date = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     def __str__(self):
         return f"Order {self.id} by {self.user.username}"
-    
+
     def get_order_items(self):
         items_list = []
         for item in self.items.all():
             items_list.append(f"{item.quantity} of {item.product.name}")
         return "\n".join(items_list)
-
-
-# ==============================
-# Order Summary Model
-# ==============================
-
-class OrderSummary(models.Model):
-    id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField()
-    price_per_unit = models.DecimalField(max_digits=10, decimal_places=2)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"OrderSummary for {self.user.username} - {self.product.name} (x{self.quantity})"
 
 # ==============================
 # Order Item Model
@@ -66,6 +46,35 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
     rating = models.PositiveIntegerField(default=0)
-    
+
+    def __str__(self):
+        return f"{self.quantity} of {self.product.name}"
+
+# ==============================
+# Basket Model
+# ==============================
+class Basket(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Basket {self.id} by {self.user.username}"
+
+    def get_basket_items(self):
+        items_list = []
+        for item in self.items.all():
+            items_list.append(f"{item.quantity} of {item.product.name}")
+        return "\n".join(items_list)
+
+# ==============================
+# Basket Item Model
+# ==============================
+class BasketItem(models.Model):
+    basket = models.ForeignKey(Basket, related_name='items', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+
     def __str__(self):
         return f"{self.quantity} of {self.product.name}"

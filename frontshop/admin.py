@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Order, OrderItem, DeliveryCompany, OrderSummary
-
+from .models import Order, OrderItem, DeliveryCompany, Basket, BasketItem
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -23,11 +22,18 @@ class DeliveryCompanyAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     list_display_links = ('id', 'name')
     search_fields = ('name',)
-    
-@admin.register(OrderSummary)
-class OrderSummaryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'product', 'quantity', 'price_per_unit', 'total_price')
+
+@admin.register(Basket)
+class BasketAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'total_price', 'created_at', 'updated_at')
     list_display_links = ('id', 'user')
-    search_fields = ('user__username', 'product__name')
+    search_fields = ('user__username',)
     list_filter = ('created_at',)
     date_hierarchy = 'created_at'
+
+@admin.register(BasketItem)
+class BasketItemAdmin(admin.ModelAdmin):
+    list_display = ('id', 'basket', 'product', 'quantity')
+    list_display_links = ('id', 'basket')
+    search_fields = ('basket__id', 'product__name')
+    list_filter = ('basket__created_at',)

@@ -1,8 +1,8 @@
 # api/v1/serializers.py
 
 from rest_framework import serializers
-from backshop.models import Category, Product, Ingredient, Recipe
-from frontshop.models import Order, OrderItem, DeliveryCompany, OrderSummary
+from backshop.models import Category, Product, Ingredient, Recipe, Allergen
+from frontshop.models import Order, OrderItem, DeliveryCompany, Basket, BasketItem
 from account.models import Account, UserProfile
 
 
@@ -14,7 +14,7 @@ class AccountSerializer(serializers.ModelSerializer):
         model = Account
         fields = '__all__'
         extra_kwargs = {'password': {'write_only': True}}
-    
+
     def create(self, validated_data):
         user = Account.objects.create_user(**validated_data)
         return user
@@ -45,8 +45,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_is_available(self, obj):
         return obj.is_available
-    
-    
+
+
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
@@ -59,8 +59,14 @@ class RecipeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class AllergenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Allergen
+        fields = '__all__'
+
+
 # ================================================
-# Serializers for Frontshop models
+# Serializers for frontshop models
 # ================================================
 
 class DeliveryCompanySerializer(serializers.ModelSerializer):
@@ -80,7 +86,16 @@ class OrderItemSerializer(serializers.ModelSerializer):
         model = OrderItem
         fields = '__all__'
 
-class OrderSummarySerializer(serializers.ModelSerializer):
+
+class BasketItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = OrderSummary
+        model = BasketItem
+        fields = '__all__'
+
+
+class BasketSerializer(serializers.ModelSerializer):
+    items = BasketItemSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Basket
         fields = '__all__'

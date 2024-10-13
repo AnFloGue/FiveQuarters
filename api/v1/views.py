@@ -7,13 +7,13 @@ from django.core.cache import cache
 from django.shortcuts import get_object_or_404
 
 from backshop.models import Product, Category, Recipe, Ingredient, Allergen
-from frontshop.models import Order, OrderItem, DeliveryCompany, OrderSummary
+from frontshop.models import Order, OrderItem, DeliveryCompany, Basket, BasketItem
 from account.models import Account, UserProfile
 
 from .serializers import (
     CategorySerializer, ProductSerializer, IngredientSerializer, RecipeSerializer,
     OrderSerializer, OrderItemSerializer, DeliveryCompanySerializer,
-    AccountSerializer, UserProfileSerializer, OrderSummarySerializer,
+    AccountSerializer, UserProfileSerializer, BasketSerializer, BasketItemSerializer, AllergenSerializer,
 )
 from drf_yasg.utils import swagger_auto_schema
 from django.contrib.auth import authenticate
@@ -34,11 +34,8 @@ def register(request):
         user = serializer.save()
         refresh = RefreshToken.for_user(user)
         return Response({
-            # The 'refresh' token is a long-lived token that can be used to obtain new access tokens.
             'refresh': str(refresh),
-            # The 'access' token is a short-lived token used for authenticating API requests.
             'access': str(refresh.access_token),
-            
         }, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -50,9 +47,7 @@ def login(request):
     if user is not None:
         refresh = RefreshToken.for_user(user)
         return Response({
-            # The 'refresh' token is a long-lived token that can be used to obtain new access tokens.
             'refresh': str(refresh),
-            # The 'access' token is a short-lived token used for authenticating API requests.
             'access': str(refresh.access_token),
         })
     return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
@@ -421,6 +416,60 @@ def recipe_delete(request, pk):
     cache.delete('recipe_list')
     return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+# ==================================================
+# Allergen Views
+# ==================================================
+
+@api_view(['GET'])
+def allergen_list(request):
+    allergens = cache.get('allergen_list')
+    if not allergens:
+        allergens = Allergen.objects.all()
+        cache.set('allergen_list', allergens, timeout=60*15)
+    serializer = AllergenSerializer(allergens, many=True)
+    return Response(serializer.data)
+
+@swagger_auto_schema(method='post', request_body=AllergenSerializer)
+@api_view(['POST'])
+def allergen_create(request):
+    serializer = AllergenSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        cache.delete('allergen_list')
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def allergen_detail(request, pk):
+    allergen = cache.get(f'allergen_{pk}')
+    if not allergen:
+        allergen = get_object_or_404(Allergen, pk=pk)
+        cache.set(f'allergen_{pk}', allergen, timeout=60*15)
+    serializer = AllergenSerializer(allergen)
+    return Response(serializer.data)
+
+@swagger_auto_schema(method='put', request_body=AllergenSerializer)
+@api_view(['PUT'])
+def allergen_update(request, pk):
+    allergen = get_object_or_404(Allergen, pk=pk)
+    serializer = AllergenSerializer(allergen, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        cache.delete(f'allergen_{pk}')
+        cache.delete('allergen_list')
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def allergen_delete(request, pk):
+    allergen = get_object_or_404(Allergen, pk=pk)
+    allergen.delete()
+    cache.delete(f'allergen_{pk}')
+    cache.delete('allergen_list')
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 # ==================================================
 # Order Views
 # ==================================================
@@ -526,6 +575,113 @@ def orderitem_delete(request, pk):
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 # ==================================================
+# Basket Views
+# ==================================================
+
+@api_view(['GET'])
+def basket_list(request):
+    baskets = cache.get('basket_list')
+    if not baskets:
+        baskets = Basket.objects.all()
+        cache.set('basket_list', baskets, timeout=60*15)
+    serializer = BasketSerializer(baskets, many=True)
+    return Response(serializer.data)
+
+@swagger_auto_schema(method='post', request_body=BasketSerializer)
+@api_view(['POST'])
+def basket_create(request):
+    serializer = BasketSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        cache.delete('basket_list')
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def basket_detail(request, pk):
+    basket = cache.get(f'basket_{pk}')
+    if not basket:
+        basket = get_object_or_404(Basket, pk=pk)
+        cache.set(f'basket_{pk}', basket, timeout=60*15)
+    serializer = BasketSerializer(basket)
+    return Response(serializer.data)
+
+@swagger_auto_schema(method='put', request_body=BasketSerializer)
+@api_view(['PUT'])
+def basket_update(request, pk):
+    basket = get_object_or_404(Basket, pk=pk)
+    serializer = BasketSerializer(basket, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        cache.delete(f'basket_{pk}')
+        cache.delete('basket_list')
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def basket_delete(request, pk):
+    basket = get_object_or_404(Basket, pk=pk)
+    basket.delete()
+    cache.delete(f'basket_{pk}')
+    cache.delete('basket_list')
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# ==================================================
+# BasketItem Views
+# ==================================================
+
+@api_view(['GET'])
+def basketitem_list(request):
+    basketitems = cache.get('basketitem_list')
+    if not basketitems:
+        basketitems = BasketItem.objects.all()
+        cache.set('basketitem_list', basketitems, timeout=60*15)
+    serializer = BasketItemSerializer(basketitems, many=True)
+    return Response(serializer.data)
+
+@swagger_auto_schema(method='post', request_body=BasketItemSerializer)
+@api_view(['POST'])
+def basketitem_create(request):
+    serializer = BasketItemSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        cache.delete('basketitem_list')
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def basketitem_detail(request, pk):
+    basketitem = cache.get(f'basketitem_{pk}')
+    if not basketitem:
+        basketitem = get_object_or_404(BasketItem, pk=pk)
+        cache.set(f'basketitem_{pk}', basketitem, timeout=60*15)
+    serializer = BasketItemSerializer(basketitem)
+    return Response(serializer.data)
+
+@swagger_auto_schema(method='put', request_body=BasketItemSerializer)
+@api_view(['PUT'])
+def basketitem_update(request, pk):
+    basketitem = get_object_or_404(BasketItem, pk=pk)
+    serializer = BasketItemSerializer(basketitem, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        cache.delete(f'basketitem_{pk}')
+        cache.delete('basketitem_list')
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def basketitem_delete(request, pk):
+    basketitem = get_object_or_404(BasketItem, pk=pk)
+    basketitem.delete()
+    cache.delete(f'basketitem_{pk}')
+    cache.delete('basketitem_list')
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+# ==================================================
 # DeliveryCompany Views
 # ==================================================
 
@@ -553,74 +709,4 @@ def deliverycompany_detail(request, pk):
     delivery_company = cache.get(f'deliverycompany_{pk}')
     if not delivery_company:
         delivery_company = get_object_or_404(DeliveryCompany, pk=pk)
-        cache.set(f'deliverycompany_{pk}', delivery_company, timeout=60*15)
-    serializer = DeliveryCompanySerializer(delivery_company)
-    return Response
-
-@swagger_auto_schema(method='put', request_body=DeliveryCompanySerializer)
-@api_view(['PUT'])
-def deliverycompany_update(request, pk):
-    try:
-        delivery_company = DeliveryCompany.objects.get(pk=pk)
-    except DeliveryCompany.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = DeliveryCompanySerializer(delivery_company, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        cache.set(f'deliverycompany_{pk}', delivery_company, timeout=60*15)
-        cache.delete('deliverycompany_list')
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(['DELETE'])
-def deliverycompany_delete(request, pk):
-    try:
-        delivery_company = DeliveryCompany.objects.get(pk=pk)
-    except DeliveryCompany.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    delivery_company.delete()
-    cache.delete(f'deliverycompany_{pk}')
-    cache.delete('deliverycompany_list')
-    return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-
-# ==================================================
-# OrderSummary Views
-# ==================================================
-
-@api_view(['GET'])
-def order_summary_list(request):
-    order_summaries = OrderSummary.objects.all()
-    serializer = OrderSummarySerializer(order_summaries, many=True)
-    return Response(serializer.data)
-
-@api_view(['POST'])
-def order_summary_create(request):
-    serializer = OrderSummarySerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(['GET'])
-def order_summary_detail(request, pk):
-    order_summary = get_object_or_404(OrderSummary, pk=pk)
-    serializer = OrderSummarySerializer(order_summary)
-    return Response(serializer.data)
-
-@api_view(['PUT'])
-def order_summary_update(request, pk):
-    order_summary = get_object_or_404(OrderSummary, pk=pk)
-    serializer = OrderSummarySerializer(order_summary, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(['DELETE'])
-def order_summary_delete(request, pk):
-    order_summary = get_object_or_404(OrderSummary, pk=pk)
-    order_summary.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
+        cache

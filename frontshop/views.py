@@ -1,10 +1,6 @@
 # frontshop/views.py
 
-
-from .models import OrderSummary, Product
-
-from frontshop.services.read_services import get_order_summaries
-
+from .models import Product
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -21,12 +17,15 @@ from frontshop.services.read_services import (
     get_ingredient_list,
     product_full_list,
     product_full_detail,
+    get_basketitem_list,
+    get_basketitem_detail,
+
 )
+
 from frontshop.services.create_services import (
     create_order,
     create_order_item,
 )
-
 
 # Configure logging
 logging.basicConfig(

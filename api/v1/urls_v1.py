@@ -2,37 +2,32 @@
 from django.urls import path
 from api.v1 import views
 from .views import (
-    register, login, product_full_list, product_full_detail,
-    order_summary_list, order_summary_create, order_summary_detail,
-    order_summary_update, order_summary_delete
+    register, login, product_full_list, product_full_detail
 )
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView
 )
 
-
 urlpatterns = [
-    
     # Auth Views
     path('register/', register, name='register'),
     path('login/', login, name='login'),
-    
+
     # Token endpoints
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
-    
     # Account Views
     path('accounts/', views.account_list, name='account_list'),
-    path('accounts/create/', views.create_account, name='create_account'),  
+    path('accounts/create/', views.create_account, name='create_account'),
     path('accounts/<int:pk>/', views.account_detail, name='account_detail'),
     path('accounts/<int:pk>/update/', views.update_account, name='update_account'),
     path('accounts/<int:pk>/delete/', views.delete_account, name='delete_account'),
 
     # UserProfile Views
-    path('userprofiles/', views.user_profile_list, name='user_profile_list'),  # Added this line
-    path('userprofiles/create/', views.create_user_profile, name='create_user_profile'),  # Changed this line
+    path('userprofiles/', views.user_profile_list, name='user_profile_list'),
+    path('userprofiles/create/', views.create_user_profile, name='create_user_profile'),
     path('userprofiles/<int:pk>/', views.user_profile_detail, name='user_profile_detail'),
     path('userprofiles/<int:pk>/update/', views.update_user_profile, name='update_user_profile'),
     path('userprofiles/<int:pk>/delete/', views.delete_user_profile, name='delete_user_profile'),
@@ -50,12 +45,9 @@ urlpatterns = [
     path('products/<int:pk>/', views.product_detail, name='product_detail'),
     path('products/<int:pk>/update/', views.product_update, name='product_update'),
     path('products/<int:pk>/delete/', views.product_delete, name='product_delete'),
-
     path('product-full-list/', product_full_list, name='product_full_list'),
-    
     path('product-full-detail/<int:pk>/', product_full_detail, name='product_full_detail'),
 
-    
     # Ingredient Views
     path('ingredients/', views.ingredient_list, name='ingredient_list'),
     path('ingredients/create/', views.ingredient_create, name='ingredient_create'),
@@ -91,15 +83,24 @@ urlpatterns = [
     path('deliverycompanies/<int:pk>/update/', views.deliverycompany_update, name='deliverycompany_update'),
     path('deliverycompanies/<int:pk>/delete/', views.deliverycompany_delete, name='deliverycompany_delete'),
 
+    # Basket Views
+    path('baskets/', views.basket_list, name='basket_list'),
+    path('baskets/create/', views.basket_create, name='basket_create'),
+    path('baskets/<int:pk>/', views.basket_detail, name='basket_detail'),
+    path('baskets/<int:pk>/update/', views.basket_update, name='basket_update'),
+    path('baskets/<int:pk>/delete/', views.basket_delete, name='basket_delete'),
 
-    # OrderSummary Views
-    path('order-summaries/', order_summary_list, name='order_summary_list'),
-    path('order-summaries/create/', order_summary_create, name='order_summary_create'),
-    path('order-summaries/<int:pk>/', order_summary_detail, name='order_summary_detail'),
-    path('order-summaries/<int:pk>/update/', order_summary_update, name='order_summary_update'),
-    path('order-summaries/<int:pk>/delete/', order_summary_delete, name='order_summary_delete'),
+    # BasketItem Views
+    path('basketitems/', views.basketitem_list, name='basketitem_list'),
+    path('basketitems/create/', views.basketitem_create, name='basketitem_create'),
+    path('basketitems/<int:pk>/', views.basketitem_detail, name='basketitem_detail'),
+    path('basketitems/<int:pk>/update/', views.basketitem_update, name='basketitem_update'),
+    path('basketitems/<int:pk>/delete/', views.basketitem_delete, name='basketitem_delete'),
 
-
+    # Allergen Views
+    path('allergens/', views.allergen_list, name='allergen_list'),
+    path('allergens/create/', views.allergen_create, name='allergen_create'),
+    path('allergens/<int:pk>/', views.allergen_detail, name='allergen_detail'),
+    path('allergens/<int:pk>/update/', views.allergen_update, name='allergen_update'),
+    path('allergens/<int:pk>/delete/', views.allergen_delete, name='allergen_delete'),
 ]
-
-

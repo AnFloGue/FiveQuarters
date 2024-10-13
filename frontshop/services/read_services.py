@@ -11,8 +11,6 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fivequarters.settings')
 # We use the API base URL from settings
 API_BASE_URL = os.getenv('API_URL_V1')
 
-
-
 #==================================================
 # Functions for API requests
 #==================================================
@@ -208,20 +206,103 @@ def get_order_list():
         return []
 
 #==================================================
-# OrderSummary Services
+# Basket Services
 #==================================================
 
-# Function to get a list of order summaries
-def get_order_summaries():
-    response = requests.get(f'{API_BASE_URL}/order-summaries/', headers=get_headers())
-    if response.status_code == 200:
-        return response.json()
-    return []
+def get_basket_list():
+    cache_key = 'basket_list'
+    cached_data = get_cached_data(cache_key)
+    if (cached_data):
+        return cached_data
+    try:
+        response = requests.get(f"{API_BASE_URL}/baskets/", headers=get_headers())
+        response.raise_for_status()
+        data = response.json()
+        cache_data(cache_key, data)
+        return data
+    except RequestException as err:
+        print(f"Request error occurred: {err}")
+        return []
 
-# Function to get the details of a specific order summary
-def get_order_summary_detail(pk):
-    response = requests.get(f'{API_BASE_URL}/order-summaries/{pk}/', headers=get_headers())
-    if response.status_code == 200:
-        return response.json()
-    return None
+def get_basket_detail(pk):
+    cache_key = f'basket_{pk}'
+    cached_data = get_cached_data(cache_key)
+    if (cached_data):
+        return cached_data
+    try:
+        response = requests.get(f"{API_BASE_URL}/baskets/{pk}/", headers=get_headers())
+        response.raise_for_status()
+        data = response.json()
+        cache_data(cache_key, data)
+        return data
+    except RequestException as err:
+        print(f"Request error occurred: {err}")
+        return {}
 
+#==================================================
+# Allergen Services
+#==================================================
+
+def get_allergen_list():
+    cache_key = 'allergen_list'
+    cached_data = get_cached_data(cache_key)
+    if (cached_data):
+        return cached_data
+    try:
+        response = requests.get(f"{API_BASE_URL}/allergens/", headers=get_headers())
+        response.raise_for_status()
+        data = response.json()
+        cache_data(cache_key, data)
+        return data
+    except RequestException as err:
+        print(f"Request error occurred: {err}")
+        return []
+
+def get_allergen_detail(pk):
+    cache_key = f'allergen_{pk}'
+    cached_data = get_cached_data(cache_key)
+    if (cached_data):
+        return cached_data
+    try:
+        response = requests.get(f"{API_BASE_URL}/allergens/{pk}/", headers=get_headers())
+        response.raise_for_status()
+        data = response.json()
+        cache_data(cache_key, data)
+        return data
+    except RequestException as err:
+        print(f"Request error occurred: {err}")
+        return {}
+
+#==================================================
+# BasketItem Services
+#==================================================
+
+def get_basketitem_list():
+    cache_key = 'basketitem_list'
+    cached_data = get_cached_data(cache_key)
+    if (cached_data):
+        return cached_data
+    try:
+        response = requests.get(f"{API_BASE_URL}/basketitems/", headers=get_headers())
+        response.raise_for_status()
+        data = response.json()
+        cache_data(cache_key, data)
+        return data
+    except RequestException as err:
+        print(f"Request error occurred: {err}")
+        return []
+
+def get_basketitem_detail(pk):
+    cache_key = f'basketitem_{pk}'
+    cached_data = get_cached_data(cache_key)
+    if (cached_data):
+        return cached_data
+    try:
+        response = requests.get(f"{API_BASE_URL}/basketitems/{pk}/", headers=get_headers())
+        response.raise_for_status()
+        data = response.json()
+        cache_data(cache_key, data)
+        return data
+    except RequestException as err:
+        print(f"Request error occurred: {err}")
+        return {}
