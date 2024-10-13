@@ -3,7 +3,7 @@ from django.urls import path
 from .views import (
     home, about, login_view, register_view, logout_view,
     product_list, product_detail, inventory_information,
-    order_product, order_summary, submit_review,
+    order_product, submit_review, basketitem_list,
 )
 
 urlpatterns = [
@@ -36,15 +36,14 @@ urlpatterns = [
     
     path('order/<int:product_id>/', order_product, name='order_product'),
 
-    path('order_summary/', order_summary, name='order_summary'),
-    
-#    path('order_summary/<int:pk>/', order_summary_detail, name='order_summary_detail'),
-    
-    path('order_summary/<int:product_id>/<int:amount>/', order_summary, name='order_summary'),
-
     path('inventory-information/', inventory_information, name='inventory_information'),
- 
-
+    
+    # ================================================
+    # basketitem Views
+    # ================================================
+    
+    path('basket/', basketitem_list, name='basketitem_list'),
+    
     # ================================================
     # About View
     # ================================================

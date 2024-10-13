@@ -157,7 +157,7 @@ def order_product(request, product_id):
             # Create the order item using the API
             create_order_item(order_item_data)
 
-            return redirect(reverse('order_summary', args=[product_id, amount]))
+            return redirect('basketitem_list')
         else:
             # Handle order creation failure
             return render(request, 'frontshop/order_product.html', {
@@ -183,97 +183,14 @@ def order_product(request, product_id):
 
         return render(request, 'frontshop/order_product.html', context)
     
-    
+# ================================================
+# Basket Views
+# ================================================
 
 
-
-
-@login_required
-def order_summary(request, product_id, amount):
-    if request.method == 'POST':
-        customer_id = request.user.id
-        status = 'pending'
-        total_price = request.POST.get('total_price')
-        delivery_address = request.POST.get('delivery_address')
-        delivery_company_id = request.POST.get('delivery_company_id')
-
-        order_data = {
-            "customer": customer_id,
-            "status": status,
-            "total_price": total_price,
-            "delivery_address": delivery_address,
-            "delivery_company": delivery_company_id
-        }
-
-        created_order = create_order(order_data)
-        if created_order:
-            product = get_object_or_404(Product, id=product_id)
-            quantity = amount
-            price = product.price
-
-            order_item_data = {
-                "order": created_order['id'],
-                "product": product.id,
-                "quantity": quantity,
-                "price": price
-            }
-
-            created_order_item = create_order_item(order_item_data)
-            if created_order_item:
-                return redirect(reverse('order_success'))
-
-    # Fetch all order summaries for the specific customer
-    order_summaries = OrderSummary.objects.filter(user=request.user)
-
-    # Calculate the total amount of all items in OrderSummary
-    total_amount = sum(summary.total_price for summary in order_summaries)
-
-    # Add the new product's total price to the total amount
-    product = get_object_or_404(Product, id=product_id)
-    new_product_total = product.price * amount
-    total_amount += new_product_total
-
-    # Render the order summary page with context
-    context = {
-        'product': product,
-        'amount': amount,
-        'total_amount': total_amount,
-        'order_summaries': order_summaries,
-    }
-    return render(request, 'frontshop/order_summary.html', context)
-
-
-
-
-
-
-@login_required
-def order_summary(request, product_id, amount):
-    # Fetch all order summaries for the specific customer using the API
-    order_summaries = get_order_summaries()
-
-    # Calculate the total amount of all items in OrderSummary
-    total_amount = sum(float(summary['total_price']) for summary in order_summaries)
-
-    # Add the new product's total price to the total amount
-    product = get_object_or_404(Product, id=product_id)
-    new_product_total = product.price * amount
-    total_amount += new_product_total
-
-    # Render the order summary page with context
-    context = {
-        'product': product,
-        'amount': amount,
-        'total_amount': total_amount,
-        'order_summaries': order_summaries,
-    }
-    # debug print
-    print()
-    for key, value in context.items():
-        print(f"order_summary: {key}: {value}")
-    print()
-
-    return render(request, 'frontshop/order_summary.html', context)
+def basketitem_list(request):
+    basketitems = get_basketitem_list()
+    return render(request, 'frontshop/basket_summary.html', {'basketitems': basketitems})
 
 # ================================================
 # Login, Register, Logout Views
