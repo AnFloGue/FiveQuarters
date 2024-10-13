@@ -1,7 +1,7 @@
 # frontshop/views.py
 
-from .models import Product
 
+from .models import BasketItem, Product
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect, get_object_or_404
@@ -129,9 +129,6 @@ def order_product(request, product_id):
 
 
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
-from .models import BasketItem, Product
 
 @login_required
 def basketitem_list(request, product_id=None, user=None):
@@ -167,10 +164,11 @@ def basketitem_list(request, product_id=None, user=None):
         'products_with_ingredients': products_with_ingredients,
         'product': product,
         'is_available': product.is_available if product else None,
+        'user_id': user.id,
+        'user_name': user.username,
     }
 
     return render(request, 'frontshop/basket_summary.html', context)
-
 # ================================================
 # Login, Register, Logout Views
 # ================================================
