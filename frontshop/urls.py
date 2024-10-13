@@ -35,7 +35,13 @@ urlpatterns = [
     # ================================================
     
     path('order/<int:product_id>/', order_product, name='order_product'),
+
+    path('order_summary/', order_summary, name='order_summary'),
+    
+#    path('order_summary/<int:pk>/', order_summary_detail, name='order_summary_detail'),
+    
     path('order_summary/<int:product_id>/<int:amount>/', order_summary, name='order_summary'),
+
     path('inventory-information/', inventory_information, name='inventory_information'),
  
 

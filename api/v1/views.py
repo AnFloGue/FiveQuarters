@@ -7,13 +7,13 @@ from django.core.cache import cache
 from django.shortcuts import get_object_or_404
 
 from backshop.models import Product, Category, Recipe, Ingredient, Allergen
-from frontshop.models import Order, OrderItem, DeliveryCompany
+from frontshop.models import Order, OrderItem, DeliveryCompany, OrderSummary
 from account.models import Account, UserProfile
 
 from .serializers import (
     CategorySerializer, ProductSerializer, IngredientSerializer, RecipeSerializer,
     OrderSerializer, OrderItemSerializer, DeliveryCompanySerializer,
-    AccountSerializer, UserProfileSerializer
+    AccountSerializer, UserProfileSerializer, OrderSummarySerializer,
 )
 from drf_yasg.utils import swagger_auto_schema
 from django.contrib.auth import authenticate
@@ -577,4 +577,45 @@ def deliverycompany_delete(request, pk):
     delivery_company.delete()
     cache.delete(f'deliverycompany_{pk}')
     cache.delete('deliverycompany_list')
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+# ==================================================
+# OrderSummary Views
+# ==================================================
+
+@api_view(['GET'])
+def order_summary_list(request):
+    order_summaries = OrderSummary.objects.all()
+    serializer = OrderSummarySerializer(order_summaries, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def order_summary_create(request):
+    serializer = OrderSummarySerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def order_summary_detail(request, pk):
+    order_summary = get_object_or_404(OrderSummary, pk=pk)
+    serializer = OrderSummarySerializer(order_summary)
+    return Response(serializer.data)
+
+@api_view(['PUT'])
+def order_summary_update(request, pk):
+    order_summary = get_object_or_404(OrderSummary, pk=pk)
+    serializer = OrderSummarySerializer(order_summary, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def order_summary_delete(request, pk):
+    order_summary = get_object_or_404(OrderSummary, pk=pk)
+    order_summary.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)

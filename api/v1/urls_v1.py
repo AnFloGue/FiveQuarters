@@ -1,7 +1,11 @@
 # api/v1/urls_v1.py
 from django.urls import path
 from api.v1 import views
-from .views import register, login, product_full_list, product_full_detail
+from .views import (
+    register, login, product_full_list, product_full_detail,
+    order_summary_list, order_summary_create, order_summary_detail,
+    order_summary_update, order_summary_delete
+)
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView
@@ -86,4 +90,16 @@ urlpatterns = [
     path('deliverycompanies/<int:pk>/', views.deliverycompany_detail, name='deliverycompany_detail'),
     path('deliverycompanies/<int:pk>/update/', views.deliverycompany_update, name='deliverycompany_update'),
     path('deliverycompanies/<int:pk>/delete/', views.deliverycompany_delete, name='deliverycompany_delete'),
+
+
+    # OrderSummary Views
+    path('order-summaries/', order_summary_list, name='order_summary_list'),
+    path('order-summaries/create/', order_summary_create, name='order_summary_create'),
+    path('order-summaries/<int:pk>/', order_summary_detail, name='order_summary_detail'),
+    path('order-summaries/<int:pk>/update/', order_summary_update, name='order_summary_update'),
+    path('order-summaries/<int:pk>/delete/', order_summary_delete, name='order_summary_delete'),
+
+
 ]
+
+

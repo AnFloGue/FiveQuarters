@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 from backshop.models import Category, Product, Ingredient, Recipe
-from frontshop.models import Order, OrderItem, DeliveryCompany
+from frontshop.models import Order, OrderItem, DeliveryCompany, OrderSummary
 from account.models import Account, UserProfile
 
 
@@ -78,4 +78,9 @@ class OrderSerializer(serializers.ModelSerializer):
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
+        fields = '__all__'
+
+class OrderSummarySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderSummary
         fields = '__all__'

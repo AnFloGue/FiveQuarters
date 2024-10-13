@@ -41,22 +41,102 @@ def get_headers():
     else:
         return {}
 
-def create_order(data):
-    url = f"{API_BASE_URL}/orders/create/"
-    try:
-        response = requests.post(url, data=data, headers=get_headers())
-        response.raise_for_status()
+# ==================================================
+# Account Services
+# ==================================================
+
+def create_account(data):
+    response = requests.post(f'{API_BASE_URL}/accounts/', json=data, headers=get_headers())
+    if response.status_code == 201:
         return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error creating order: {e}")
-        return None
+    return None
+
+# ==================================================
+# UserProfile Services
+# ==================================================
+
+def create_user_profile(data):
+    response = requests.post(f'{API_BASE_URL}/user-profiles/', json=data, headers=get_headers())
+    if response.status_code == 201:
+        return response.json()
+    return None
+
+# ==================================================
+# Category Services
+# ==================================================
+
+def create_category(data):
+    response = requests.post(f'{API_BASE_URL}/categories/', json=data, headers=get_headers())
+    if response.status_code == 201:
+        return response.json()
+    return None
+
+# ==================================================
+# Product Services
+# ==================================================
+
+def create_product(data):
+    response = requests.post(f'{API_BASE_URL}/products/', json=data, headers=get_headers())
+    if response.status_code == 201:
+        return response.json()
+    return None
+
+# ==================================================
+# Ingredient Services
+# ==================================================
+
+def create_ingredient(data):
+    response = requests.post(f'{API_BASE_URL}/ingredients/', json=data, headers=get_headers())
+    if response.status_code == 201:
+        return response.json()
+    return None
+
+# ==================================================
+# Recipe Services
+# ==================================================
+
+def create_recipe(data):
+    response = requests.post(f'{API_BASE_URL}/recipes/', json=data, headers=get_headers())
+    if response.status_code == 201:
+        return response.json()
+    return None
+
+# ==================================================
+# Order Services
+# ==================================================
+
+def create_order(data):
+    response = requests.post(f'{API_BASE_URL}/orders/', json=data, headers=get_headers())
+    if response.status_code == 201:
+        return response.json()
+    return None
+
+# ==================================================
+# OrderItem Services
+# ==================================================
 
 def create_order_item(data):
-    url = f"{API_BASE_URL}/orderitems/create/"
-    try:
-        response = requests.post(url, data=data, headers=get_headers())
-        response.raise_for_status()
+    response = requests.post(f'{API_BASE_URL}/order-items/', json=data, headers=get_headers())
+    if response.status_code == 201:
         return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error creating order item: {e}")
-        return None
+    return None
+
+# ==================================================
+# DeliveryCompany Services
+# ==================================================
+
+def create_delivery_company(data):
+    response = requests.post(f'{API_BASE_URL}/delivery-companies/', json=data, headers=get_headers())
+    if response.status_code == 201:
+        return response.json()
+    return None
+
+# ==================================================
+# OrderSummary Services
+# ==================================================
+
+def create_order_summary(data):
+    response = requests.post(f'{API_BASE_URL}/order-summaries/', json=data, headers=get_headers())
+    if response.status_code == 201:
+        return response.json()
+    return None
