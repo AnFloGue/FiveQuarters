@@ -1,6 +1,7 @@
 # frontshop/views.py
 
-from .models import OrderSummary
+
+from .models import OrderSummary, Product
 
 import logging
 from django.contrib.auth.decorators import login_required
@@ -184,6 +185,11 @@ def order_product(request, product_id):
         return render(request, 'frontshop/order_product.html', context)
     
     
+
+
+
+
+@login_required
 def order_summary(request, product_id, amount):
     if request.method == 'POST':
         customer_id = request.user.id
@@ -202,13 +208,13 @@ def order_summary(request, product_id, amount):
 
         created_order = create_order(order_data)
         if created_order:
-            product_id = product_id
+            product = get_object_or_404(Product, id=product_id)
             quantity = amount
-            price = request.POST.get('price_per_unit')
+            price = product.price
 
             order_item_data = {
                 "order": created_order['id'],
-                "product": product_id,
+                "product": product.id,
                 "quantity": quantity,
                 "price": price
             }
@@ -217,18 +223,26 @@ def order_summary(request, product_id, amount):
             if created_order_item:
                 return redirect(reverse('order_success'))
 
+    # Fetch all order summaries for the specific customer
+    order_summaries = OrderSummary.objects.filter(user=request.user)
+
+    # Calculate the total amount of all items in OrderSummary
+    total_amount = sum(summary.total_price for summary in order_summaries)
+
+    # Add the new product's total price to the total amount
+    product = get_object_or_404(Product, id=product_id)
+    new_product_total = product.price * amount
+    total_amount += new_product_total
+
     # Render the order summary page with context
     context = {
-        'product': get_object_or_404(Product, id=product_id),
+        'product': product,
         'amount': amount,
-        'total_amount': amount * get_object_or_404(Product, id=product_id).price,
+        'total_amount': total_amount,
+        'order_summaries': order_summaries,
     }
     return render(request, 'frontshop/order_summary.html', context)
 
-
-
-
-@login_required
 def add_to_order_summary(request, product_id, quantity):
     product = get_object_or_404(Product, id=product_id)
     user = request.user
@@ -244,6 +258,8 @@ def add_to_order_summary(request, product_id, quantity):
     )
 
     return redirect('order_summary_list')  # Redirect to a view that lists the order summaries
+
+
 # ================================================
 # Login, Register, Logout Views
 # ================================================
