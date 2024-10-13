@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Order, OrderItem, DeliveryCompany
+from .models import Order, OrderItem, DeliveryCompany, OrderSummary
+
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -22,3 +23,11 @@ class DeliveryCompanyAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     list_display_links = ('id', 'name')
     search_fields = ('name',)
+    
+@admin.register(OrderSummary)
+class OrderSummaryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'product', 'quantity', 'price_per_unit', 'total_price')
+    list_display_links = ('id', 'user')
+    search_fields = ('user__username', 'product__name')
+    list_filter = ('created_at',)
+    date_hierarchy = 'created_at'
