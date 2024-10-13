@@ -129,18 +129,28 @@ def order_product(request, product_id):
 
 
 
+# frontshop/views.py
 
 @login_required
-def basketitem_list(request):
-    user = request.user
-    basketitems = get_basketitem_list(user)
+def basketitem_list(request, product_id=None, user=None):
+    if user is None:
+        user = request.user
+    user_id = user.id
+    basketitems = get_basketitem_list(user_id)
 
-    # Extract basket information from the first basket item
+    categories = get_category_list()
+    products = get_product_list()
+    ingredients = get_ingredient_list()
+    product_details = product_full_list()
+    products_with_ingredients = product_full_detail(product_id) if product_id else None
+
+    product = get_object_or_404(Product, id=product_id) if product_id else None
+
     if basketitems:
         basket = {
-            'id': basketitems[0]['basket'],
-            'created_at': basketitems[0].get('created_at', ''),
-            'updated_at': basketitems[0].get('updated_at', ''),
+            'id': basketitems[0].basket.id,
+            'created_at': basketitems[0].basket.created_at,
+            'updated_at': basketitems[0].basket.updated_at,
         }
     else:
         basket = None
@@ -148,9 +158,16 @@ def basketitem_list(request):
     context = {
         'basket': basket,
         'basketitems': basketitems,
+        'categories': categories,
+        'products': products,
+        'ingredients': ingredients,
+        'product_details': product_details,
+        'products_with_ingredients': products_with_ingredients,
+        'product': product,
+        'is_available': product.is_available if product else None,
     }
-    return render(request, 'frontshop/basket_summary.html', context)
 
+    return render(request, 'frontshop/basket_summary.html', context)
 
 # ================================================
 # Login, Register, Logout Views

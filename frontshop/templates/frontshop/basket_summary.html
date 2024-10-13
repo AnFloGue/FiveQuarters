@@ -39,7 +39,6 @@
                                     <tr>
                                         <th>Product</th>
                                         <th>Quantity</th>
-                                        <th>Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,13 +46,12 @@
                                     <tr>
                                         <td>
                                             <div class="product-detail">
-                                                <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="product-image">
                                                 <h5>{{ item.product.name }}</h5>
                                                 <p>{{ item.product.description }}</p>
+                                                <p><strong>Price:</strong> {{ item.product.price }}</p>
                                             </div>
                                         </td>
                                         <td>{{ item.quantity }}</td>
-                                        <td>{{ item.product.price }}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -68,15 +66,4 @@
         </div>
     </div>
 </section>
-
-<!-- Custom Styles -->
-<style>
-    .product-image {
-        max-width: 100px;
-        height: auto;
-        display: block;
-        margin: 0 auto;
-    }
-</style>
-<!-- End of Custom Styles -->
 {% endblock %}

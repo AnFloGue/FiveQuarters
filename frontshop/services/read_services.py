@@ -269,6 +269,21 @@ def get_basketitem_detail(pk):
         print(f"Request error occurred: {err}")
         return {}
 
+def get_basketitem_list(user_id):
+    cache_key = f'basketitem_list_{user_id}'
+    cached_data = get_cached_data(cache_key)
+    if cached_data:
+        return cached_data
+    try:
+        response = requests.get(f"{API_BASE_URL}/basketitems/?user_id={user_id}", headers=get_headers())
+        response.raise_for_status()
+        data = response.json()
+        cache_data(cache_key, data)
+        return data
+    except RequestException as err:
+        print(f"Request error occurred: {err}")
+        return []
+
 #==================================================
 # Allergen Services
 #==================================================
