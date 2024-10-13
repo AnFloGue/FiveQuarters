@@ -1,3 +1,6 @@
+<!--  frontshop/templates/frontshop/order_summary.html -->
+
+
 {% extends 'frontshop/base.html' %}
 {% load static %}
 
@@ -82,6 +85,34 @@
                     </div>
                     <!-- End Section: Order Summary -->
                 </div>
+
+                <!-- Section: All Order Summaries -->
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h4>All Order Summaries</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Total Price</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for summary in order_summaries %}
+                                <tr>
+                                    <td>{{ summary.id }}</td>
+                                    <td>${{ summary.total_price }}</td>
+                                    <td>{{ summary.status }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- End Section: All Order Summaries -->
             </main>
         </div>
     </div>

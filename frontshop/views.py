@@ -3,14 +3,14 @@
 
 from .models import OrderSummary, Product
 
-import logging
+from frontshop.services.read_services import get_order_summaries
+
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from .forms import LoginForm, RegisterForm
-from backshop.models import Product
 import logging
 from frontshop.services.read_services import (
     get_recommended_products,
@@ -243,19 +243,18 @@ def order_summary(request, product_id, amount):
     }
     return render(request, 'frontshop/order_summary.html', context)
 
-from .models import OrderSummary, Product
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse
-from django.shortcuts import redirect
+
+
+
+
 
 @login_required
 def order_summary(request, product_id, amount):
-    # Fetch all order summaries for the specific customer
-    order_summaries = OrderSummary.objects.filter(user=request.user)
+    # Fetch all order summaries for the specific customer using the API
+    order_summaries = get_order_summaries()
 
     # Calculate the total amount of all items in OrderSummary
-    total_amount = sum(summary.total_price for summary in order_summaries)
+    total_amount = sum(float(summary['total_price']) for summary in order_summaries)
 
     # Add the new product's total price to the total amount
     product = get_object_or_404(Product, id=product_id)
@@ -274,7 +273,7 @@ def order_summary(request, product_id, amount):
     for key, value in context.items():
         print(f"order_summary: {key}: {value}")
     print()
-    
+
     return render(request, 'frontshop/order_summary.html', context)
 
 # ================================================
