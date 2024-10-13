@@ -139,3 +139,33 @@ def create_order_summary(data):
     if response.status_code == 201:
         return response.json()
     return None
+
+# ==================================================
+# Basket Services
+# ==================================================
+
+def create_basket(data):
+    response = requests.post(f'{API_BASE_URL}/baskets/', json=data, headers=get_headers())
+    if response.status_code == 201:
+        return response.json()
+    return None
+
+# ==================================================
+# Allergen Services
+# ==================================================
+
+def create_allergen(data):
+    response = requests.post(f'{API_BASE_URL}/allergens/', json=data, headers=get_headers())
+    if response.status_code == 201:
+        return response.json()
+    return None
+
+# ==================================================
+# BasketItem Services
+# ==================================================
+
+def create_basket_item(data):
+    response = requests.post(f'{API_BASE_URL}/basket-items/', json=data, headers=get_headers())
+    if response.status_code == 201:
+        return response.json()
+    return None

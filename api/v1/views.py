@@ -685,15 +685,6 @@ def basketitem_delete(request, pk):
 # DeliveryCompany Views
 # ==================================================
 
-@api_view(['GET'])
-def deliverycompany_list(request):
-    delivery_companies = cache.get('deliverycompany_list')
-    if not delivery_companies:
-        delivery_companies = DeliveryCompany.objects.all()
-        cache.set('deliverycompany_list', delivery_companies, timeout=60*15)
-    serializer = DeliveryCompanySerializer(delivery_companies, many=True)
-    return Response(serializer.data)
-
 @swagger_auto_schema(method='post', request_body=DeliveryCompanySerializer)
 @api_view(['POST'])
 def deliverycompany_create(request):
@@ -705,8 +696,40 @@ def deliverycompany_create(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
+def deliverycompany_list(request):
+    delivery_companies = cache.get('deliverycompany_list')
+    if not delivery_companies:
+        delivery_companies = DeliveryCompany.objects.all()
+        cache.set('deliverycompany_list', delivery_companies, timeout=60*15)
+    serializer = DeliveryCompanySerializer(delivery_companies, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
 def deliverycompany_detail(request, pk):
     delivery_company = cache.get(f'deliverycompany_{pk}')
     if not delivery_company:
         delivery_company = get_object_or_404(DeliveryCompany, pk=pk)
-        cache
+        cache.set(f'deliverycompany_{pk}', delivery_company, timeout=60*15)
+    serializer = DeliveryCompanySerializer(delivery_company)
+    return Response(serializer.data)
+
+@swagger_auto_schema(method='put', request_body=DeliveryCompanySerializer)
+@api_view(['PUT'])
+def deliverycompany_update(request, pk):
+    delivery_company = get_object_or_404(DeliveryCompany, pk=pk)
+    serializer = DeliveryCompanySerializer(delivery_company, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        cache.delete(f'deliverycompany_{pk}')
+        cache.delete('deliverycompany_list')
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def deliverycompany_delete(request, pk):
+    delivery_company = get_object_or_404(DeliveryCompany, pk=pk)
+    delivery_company.delete()
+    cache.delete(f'deliverycompany_{pk}')
+    cache.delete('deliverycompany_list')
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
