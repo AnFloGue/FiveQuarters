@@ -128,9 +128,29 @@ def order_product(request, product_id):
 # ================================================
 
 
+
+
+@login_required
 def basketitem_list(request):
-    basketitems = get_basketitem_list()
-    return render(request, 'frontshop/basket_summary.html', {'basketitems': basketitems})
+    user = request.user
+    basketitems = get_basketitem_list(user)
+
+    # Extract basket information from the first basket item
+    if basketitems:
+        basket = {
+            'id': basketitems[0]['basket'],
+            'created_at': basketitems[0].get('created_at', ''),
+            'updated_at': basketitems[0].get('updated_at', ''),
+        }
+    else:
+        basket = None
+
+    context = {
+        'basket': basket,
+        'basketitems': basketitems,
+    }
+    return render(request, 'frontshop/basket_summary.html', context)
+
 
 # ================================================
 # Login, Register, Logout Views

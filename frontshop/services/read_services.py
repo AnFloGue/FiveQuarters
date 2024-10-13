@@ -239,6 +239,36 @@ def get_basket_detail(pk):
         print(f"Request error occurred: {err}")
         return {}
 
+def get_basketitem_list():
+    cache_key = 'basketitem_list'
+    cached_data = get_cached_data(cache_key)
+    if (cached_data):
+        return cached_data
+    try:
+        response = requests.get(f"{API_BASE_URL}/basketitems/", headers=get_headers())
+        response.raise_for_status()
+        data = response.json()
+        cache_data(cache_key, data)
+        return data
+    except RequestException as err:
+        print(f"Request error occurred: {err}")
+        return []
+
+def get_basketitem_detail(pk):
+    cache_key = f'basketitem_{pk}'
+    cached_data = get_cached_data(cache_key)
+    if (cached_data):
+        return cached_data
+    try:
+        response = requests.get(f"{API_BASE_URL}/basketitems/{pk}/", headers=get_headers())
+        response.raise_for_status()
+        data = response.json()
+        cache_data(cache_key, data)
+        return data
+    except RequestException as err:
+        print(f"Request error occurred: {err}")
+        return {}
+
 #==================================================
 # Allergen Services
 #==================================================
@@ -265,40 +295,6 @@ def get_allergen_detail(pk):
         return cached_data
     try:
         response = requests.get(f"{API_BASE_URL}/allergens/{pk}/", headers=get_headers())
-        response.raise_for_status()
-        data = response.json()
-        cache_data(cache_key, data)
-        return data
-    except RequestException as err:
-        print(f"Request error occurred: {err}")
-        return {}
-
-#==================================================
-# BasketItem Services
-#==================================================
-
-def get_basketitem_list():
-    cache_key = 'basketitem_list'
-    cached_data = get_cached_data(cache_key)
-    if (cached_data):
-        return cached_data
-    try:
-        response = requests.get(f"{API_BASE_URL}/basketitems/", headers=get_headers())
-        response.raise_for_status()
-        data = response.json()
-        cache_data(cache_key, data)
-        return data
-    except RequestException as err:
-        print(f"Request error occurred: {err}")
-        return []
-
-def get_basketitem_detail(pk):
-    cache_key = f'basketitem_{pk}'
-    cached_data = get_cached_data(cache_key)
-    if (cached_data):
-        return cached_data
-    try:
-        response = requests.get(f"{API_BASE_URL}/basketitems/{pk}/", headers=get_headers())
         response.raise_for_status()
         data = response.json()
         cache_data(cache_key, data)

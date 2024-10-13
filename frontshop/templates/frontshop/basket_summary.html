@@ -1,30 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Production Test</title>
-    <style>
-        img {
-            max-width: 150px; /* Adjusted size */
-            width: 100%;
-            height: auto;
-        }
-    </style>
-</head>
-<body>
-    <h1>Product Images</h1>
-    <div>
-        {% for product in products %}
-            <div>
-                <h2>{{ product.name }}</h2>
-                <p>{{ product.description }}</p>
-                {% if product.image %}
-                    <img src="{{ product.image }}" alt="{{ product.name }}">
-                {% else %}
-                    <p>No image available</p>
-                {% endif %}
-            </div>
-        {% endfor %}
+<!-- frontshop/templates/frontshop/basket_summary.html -->
+
+{% extends 'frontshop/base.html' %}
+{% load static %}
+
+{% block title %}Basket Summary{% endblock %}
+
+{% block content %}
+<section class="section-content padding-y">
+    <div class="container">
+        <div class="row">
+            <main class="col-md-12">
+                <!-- Section: Basket Information -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Basket Information</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if basket %}
+                            <p><strong>Basket ID:</strong> {{ basket.id }}</p>
+                            <p><strong>Created At:</strong> {{ basket.created_at }}</p>
+                            <p><strong>Updated At:</strong> {{ basket.updated_at }}</p>
+                        {% else %}
+                            <p>No basket information available.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- End Section: Basket Information -->
+
+                <!-- Section: Basket Items -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Basket Items</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if basketitems %}
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in basketitems %}
+                                    <tr>
+                                        <td>
+                                            <div class="product-detail">
+                                                <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="product-image">
+                                                <h5>{{ item.product.name }}</h5>
+                                                <p>{{ item.product.description }}</p>
+                                            </div>
+                                        </td>
+                                        <td>{{ item.quantity }}</td>
+                                        <td>{{ item.product.price }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <p>No items in the basket.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- End Section: Basket Items -->
+            </main>
+        </div>
     </div>
-</body>
-</html>
+</section>
+
+<!-- Custom Styles -->
+<style>
+    .product-image {
+        max-width: 100px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+</style>
+<!-- End of Custom Styles -->
+{% endblock %}
