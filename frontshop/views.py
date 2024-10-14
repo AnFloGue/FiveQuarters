@@ -24,7 +24,7 @@ from frontshop.services.read_services import (
     get_ingredient_list,
     product_full_list,
     product_full_detail,
-    get_basketitem_list,
+    get_basketitem_list_with_id,
     get_basketitem_detail,
     get_basket_list,
 )
@@ -196,7 +196,7 @@ def add_to_basket(request, product_id):
         try:
             amount = int(request.POST.get('amount', 1))
         except ValueError:
-            amount = 1
+            amount = 1      # Default to 1 if the amount
         user_id = request.user.id
 
         # Get all baskets

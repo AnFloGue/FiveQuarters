@@ -139,36 +139,66 @@ def create_order_summary(data):
     if response.status_code == 201:
         return response.json()
     return None
-
 # ==================================================
 # Basket Services
 # ==================================================
 
-def create_basket(data):
-    response = requests.post(f'{API_BASE_URL}/baskets/', json=data, headers=get_headers())
-    if response.status_code == 201:
+def create_basket(user_id):
+    url = f"{API_BASE_URL}/baskets/create/"
+    headers = get_headers()
+    basket_data = {"user_id": user_id}
+
+    # Check if the basket already exists for the given user_id
+    existing_basket_url = f"{API_BASE_URL}/baskets/?user_id={user_id}"
+    try:
+        existing_response = requests.get(existing_basket_url, headers=headers)
+        existing_response.raise_for_status()
+        existing_baskets = existing_response.json()
+        if existing_baskets:
+            for basket in existing_baskets:
+                if basket['user_id'] == user_id:
+                    print("Basket already exists:", basket)
+                    return basket
+    except requests.exceptions.RequestException as e:
+        print(f"Error checking existing basket: {e} - {existing_response.text if existing_response else 'No response'}")
+
+    # Create a new basket if it doesn't exist
+    try:
+        print(f"Sending POST request to {url} with data: {basket_data}")
+        response = requests.post(url, json=basket_data, headers=headers)
+        response.raise_for_status()  # Raise an error for bad status codes
         return response.json()
-    else:
-        print(f"Error creating basket: {response.status_code} - {response.text}")
-    return None
+    except requests.exceptions.RequestException as e:
+        print(f"Error creating basket: {e} - {response.text if response else 'No response'}")
+        return None
+    
 
 def create_basket_item(data):
-    response = requests.post(f'{API_BASE_URL}/basket-items/', json=data, headers=get_headers())
-    if response.status_code == 201:
+    url = f"{API_BASE_URL}/basketitems/create/"
+    headers = get_headers()
+    try:
+        response = requests.post(url, json=data, headers=headers)
+        response.raise_for_status()  # Raise an error for bad status codes
         return response.json()
-    else:
-        print(f"Error creating basket item: {response.status_code} - {response.text}")
-    return None
+    except requests.exceptions.RequestException as e:
+        print(f"Error creating basket item: {e} - {response.text if response else 'No response'}")
+        return None
+    
 
 def create_basket_item_with_ids(data, basket_id, user_id):
     data['basket_id'] = basket_id
     data['user_id'] = user_id
-    response = requests.post(f'{API_BASE_URL}/basket-items/', json=data, headers=get_headers())
-    if response.status_code == 201:
+    url = f"{API_BASE_URL}/basketitems/create/"
+    headers = get_headers()
+    try:
+        response = requests.post(url, json=data, headers=headers)
+        response.raise_for_status()  # Raise an error for bad status codes
         return response.json()
-    else:
-        print(f"Error creating basket item with IDs: {response.status_code} - {response.text}")
-    return None
+    except requests.exceptions.RequestException as e:
+        print(f"Error creating basket item with IDs: {e} - {response.text if response else 'No response'}")
+        return None
+
+
 # ==================================================
 # Allergen Services
 # ==================================================

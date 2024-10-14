@@ -82,21 +82,22 @@ urlpatterns = [
     path('deliverycompanies/<int:pk>/', views.deliverycompany_detail, name='deliverycompany_detail'),
     path('deliverycompanies/<int:pk>/update/', views.deliverycompany_update, name='deliverycompany_update'),
     path('deliverycompanies/<int:pk>/delete/', views.deliverycompany_delete, name='deliverycompany_delete'),
-
+    
     # Basket Views
     path('baskets/', views.basket_list, name='basket_list'),
     path('baskets/create/', views.basket_create, name='basket_create'),
     path('baskets/<int:pk>/', views.basket_detail, name='basket_detail'),
     path('baskets/<int:pk>/update/', views.basket_update, name='basket_update'),
     path('baskets/<int:pk>/delete/', views.basket_delete, name='basket_delete'),
-
+    
     # BasketItem Views
     path('basketitems/', views.basketitem_list, name='basketitem_list'),
     path('basketitems/create/', views.basketitem_create, name='basketitem_create'),
     path('basketitems/<int:pk>/', views.basketitem_detail, name='basketitem_detail'),
     path('basketitems/<int:pk>/update/', views.basketitem_update, name='basketitem_update'),
     path('basketitems/<int:pk>/delete/', views.basketitem_delete, name='basketitem_delete'),
-
+    
+    
     # Allergen Views
     path('allergens/', views.allergen_list, name='allergen_list'),
     path('allergens/create/', views.allergen_create, name='allergen_create'),
