@@ -1,4 +1,4 @@
-<!--  frontshop/templates/frontshop/order_summary.html -->
+<!-- frontshop/templates/frontshop/basket_summary.html -->
 
 {% extends 'frontshop/base.html' %}
 {% load static %}
@@ -10,55 +10,35 @@
     <div class="container">
         <div class="row">
             <main class="col-md-12 d-flex flex-column">
+
                 <!-- Section: Alerts Notifications -->
                 <div class="card mb-4" style="min-width: 300px;">
                     <div class="card-body text-center">
-                        <!-- Alert notification -->
                         <div class="alert alert-info" role="alert">
                             <h2 class="title"><strong>Notification!</strong> </h2><br>
                             <h5 class="title"> This is an alert notification. item {{ product.name }} is not available. Preorder!</h5>
-                            <section>
-                                <h2>User Details</h2>
-                                <p>User ID: {{ user_id }}</p>
-                                <p>User Name: {{ user_name }}</p>
-                            </section>
                         </div>
                     </div>
                 </div>
                 <!-- End Section: Alerts Notifications -->
 
-                <div class="d-flex">
-                    <!-- Section: Product Card -->
-                    <div class="card card-product-grid flex-grow-1">
+                <!-- Section: User Details -->
+                <div class="card mb-4" style="min-width: 300px;">
+                    <div class="card-body">
+                        <h2>User Details</h2>
+                        <p>User ID: {{ user_id }}</p>
+                        <p>User Name: {{ user_name }}</p>
+                    </div>
+                </div>
+                <!-- End Section: User Details -->
+
+                <div class="d-flex flex-wrap">
+
+                    <!-- Section: Product Cards -->
+                    {% for item in basketitems %}
+                    <div class="card card-product-grid flex-grow-1 m-2" style="min-width: 300px;">
                         <div class="row no-gutters">
                             <div class="col-md-4 position-relative">
-                                {% if basket %}
-                                            <section>
-                                                <h2>Basket Details</h2>
-                                                <p>Basket ID: {{ basket.id }}</p>
-                                                <p>Created At: {{ basket.created_at }}</p>
-                                                <p>Updated At: {{ basket.updated_at }}</p>
-                                            </section>
-                                            <section>
-                                                <h2>Items in Basket</h2>
-                                                <ul>
-                                                    {% for item in basketitems %}
-                                                        <li>
-                                                            <p>Product: {{ item.product.name }}</p>
-                                                            <p>Quantity: {{ item.quantity }}</p>
-                                                            <p>Total Price: {{ item.total_price }}</p>
-                                                        </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </section>
-                                        {% else %}
-                                            <p>Your basket is empty.</p>
-                                        {% endif %}
-                                <!-- Section: Product Badge -->
-                                {% if product.is_product_of_the_week %}
-                                    <span class="badge badge-info position-absolute product-of-the-week-badge">Product of the Week</span>
-                                {% endif %}
-                                <!-- End Section: Product Badge -->
                                 <!-- Section: Product Image -->
                                 <div class="img-wrap">
                                     <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
@@ -85,15 +65,16 @@
                                     </div>
                                     <div class="order-details mt-3">
                                         <p><strong>Amount Ordered:</strong> {{ item.quantity }}</p>
-                                        <p><strong>Price per Unit:</strong> ${{ item.total_price }}</p>
-                                        <p><strong>Total Amount:</strong> ${{ item.total_amount }}</p>
+                                        <p><strong>Price per Unit:</strong> ${{ item.product.price }}</p>
+                                        <p><strong>Total Amount:</strong> ${{ item.total_price }}</p>
                                     </div>
                                 </figcaption>
                                 <!-- End Section: Product Info -->
                             </div>
                         </div>
                     </div>
-                    <!-- End Section: Product Card -->
+                    {% endfor %}
+                    <!-- End Section: Product Cards -->
 
                     <!-- Section: Order Summary -->
                     <div class="card ml-4" style="min-width: 300px;">
@@ -105,11 +86,12 @@
                             <form method="post" action="#">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-warning mb-3">Confirm Order</button>
-                                <p><strong>Total Amount:</strong> ${{ item.total_amount }}</p>
+                                <p><strong>Total Amount:</strong> ${{ item.total_price }}</p>
                             </form>
                         </div>
                     </div>
                     <!-- End Section: Order Summary -->
+
                 </div>
 
                 <!-- Section: All Order Summaries -->
@@ -142,6 +124,7 @@
                     </div>
                 </div>
                 <!-- End Section: All Order Summaries -->
+
             </main>
         </div>
     </div>
