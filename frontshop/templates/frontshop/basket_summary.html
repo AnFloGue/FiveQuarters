@@ -12,18 +12,21 @@
             <main class="col-md-12 d-flex flex-column">
 
 <!-- Section: Alerts Notifications -->
-{% for item in basketitems %}
-    {% if not item.product.is_available %}
-        <div class="card mb-4" style="min-width: 300px;">
-            <div class="card-body text-center">
-                <div class="alert alert-info" role="alert">
-                    <h2 class="title"><strong>Notification!</strong> </h2><br>
-                    <h5 class="title"> This is an alert notification. Item {{ item.product.name }} is not available. Preorder!</h5>
-                </div>
-            </div>
-        </div>
-    {% endif %}
-{% endfor %}
+
+<div class="card mb-4" style="min-width: 300px;">
+    <div class="card-body text-center">
+        <h2 class="title"><strong>Notification!</strong> </h2>
+    
+        <h5 class="title">Not available. Need to be Preorder!</h5><br>
+
+        {% for item in basketitems %}
+            {% if not item.product.is_available %}
+                    <h5 class="title"><strong>{{ item.product.name }}</strong> </h5>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
 <!-- End Section: Alerts Notifications -->
 
                 <div class="d-flex flex-wrap">
@@ -40,7 +43,7 @@
                     <!-- Section: Order Summary -->
                     <div class="card mb-4 ml-auto" style="min-width: 300px;">
                         <div class="card-header">
-                            <h4><strong>Order Summary</strong></h4>
+                            <h3><strong>Order Summary</strong></h3>
                         </div>
                         <div class="card-body">
                             <a href="{% url 'product_list' %}" class="btn btn-primary mb-3">Keep Shopping</a>
@@ -69,12 +72,12 @@
                             <div class="col-md-8">
                                 <!-- Section: Product Info -->
                                 <figcaption class="info-wrap">
-                                    <h2 class="title {% if item.product.is_available %}available{% else %}not-available{% endif %}">
+                                    <h3 class="title {% if item.product.is_available %}available{% else %}not-available{% endif %}">
                                         <strong>{{ item.product.name }} </strong>
                                         {% if not item.product.is_available %}
                                             <span class="out-of-order">Out of Order</span>
                                         {% endif %}
-                                    </h2>
+                                    </h3>
                                     <div class="availability mt-1">
                                         {% if item.product.is_available %}
                                             <br><h5><strong><span class="text-success">Available</span></strong></h5>
@@ -97,33 +100,7 @@
                 </div>
                 <!-- End Section: Product Cards -->
 
-                <!-- Section: All Order Summaries -->
-                <div class="card mt-4">
-                    <div class="card-header">
-                        <h4>All Order Summaries</h4>
-                    </div>
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Order ID</th>
-                                    <th>Total Price</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in basketitems %}
-                                <tr>
-                                    <td>{{ item.basket.id }}</td>
-                                    <td>${{ item.total_price }}</td>
-                                    <td>{% if item.product.is_available %}Available{% else %}Pre-Order{% endif %}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!-- End Section: All Order Summaries -->
+
 
             </main>
         </div>
@@ -132,6 +109,10 @@
 
 <!-- Custom Styles for product images and badge -->
 <style>
+    .red-bold {
+        color: red;
+        font-weight: bold;
+    }
     .product-image {
         max-width: 100%;
         height: auto;
