@@ -22,19 +22,38 @@
                 </div>
                 <!-- End Section: Alerts Notifications -->
 
-                <!-- Section: User Details -->
-                <div class="card mb-4" style="min-width: 300px;">
-                    <div class="card-body">
-                        <h2>User Details</h2>
-                        <p>User ID: {{ user_id }}</p>
-                        <p>User Name: {{ user_name }}</p>
-                    </div>
-                </div>
-                <!-- End Section: User Details -->
-
                 <div class="d-flex flex-wrap">
 
-                    <!-- Section: Product Cards -->
+                    <!-- Section: Order Summary -->
+                    <div class="card mb-4 ml-auto" style="min-width: 300px;">
+                        <div class="card-header">
+                            <h4>Order Summary</h4>
+                        </div>
+                        <div class="card-body">
+                            <a href="{% url 'product_list' %}" class="btn btn-primary mb-3">Keep Shopping</a>
+                            <form method="post" action="#">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-warning mb-3">Confirm Order</button>
+                                <p><strong>Total Amount:</strong> ${{ item.total_price }}</p>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- End Section: Order Summary -->
+
+                    <!-- Section: User Details -->
+                    <div class="card mb-4 ml-2" style="min-width: 300px;">
+                        <div class="card-body">
+                            <h2>User Details</h2>
+                            <p>User ID: {{ user_id }}</p>
+                            <p>User Name: {{ user_name }}</p>
+                        </div>
+                    </div>
+                    <!-- End Section: User Details -->
+
+                </div>
+
+                <!-- Section: Product Cards -->
+                <div class="d-flex flex-wrap">
                     {% for item in basketitems %}
                     <div class="card card-product-grid flex-grow-1 m-2" style="min-width: 300px;">
                         <div class="row no-gutters">
@@ -51,17 +70,17 @@
                                     <h2 class="title {% if item.product.is_available %}available{% else %}not-available{% endif %}">
                                         {{ item.product.name }}
                                         {% if not item.product.is_available %}
-                                            <span class="out-of-order">Out of Order</span>
                                         {% endif %}
+                                            <span class="out-of-order">Out of Order</span>
                                     </h2>
                                     <div class="price mt-1">${{ item.total_price }}</div>
                                     <div class="availability mt-1">
                                         {% if item.product.is_available %}
                                             <span class="text-success">Available</span>
                                         {% else %}
+                                        {% endif %}
                                             <span class="text-danger"><strong>Pre-Order</strong></span>
                                             <span class="text-info">Lead Time: <span class="text-danger"><strong>{{ item.product.manufacturing_time }}</strong></span> days</span>
-                                        {% endif %}
                                     </div>
                                     <div class="order-details mt-3">
                                         <p><strong>Amount Ordered:</strong> {{ item.quantity }}</p>
@@ -74,25 +93,8 @@
                         </div>
                     </div>
                     {% endfor %}
-                    <!-- End Section: Product Cards -->
-
-                    <!-- Section: Order Summary -->
-                    <div class="card ml-4" style="min-width: 300px;">
-                        <div class="card-header">
-                            <h4>Order Summary</h4>
-                        </div>
-                        <div class="card-body">
-                            <a href="{% url 'product_list' %}" class="btn btn-primary mb-3">Keep Shopping</a>
-                            <form method="post" action="#">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-warning mb-3">Confirm Order</button>
-                                <p><strong>Total Amount:</strong> ${{ item.total_price }}</p>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- End Section: Order Summary -->
-
                 </div>
+                <!-- End Section: Product Cards -->
 
                 <!-- Section: All Order Summaries -->
                 <div class="card mt-4">
@@ -108,18 +110,15 @@
                                     <th>Status</th>
                                 </tr>
                             </thead>
-                            <section>
-                                <h2>Items in Basket</h2>
-                                <ul>
-                                    {% for item in basketitems %}
-                                        <li>
-                                            <p>Product: {{ item.product.name }}</p>
-                                            <p>Quantity: {{ item.quantity }}</p>
-                                            <p>Total Price: {{ item.total_price }}</p>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </section>
+                            <tbody>
+                                {% for item in basketitems %}
+                                <tr>
+                                    <td>{{ item.basket.id }}</td>
+                                    <td>${{ item.total_price }}</td>
+                                    <td>{% if item.product.is_available %}Available{% else %}Pre-Order{% endif %}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
                         </table>
                     </div>
                 </div>
