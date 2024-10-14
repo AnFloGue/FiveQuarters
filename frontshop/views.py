@@ -1,6 +1,5 @@
 # frontshop/views.py
 
-
 from .models import BasketItem, Product
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -19,12 +18,12 @@ from frontshop.services.read_services import (
     product_full_detail,
     get_basketitem_list,
     get_basketitem_detail,
-
+    get_basket_list,
 )
-
 from frontshop.services.create_services import (
-    create_order,
-    create_order_item,
+    create_basket,
+    create_basket_item,
+    create_basket_item_id
 )
 
 # Configure logging
@@ -117,18 +116,13 @@ def inventory_information(request):
 # Orders Views
 # ================================================
 
-
-# views.py
 @login_required
 def order_product(request, product_id):
- pass
-    
+    pass
+
 # ================================================
 # Basket Views
 # ================================================
-
-
-
 
 @login_required
 def basketitem_list(request, product_id=None, user=None):
@@ -154,6 +148,9 @@ def basketitem_list(request, product_id=None, user=None):
     else:
         basket = None
 
+    # Calculate the total amount
+    total_amount = sum(item.total_price for item in basketitems)
+
     context = {
         'basket': basket,
         'basketitems': basketitems,
@@ -166,9 +163,43 @@ def basketitem_list(request, product_id=None, user=None):
         'is_available': product.is_available if product else None,
         'user_id': user.id,
         'user_name': user.username,
+        'total_amount': total_amount,  # Pass the total amount to the template
     }
 
     return render(request, 'frontshop/basket_summary.html', context)
+
+
+@login_required
+def add_to_basket(request, product_id):
+    if request.method == 'POST':
+        amount = int(request.POST.get('amount', 1))
+        user_id = request.user.id
+
+        # Check if the user already has a basket
+        baskets = get_basket_list()
+        user_basket = next((basket for basket in baskets if basket['user_id'] == user_id), None)
+
+        if not user_basket:
+            # Create a new basket for the user
+            basket_data = {'user_id': user_id}
+            user_basket = create_basket(basket_data)
+
+        # Add the product to the basket using create_basket_item_id
+        basket_item_data = {
+            'product': product_id,
+            'quantity': amount
+        }
+        response = create_basket_item_id(basket_item_data, user_basket['id'], user_id)
+
+        if response:
+            return redirect('basketitem_list')
+        else:
+            return redirect('product_detail', product_id=product_id)
+    return redirect('product_detail', product_id=product_id)
+
+
+
+
 # ================================================
 # Login, Register, Logout Views
 # ================================================
@@ -216,7 +247,6 @@ def logout_view(request):
 # ================================================
 # Other Views
 # ================================================
-
 
 def about(request):
     return render(request, 'frontshop/about.html')

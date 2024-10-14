@@ -150,22 +150,26 @@ def create_basket(data):
         return response.json()
     return None
 
+def create_basket_item(data):
+    response = requests.post(f'{API_BASE_URL}/basket-items/', json=data, headers=get_headers())
+    if response.status_code == 201:
+        return response.json()
+    return None
+
+def create_basket_item_id(data, basket_id, user_id):
+    data['basket_id'] = basket_id
+    data['user_id'] = user_id
+    response = requests.post(f'{API_BASE_URL}/basket-items/', json=data, headers=get_headers())
+    if response.status_code == 201:
+        return response.json()
+    return None
+
 # ==================================================
 # Allergen Services
 # ==================================================
 
 def create_allergen(data):
     response = requests.post(f'{API_BASE_URL}/allergens/', json=data, headers=get_headers())
-    if response.status_code == 201:
-        return response.json()
-    return None
-
-# ==================================================
-# BasketItem Services
-# ==================================================
-
-def create_basket_item(data):
-    response = requests.post(f'{API_BASE_URL}/basket-items/', json=data, headers=get_headers())
     if response.status_code == 201:
         return response.json()
     return None
