@@ -183,7 +183,7 @@
         event.preventDefault();
         const amount = document.getElementById('amount').value;
         const productId = "{{ products_with_ingredients.product.id }}";
-        this.action = "{% url 'order_product' 0 %}".replace('0', productId);
+        this.action = "{% url 'add_to_basket' 0 %}".replace('0', productId);
         this.submit();
     });
 </script>

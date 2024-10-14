@@ -1,5 +1,8 @@
 # frontshop/views.py
 
+
+
+
 from .models import BasketItem, Product
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -7,6 +10,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from .forms import LoginForm, RegisterForm
 import logging
+
+#==================================================
+# read_services
+#==================================================
+
 from frontshop.services.read_services import (
     get_recommended_products,
     get_category_list,
@@ -20,11 +28,20 @@ from frontshop.services.read_services import (
     get_basketitem_detail,
     get_basket_list,
 )
+
+#==================================================
+# create_services
+#==================================================
+
 from frontshop.services.create_services import (
     create_basket,
     create_basket_item,
-    create_basket_item_id
+    create_basket_item_with_ids
 )
+
+
+
+
 
 # Configure logging
 logging.basicConfig(
@@ -169,34 +186,45 @@ def basketitem_list(request, product_id=None, user=None):
     return render(request, 'frontshop/basket_summary.html', context)
 
 
+
+
+
 @login_required
 def add_to_basket(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
     if request.method == 'POST':
-        amount = int(request.POST.get('amount', 1))
+        try:
+            amount = int(request.POST.get('amount', 1))
+        except ValueError:
+            amount = 1
         user_id = request.user.id
 
-        # Check if the user already has a basket
+        # Get all baskets
         baskets = get_basket_list()
-        user_basket = next((basket for basket in baskets if basket['user_id'] == user_id), None)
 
+        # Find the user's basket
+        user_basket = None
+        for basket in baskets:
+            if basket['user_id'] == user_id:
+                user_basket = basket
+                break
+
+        # If no basket found, create one
         if not user_basket:
-            # Create a new basket for the user
             basket_data = {'user_id': user_id}
             user_basket = create_basket(basket_data)
 
-        # Add the product to the basket using create_basket_item_id
+        # Add the product to the basket
         basket_item_data = {
             'product': product_id,
             'quantity': amount
         }
-        response = create_basket_item_id(basket_item_data, user_basket['id'], user_id)
+        create_basket_item_with_ids(basket_item_data, user_basket['id'], user_id)
 
-        if response:
-            return redirect('basketitem_list')
-        else:
-            return redirect('product_detail', product_id=product_id)
+        # Always redirect to the basket summary page
+        return redirect('basketitem_list')
+
     return redirect('product_detail', product_id=product_id)
-
 
 
 

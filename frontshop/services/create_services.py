@@ -148,22 +148,27 @@ def create_basket(data):
     response = requests.post(f'{API_BASE_URL}/baskets/', json=data, headers=get_headers())
     if response.status_code == 201:
         return response.json()
+    else:
+        print(f"Error creating basket: {response.status_code} - {response.text}")
     return None
 
 def create_basket_item(data):
     response = requests.post(f'{API_BASE_URL}/basket-items/', json=data, headers=get_headers())
     if response.status_code == 201:
         return response.json()
+    else:
+        print(f"Error creating basket item: {response.status_code} - {response.text}")
     return None
 
-def create_basket_item_id(data, basket_id, user_id):
+def create_basket_item_with_ids(data, basket_id, user_id):
     data['basket_id'] = basket_id
     data['user_id'] = user_id
     response = requests.post(f'{API_BASE_URL}/basket-items/', json=data, headers=get_headers())
     if response.status_code == 201:
         return response.json()
+    else:
+        print(f"Error creating basket item with IDs: {response.status_code} - {response.text}")
     return None
-
 # ==================================================
 # Allergen Services
 # ==================================================
