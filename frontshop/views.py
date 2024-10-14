@@ -191,12 +191,12 @@ def basketitem_list(request, product_id=None, user=None):
 
 @login_required
 def add_to_basket(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
     if request.method == 'POST':
         try:
-            amount = int(request.POST.get('amount', 1))
+            quantity = int(request.POST.get('amount', 1))
         except ValueError:
-            amount = 1      # Default to 1 if the amount
+            quantity = 1  # Default 1
+
         user_id = request.user.id
 
         # Get all baskets
@@ -214,14 +214,12 @@ def add_to_basket(request, product_id):
             basket_data = {'user_id': user_id}
             user_basket = create_basket(basket_data)
 
-        # Add the product to the basket
-        basket_item_data = {
-            'product': product_id,
-            'quantity': amount
-        }
-        create_basket_item_with_ids(basket_item_data, user_basket['id'], user_id)
+        basket_id = user_basket['id']
 
-        # Always redirect to the basket summary page
+        # Add the product to the basket
+        created_item = create_basket_item_with_ids(product_id, quantity, basket_id, product_id, user_id)
+        print("Created Basket Item:", created_item)
+
         return redirect('basketitem_list')
 
     return redirect('product_detail', product_id=product_id)

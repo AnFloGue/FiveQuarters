@@ -185,11 +185,19 @@ def create_basket_item(data):
         return None
     
 
-def create_basket_item_with_ids(data, basket_id, user_id):
-    data['basket_id'] = basket_id
+def create_basket_item_with_ids(id, quantity, basket_id, product, user_id):
+    data = {}
+    # we add to the data the basket_id and user_id
+    data['id'] = id
+    data['quantity'] = quantity
+    data['basket'] = basket_id
+    data['product'] = product
     data['user_id'] = user_id
+
+    # we send the data to the API
     url = f"{API_BASE_URL}/basketitems/create/"
     headers = get_headers()
+    # we post the data to the API
     try:
         response = requests.post(url, json=data, headers=headers)
         response.raise_for_status()  # Raise an error for bad status codes
@@ -198,6 +206,15 @@ def create_basket_item_with_ids(data, basket_id, user_id):
         print(f"Error creating basket item with IDs: {e} - {response.text if response else 'No response'}")
         return None
 
+# ==================================================
+# BasketItem json data format
+# ==================================================
+'''{
+  "id": 4,
+  "quantity": 10,
+  "basket": 2,
+  "product": 1
+},'''
 
 # ==================================================
 # Allergen Services

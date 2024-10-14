@@ -2,6 +2,8 @@ import requests
 import os
 from dotenv import load_dotenv
 
+from frontshop.services.create_services import create_basket_item_with_ids
+
 # Load environment variables from .env
 load_dotenv()
 
@@ -29,23 +31,24 @@ def get_headers():
         "Content-Type": "application/json"
     }
 
-def create_basket_item_with_ids(data, basket_id, product_id):
-    data['basket'] = basket_id
-    data['product'] = product_id
-    url = f"{API_BASE_URL}/basketitems/create/"
-    headers = get_headers()
-    print("Request URL:", url)
-    print("Request Headers:", headers)
-    print("Request Payload:", data)
-    try:
-        response = requests.post(url, json=data, headers=headers)
-        response.raise_for_status()  # Raise an error for bad status codes
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error creating basket item with IDs: {e} - {response.text if response else 'No response'}")
-        if response is not None and response.status_code == 400:
-            print("Response JSON:", response.json())
-        return None
+    
+# def create_basket_item_with_ids(data, basket_id, product_id):
+#     data['basket'] = basket_id
+#     data['product'] = product_id
+#     url = f"{API_BASE_URL}/basketitems/create/"
+#     headers = get_headers()
+#     print("Request URL:", url)
+#     print("Request Headers:", headers)
+#     print("Request Payload:", data)
+#     try:
+#         response = requests.post(url, json=data, headers=headers)
+#         response.raise_for_status()  # Raise an error for bad status codes
+#         return response.json()
+#     except requests.exceptions.RequestException as e:
+#         print(f"Error creating basket item with IDs: {e} - {response.text if response else 'No response'}")
+#         if response is not None and response.status_code == 400:
+#             print("Response JSON:", response.json())
+#         return None
 
 def get_basket_item(item_id):
     url = f"{API_BASE_URL}/basketitems/{item_id}/"
@@ -69,7 +72,7 @@ if __name__ == "__main__":
         }
         basket_id = 1
         product_id = 1
-        created_item = create_basket_item_with_ids(data, basket_id, product_id)
+        created_item = create_basket_item_with_ids( 1, 16, 1, 1, 1)
         print("Created Basket Item:", created_item)
 
         # Get a specific basket item by ID
