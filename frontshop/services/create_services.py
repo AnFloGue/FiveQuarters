@@ -144,9 +144,9 @@ def create_order_summary(data):
 # ==================================================
 
 def create_basket(user_id):
-    url = f"{API_BASE_URL}/baskets/create/"
+    url = "http://localhost:8000/api/v1/baskets/create/"
     headers = get_headers()
-    basket_data = {"user_id": user_id}
+    basket_data = {"user": user_id}  # Change 'user_id' to 'user'
 
     # Check if the basket already exists for the given user_id
     existing_basket_url = f"{API_BASE_URL}/baskets/?user_id={user_id}"
@@ -170,8 +170,20 @@ def create_basket(user_id):
         return response.json()
     except requests.exceptions.RequestException as e:
         print(f"Error creating basket: {e} - {response.text if response else 'No response'}")
+        if response is not None and response.status_code == 400:
+            print("Response JSON:", response.json())
         return None
-    
+
+def create_basket_item(data):
+    url = "http://localhost:8000/api/v1/baskets/create/"
+    headers = get_headers()
+    try:
+        response = requests.post(url, json=data, headers=headers)
+        response.raise_for_status()  # Raise an error for bad status codes
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"Error creating basket item: {e} - {response.text if response else 'No response'}")
+        return None
 
 def create_basket_item(data):
     url = f"{API_BASE_URL}/basketitems/create/"

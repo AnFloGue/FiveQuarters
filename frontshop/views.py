@@ -195,30 +195,29 @@ def add_to_basket(request, product_id):
         try:
             quantity = int(request.POST.get('amount', 1))
         except ValueError:
-            quantity = 1  # Default 1
+            quantity = 1  # Default 1  unit
 
         user_id = request.user.id
 
         # Get all baskets
         baskets = get_basket_list()
 
-        # Find the user's basket
+        # Find the user basket
         user_basket = None
         for basket in baskets:
             if basket['user_id'] == user_id:
                 user_basket = basket
                 break
 
-        # If no basket found, create one
+        # If no basket found, we create one
         if not user_basket:
-            basket_data = {'user_id': user_id}
-            user_basket = create_basket(basket_data)
+            user_basket = create_basket(user_id)
 
         basket_id = user_basket['id']
 
-        # Add the product to the basket
-        created_item = create_basket_item_with_ids(product_id, quantity, basket_id, product_id, user_id)
-        print("Created Basket Item:", created_item)
+        # we add the product to the basket
+        create_basket_item_with_ids(product_id, quantity, basket_id, product_id, user_id)
+
 
         return redirect('basketitem_list')
 

@@ -2,7 +2,7 @@ import requests
 import os
 from dotenv import load_dotenv
 
-from frontshop.services.create_services import create_basket_item_with_ids
+from frontshop.services.create_services import create_basket_item_with_ids, create_basket
 
 # Load environment variables from .env
 load_dotenv()
@@ -65,23 +65,28 @@ def get_all_basket_items():
     return response.json()
 
 if __name__ == "__main__":
-    try:
+    # try:
         # Test creating a basket item with IDs
-        data = {
-            "quantity": 10000
-        }
-        basket_id = 1
-        product_id = 1
-        created_item = create_basket_item_with_ids( 1, 16, 1, 1, 1)
-        print("Created Basket Item:", created_item)
-
+        # data = {
+        #     "quantity": 10000
+        # }
+        # basket_id = 1
+        # product_id = 1
+        # created_item = create_basket_item_with_ids( 1, 16, 1, 1, 1)
+        # print("Created Basket Item:", created_item)
+        
+        
+        new_basket = create_basket(20)
+        print("New Basket:", new_basket )
+        
+        
         # Get a specific basket item by ID
-        item_id = 1
-        basket_item = get_basket_item(item_id)
-        print(f"Basket Item {item_id}: {basket_item}")
-
-        # Get all basket items
-        all_basket_items = get_all_basket_items()
-        print("All Basket Items:", all_basket_items)
-    except Exception as e:
-        print("An error occurred:", e)
+    #     item_id = 1
+    #     basket_item = get_basket_item(item_id)
+    #     print(f"Basket Item {item_id}: {basket_item}")
+    #
+    #     # Get all basket items
+    #     all_basket_items = get_all_basket_items()
+    #     print("All Basket Items:", all_basket_items)
+    # except Exception as e:
+    #     print("An error occurred:", e)
