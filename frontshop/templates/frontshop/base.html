@@ -66,7 +66,7 @@
             <div class="col-lg-4 col-md-4 col-6">
                 <div class="widgets-wrap float-right">
                     <div class="widget-header mr-3">
-                        <a href="{% url 'login' %}" class="widget-view">
+                        <a href="{% url 'basketitem_list' %}" class="widget-view">
                             <div class="icon-area">
                                 <i class="fa fa-user"></i>
                             </div>
@@ -80,7 +80,7 @@
                         </a>
                     </div>
                     <div class="widget-header">
-                        <a href="{% url 'about' %}" class="widget-view">
+                        <a href="{% url 'basketitem_list' %}" class="widget-view">
                             <div class="icon-area">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span class="notify">0</span>
@@ -103,6 +103,7 @@
             <div class="collapse navbar-collapse" id="main_nav">
                 <ul class="navbar-nav mr-auto">
                     <!-- Product Dropdown Section -->
+                    <!--
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle btn pastel-primary nav-button" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <strong style="font-size: 1.2em;"><i class="fa fa-bars"></i> Products</strong>
@@ -113,27 +114,28 @@
                             {% endfor %}
                         </div>
                     </li>
+                    -->
                     <!-- End Product Dropdown Section -->
 
-                    <!-- Other Navbar Links -->
-                    <li class="nav-item">
-                        <a class="nav-link btn pastel-success nav-button" href="/frontshop/home/"><strong style="font-size: 1.2em;">Home</strong></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn pastel-info nav-button" href="/frontshop/product_list/"><strong style="font-size: 1.2em;">Products</strong></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn pastel-warning nav-button" href="{% url 'about' %}"><strong style="font-size: 1.2em;">About</strong></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn pastel-danger nav-button" href="{% url 'inventory_information' %}"><strong style="font-size: 1.2em;">Inventory Information</strong></a>
-                    </li>
-                    <!-- End Other Navbar Links -->
+<!-- Other Navbar Links -->
+<li class="nav-item">
+    <a class="nav-link btn pastel-success nav-button" href="/frontshop/home/"><strong style="font-size: 1.2em;">Home</strong></a>
+</li>
+<li class="nav-item">
+    <a class="nav-link btn pastel-info nav-button" href="/frontshop/product_list/"><strong style="font-size: 1.2em;">Products</strong></a>
+</li>
+<li class="nav-item">
+    <a class="nav-link btn pastel-danger nav-button" href="{% url 'inventory_information' %}"><strong style="font-size: 1.2em;">Inventory</strong></a>
+</li>
+<li class="nav-item">
+    <a class="nav-link btn pastel-warning nav-button" href="{% url 'about' %}"><strong style="font-size: 1.2em;">About</strong></a>
+</li>
+<!-- End Other Navbar Links -->
                 </ul>
                 <ul class="navbar-nav">
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="{% url 'about' %}"><i class="fa fa-envelope"></i> Email</a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
@@ -185,7 +187,7 @@
                         <li><a href="{% url 'login' %}"> User Login </a></li>
                         <li><a href="{% url 'register' %}"> User register </a></li>
                         <li><a href="{% url 'about' %}"> Account Setting </a></li>
-                        <li><a href="{% url 'about' %}"> My Orders </a></li>
+                        <li><a href="{% url 'basketitem_list' %}"> My Orders </a></li>
                     </ul>
                 </div>
                 <!-- End Account Section -->

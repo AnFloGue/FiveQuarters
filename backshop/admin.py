@@ -5,7 +5,7 @@ from .models import Category, Product, Ingredient, Recipe, Allergen
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description')
+    list_display = ('id', 'name', 'description', 'image')
     list_display_links = ('id', 'name')
     search_fields = ('name', 'slug')
     prepopulated_fields = {'slug': ('name',)}
