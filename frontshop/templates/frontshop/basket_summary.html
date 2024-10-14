@@ -11,16 +11,20 @@
         <div class="row">
             <main class="col-md-12 d-flex flex-column">
 
-                <!-- Section: Alerts Notifications -->
-                <div class="card mb-4" style="min-width: 300px;">
-                    <div class="card-body text-center">
-                        <div class="alert alert-info" role="alert">
-                            <h2 class="title"><strong>Notification!</strong> </h2><br>
-                            <h5 class="title"> This is an alert notification. item {{ item.product.name }} is not available. Preorder!</h5>
-                        </div>
-                    </div>
+<!-- Section: Alerts Notifications -->
+{% for item in basketitems %}
+    {% if not item.product.is_available %}
+        <div class="card mb-4" style="min-width: 300px;">
+            <div class="card-body text-center">
+                <div class="alert alert-info" role="alert">
+                    <h2 class="title"><strong>Notification!</strong> </h2><br>
+                    <h5 class="title"> This is an alert notification. Item {{ item.product.name }} is not available. Preorder!</h5>
                 </div>
-                <!-- End Section: Alerts Notifications -->
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
+<!-- End Section: Alerts Notifications -->
 
                 <div class="d-flex flex-wrap">
                     <!-- Section: User Details -->
