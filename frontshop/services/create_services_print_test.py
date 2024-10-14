@@ -48,11 +48,36 @@ class APIClient:
         response.raise_for_status()
         return response.json()
 
+    def create_basket_item_with_ids(self, data, basket_id, product_id):
+        data['basket'] = basket_id
+        data['product'] = product_id
+        url = f"{self.base_url}/basketitems/create/"
+        headers = self.get_headers()
+        print("Request URL:", url)
+        print("Request Headers:", headers)
+        print("Request Payload:", data)
+        try:
+            response = requests.post(url, json=data, headers=headers)
+            response.raise_for_status()  # Raise an error for bad status codes
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"Error creating basket item with IDs: {e} - {response.text if response else 'No response'}")
+            if response is not None and response.status_code == 400:
+                print("Response JSON:", response.json())
+            return None
 
-# test the funcitons for
 if __name__ == "__main__":
     client = APIClient(API_BASE_URL, API_USERNAME, API_PASSWORD)
     try:
+        # Test creating a basket item with IDs
+        data = {
+            "quantity": 2
+        }
+        basket_id = 1
+        product_id = 1
+        created_item = client.create_basket_item_with_ids(data, basket_id, product_id)
+        print("Created Basket Item:", created_item)
+
         # Get a specific basket item by ID
         item_id = 1
         basket_item = client.get_basket_item(item_id)
