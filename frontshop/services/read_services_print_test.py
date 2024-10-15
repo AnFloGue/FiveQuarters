@@ -172,6 +172,8 @@ if __name__ == "__main__":
                 available_products.append(product)
             print(f"Product ID: {product.get('id')}, Name: {product.get('name')}, "
                   f"Slug: {product.get('slug')}, Description: {product.get('description')}, "
+                  f'stock: {product.get("stock")}, '
+                  
                   f"Price: {product.get('price')}, Image: {product.get('image')}, "
                   f"Date of Manufacture: {product.get('date_of_manufacture')}, "
                   f"Date of Expiry: {product.get('date_of_expiry')}, "

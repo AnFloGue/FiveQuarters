@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, UpdateBasketItemForm
 import logging
 
 #==================================================
@@ -164,6 +164,25 @@ def basketitem_list(request, product_id=None, user=None):
     # Calculate the total amount
     total_amount = sum(item.total_price for item in basketitems)
 
+    # Calculate stock information
+    stock_info = []
+    for item in basketitems:
+        product_stock = item.product.stock
+        quantity_ordered = item.quantity
+        stock_difference = quantity_ordered - product_stock
+        to_be_manufactured = stock_difference if stock_difference > 0 else 0
+        stock_info.append({
+            'product_id': item.product.id,
+            'product_name': item.product.name,
+            'quantity_ordered': quantity_ordered,
+            'product_stock': product_stock,
+            'stock_difference': stock_difference,
+            'to_be_manufactured': to_be_manufactured,
+        })
+        print(stock_info)
+        print(to_be_manufactured)
+        # Print stock information and to_be_manufactured value
+
     context = {
         'basket': basket,
         'basketitems': basketitems,
@@ -177,12 +196,11 @@ def basketitem_list(request, product_id=None, user=None):
         'user_id': user.id,
         'user_name': user.username,
         'total_amount': total_amount,  # Pass the total amount to the template
+        'stock_info': stock_info,  # Pass stock information to the template
     }
 
     return render(request, 'frontshop/basket_summary.html', context)
 
-
-from .forms import UpdateBasketItemForm
 
 @login_required
 def update_basketitem(request, basketitem_id):

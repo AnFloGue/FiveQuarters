@@ -1,3 +1,5 @@
+<!-- frontshop/templates/frontshop/basket_summary.html -->
+
 {% extends 'frontshop/base.html' %}
 {% load static %}
 
@@ -89,6 +91,14 @@
                                                 <p><strong>Price per Unit:</strong> ${{ item.product.price }}</p><br>
                                                 <h5><strong>Total Amount:</strong> ${{ item.total_price }}</h5>
                                             </div>
+                                            <!-- Section: Stock Information -->
+                                            <div class="stock-info mt-3">
+                                                <p><strong>Stock Information:</strong></p>
+                                                <p>Needed: {{ item.quantity }}</p>
+                                                <p>Available: {{ item.product.stock }}</p>
+                                                <p>To be Manufactured: {{ item.to_be_manufactured }}</p>
+                                            </div>
+                                            <!-- End Section: Stock Information -->
                                             <!-- Section: Update Quantity Form -->
                                             <div class="update-quantity mt-3">
                                                 <form action="{% url 'update_basketitem' item.id %}" method="post">
@@ -101,14 +111,14 @@
                                                 </form>
                                             </div>
                                             <!-- End Section: Update Quantity Form -->
-<!-- Section: Delete Item Form -->
-<div class="delete-item mt-3">
-    <form action="{% url 'delete_basketitem' item.id %}" method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Delete</button>
-    </form>
-</div>
-<!-- End Section: Delete Item Form -->
+                                            <!-- Section: Delete Item Form -->
+                                            <div class="delete-item mt-3">
+                                                <form action="{% url 'delete_basketitem' item.id %}" method="post">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </div>
+                                            <!-- End Section: Delete Item Form -->
                                         </figcaption>
                                         <!-- End Section: Product Info -->
                                     </div>
@@ -119,7 +129,6 @@
                     {% endfor %}
                 </div>
                 <!-- End Section: Product Cards -->
-
             </main>
         </div>
     </div>

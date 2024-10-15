@@ -20,7 +20,7 @@ class RecipeInline(admin.TabularInline):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'name', 'category', 'price', 'date_of_manufacture', 'date_of_expiry', 'popularity', 'is_product_of_the_week', 'rating'
+        'id', 'name', 'category', 'price', 'stock', 'date_of_expiry', 'popularity', 'is_product_of_the_week', 'rating'
     )
     list_display_links = ('id', 'name')
     search_fields = ('name', 'category__name')

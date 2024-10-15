@@ -1,17 +1,13 @@
-1,Sugar,sugar,500,g,1000,
 2,Baking Soda,baking_soda,50,g,1000,
 3,Milk,milk,100,ml,10000,3
 4,Salt,salt,100,g,1000,
-5,Eggs,eggs,300,pcs,100,
 6,Vanilla Extract,vanilla_extract,10,g,1000,
 7,Baking Powder,baking_powder,50,g,1000,
 8,Chocolate,chocolate,100,g,1000,4
 9,Flour,flour,1000,g,1000,1
 10,Butter,butter,200,g,1000,3
 11,Cocoa Powder,cocoa_powder,200,g,1000,
-12,Water,water,1000,ml,10000,
 13,Yeast,yeast,50,g,1000,
-14,Apples,apples,500,g,1000,
 15,Cinnamon,cinnamon,50,g,1000,
 16,Multi-Grain Mix,multi_grain_mix,500,g,1000,1
 17,Red Food Coloring,red_food_coloring,10,ml,1000,
@@ -23,3 +19,7 @@
 23,Blueberries,blueberries,500,g,1000,
 24,Chocolate Chips,chocolate_chips,200,g,1000,4
 31,test ingredient3,test-ingredient3,100,kg,10,1
+5,Eggs,eggs,300,pcs,100,4
+1,Sugar,sugar,500,g,1000,4
+14,Apples,apples,500,g,1000,3
+12,Water,water,1000,ml,10000,3
