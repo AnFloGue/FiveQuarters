@@ -142,7 +142,7 @@ def basketitem_list(request, product_id=None, user=None):
     if user is None:
         user = request.user
     user_id = user.id
-    basketitems = BasketItem.objects.filter(basket__user_id=user_id)
+    basketitems = BasketItem.objects.filter(basket__user_id=user_id).select_related('product')
 
     categories = get_category_list()
     products = get_product_list()
@@ -168,9 +168,13 @@ def basketitem_list(request, product_id=None, user=None):
     stock_info = []
     for item in basketitems:
         product_stock = item.product.stock
+        print(f"Product stock: {product_stock}")
         quantity_ordered = item.quantity
+        print(f"Quantity ordered: {quantity_ordered}")
         stock_difference = quantity_ordered - product_stock
+        print(f"Stock difference: {stock_difference}")
         to_be_manufactured = stock_difference if stock_difference > 0 else 0
+        print(f"To be manufactured: {to_be_manufactured}")
         stock_info.append({
             'product_id': item.product.id,
             'product_name': item.product.name,
@@ -179,9 +183,6 @@ def basketitem_list(request, product_id=None, user=None):
             'stock_difference': stock_difference,
             'to_be_manufactured': to_be_manufactured,
         })
-        print(stock_info)
-        print(to_be_manufactured)
-        # Print stock information and to_be_manufactured value
 
     context = {
         'basket': basket,

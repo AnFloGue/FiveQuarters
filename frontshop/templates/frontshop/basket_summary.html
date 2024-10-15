@@ -80,7 +80,7 @@
                                             </h3>
                                             <div class="availability mt-1">
                                                 {% if item.product.is_available %}
-                                                <br><h5><strong><span class="text-success">Available</span></strong></h5>
+                                                <br><h5><strong><span class="text-success">Available </span></strong></h5>
                                                 {% else %}
                                                 <br><h5><strong><span class="text-danger">Pre-Order</span></strong></h5>
                                                 <strong><span class="text-info">Lead Time: <span class="text-danger">{{ item.product.manufacturing_time }}</span> days</span></strong>
@@ -91,14 +91,17 @@
                                                 <p><strong>Price per Unit:</strong> ${{ item.product.price }}</p><br>
                                                 <h5><strong>Total Amount:</strong> ${{ item.total_price }}</h5>
                                             </div>
-                                            <!-- Section: Stock Information -->
-                                            <div class="stock-info mt-3">
-                                                <p><strong>Stock Information:</strong></p>
-                                                <p>Needed: {{ item.quantity }}</p>
-                                                <p>Available: {{ item.product.stock }}</p>
-                                                <p>To be Manufactured: {{ item.to_be_manufactured }}</p>
-                                            </div>
-                                            <!-- End Section: Stock Information -->
+     <!-- Section: Stock Information -->
+<div class="stock-info mt-3">
+    <h4><strong>Stock Information:</strong></h4>
+    {% for item in stock_info %}
+        <h6><strong>Product Name: </strong>{{ item.product_name }}</h6>
+        <h6><strong>Needed: </strong>{{ item.quantity_ordered }}</h6>
+        <h6><strong>Available: </strong>{{ item.product_stock }}</h6>
+        <h6><strong>Require Manufacting: </strong>{{ item.to_be_manufactured }}</h6>
+    {% endfor %}
+</div>
+<!-- End Section: Stock Information -->
                                             <!-- Section: Update Quantity Form -->
                                             <div class="update-quantity mt-3">
                                                 <form action="{% url 'update_basketitem' item.id %}" method="post">
