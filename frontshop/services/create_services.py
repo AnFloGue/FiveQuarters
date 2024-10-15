@@ -139,12 +139,13 @@ def create_order_summary(data):
     if response.status_code == 201:
         return response.json()
     return None
+
 # ==================================================
 # Basket Services
 # ==================================================
 
 def create_basket(user_id):
-    url = "http://localhost:8000/api/v1/baskets/create/"
+    url = f"{API_BASE_URL}/baskets/create/"
     headers = get_headers()
     basket_data = {"user": user_id}  # Change 'user_id' to 'user'
 
@@ -175,17 +176,6 @@ def create_basket(user_id):
         return None
 
 def create_basket_item(data):
-    url = "http://localhost:8000/api/v1/baskets/create/"
-    headers = get_headers()
-    try:
-        response = requests.post(url, json=data, headers=headers)
-        response.raise_for_status()  # Raise an error for bad status codes
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error creating basket item: {e} - {response.text if response else 'No response'}")
-        return None
-
-def create_basket_item(data):
     url = f"{API_BASE_URL}/basketitems/create/"
     headers = get_headers()
     try:
@@ -195,7 +185,6 @@ def create_basket_item(data):
     except requests.exceptions.RequestException as e:
         print(f"Error creating basket item: {e} - {response.text if response else 'No response'}")
         return None
-    
 
 def create_basket_item_with_ids(id, quantity, basket_id, product, user_id):
     data = {}

@@ -10,14 +10,10 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fivequarters.settings')
 django.setup()
 from api.v1.views import product_full_list, product_full_detail
 from frontshop.services.read_services import (
-    get_orderitem_list, get_orderitem_details,
-    get_deliverycompany_list, get_deliverycompany_details,
-    get_category_list, get_category_details,
-    get_product_list, get_product_details,
-    get_ingredient_list, get_ingredient_details,
-    get_recipe_list, get_recipe_details,
-    get_account_details, get_account_list,
-    get_user_profile_details, get_user_profile_list,
+    get_deliverycompany_list,
+    get_category_list,
+    get_product_list,
+    get_ingredient_list,
     product_full_list,
     product_full_detail,
 )
@@ -189,25 +185,7 @@ if __name__ == "__main__":
         print("Available Products:")
 
 
-        sample_product_id = input("Enter the product ID: ")
 
-        product_details = get_product_details(sample_product_id)
-        print("--------------------------------------------------------")
-        print(f"Product Details for Product ID {sample_product_id}:")
-        print(f"Product ID: {product_details.get('id')}\n"
-              f"Name: {product_details.get('name')}\n"
-              f"Slug: {product_details.get('slug')}\n"
-              f"Description: {product_details.get('description')}\n"
-              f"Price: {product_details.get('price')}\n"
-              f"Image: {product_details.get('image')}\n"
-              f"Date of Manufacture: {product_details.get('date_of_manufacture')}\n"
-              f"Date of Expiry: {product_details.get('date_of_expiry')}\n"
-              f"Manufacturing Time: {product_details.get('manufacturing_time')}\n"
-              f"Popularity: {product_details.get('popularity')}\n"
-              f"Is Product of the Week: {product_details.get('is_product_of_the_week')}\n"
-              f"Rating: {product_details.get('rating')}\n"
-              f"Category: {product_details.get('category')}")
-        print("\n")
         
         products_with_ingredients = product_full_list()
         print("--------------------------------------------------------")
