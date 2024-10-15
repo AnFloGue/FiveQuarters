@@ -32,23 +32,23 @@ def get_headers():
     }
 
     
-# def create_basket_item_with_ids(data, basket_id, product_id):
-#     data['basket'] = basket_id
-#     data['product'] = product_id
-#     url = f"{API_BASE_URL}/basketitems/create/"
-#     headers = get_headers()
-#     print("Request URL:", url)
-#     print("Request Headers:", headers)
-#     print("Request Payload:", data)
-#     try:
-#         response = requests.post(url, json=data, headers=headers)
-#         response.raise_for_status()  # Raise an error for bad status codes
-#         return response.json()
-#     except requests.exceptions.RequestException as e:
-#         print(f"Error creating basket item with IDs: {e} - {response.text if response else 'No response'}")
-#         if response is not None and response.status_code == 400:
-#             print("Response JSON:", response.json())
-#         return None
+def create_basket_item_with_ids(data, basket_id, product_id):
+    data['basket'] = basket_id
+    data['product'] = product_id
+    url = f"{API_BASE_URL}/basketitems/create/"
+    headers = get_headers()
+    print("Request URL:", url)
+    print("Request Headers:", headers)
+    print("Request Payload:", data)
+    try:
+        response = requests.post(url, json=data, headers=headers)
+        response.raise_for_status()  # Raise an error for bad status codes
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"Error creating basket item with IDs: {e} - {response.text if response else 'No response'}")
+        if response is not None and response.status_code == 400:
+            print("Response JSON:", response.json())
+        return None
 
 def get_basket_item(item_id):
     url = f"{API_BASE_URL}/basketitems/{item_id}/"

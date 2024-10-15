@@ -1,8 +1,5 @@
 # frontshop/views.py
 
-
-
-
 from .models import BasketItem, Product
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -39,15 +36,12 @@ from frontshop.services.create_services import (
     create_basket_item_with_ids
 )
 
+#==================================================
+# update_services
+#==================================================
 
-
-
-
-# Configure logging
-logging.basicConfig(
-    filename='/Users/antoniofloresguerrero/PycharmProjects/_FINAL PROJ/#01/FiveQuarters/logs/django_errors.log',
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+from .services.update_services import (
+    update_basket_item,
 )
 
 # ================================================
@@ -186,7 +180,9 @@ def basketitem_list(request, product_id=None, user=None):
     return render(request, 'frontshop/basket_summary.html', context)
 
 
-
+@login_required
+def update_basketitem(request, basketitem_id):
+    pass
 
 
 @login_required
@@ -195,7 +191,7 @@ def add_to_basket(request, product_id):
         try:
             quantity = int(request.POST.get('amount', 1))
         except ValueError:
-            quantity = 1  # Default 1  unit
+            quantity = 1  # Default 1 unit
 
         user_id = request.user.id
 
@@ -215,9 +211,15 @@ def add_to_basket(request, product_id):
 
         basket_id = user_basket['id']
 
-        # we add the product to the basket
-        create_basket_item_with_ids(product_id, quantity, basket_id, product_id, user_id)
-
+        # Check if the product already exists in the basket
+        basket_item = BasketItem.objects.filter(basket_id=basket_id, product_id=product_id).first()
+        if basket_item:
+            # Update the quantity of the existing basket item
+            new_quantity = basket_item.quantity + quantity
+            update_basket_item(basket_item.id, new_quantity, basket_id, product_id)
+        else:
+            # Add the product to the basket
+            create_basket_item_with_ids(product_id, quantity, basket_id, product_id, user_id)
 
         return redirect('basketitem_list')
 
