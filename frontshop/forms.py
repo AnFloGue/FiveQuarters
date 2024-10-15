@@ -1,12 +1,16 @@
+# frontshop/forms.py
+
 from django import forms
 from django.contrib.auth.models import User
 
 
+# ================================================
+# LoginForm, RegisterForm
+# ================================================
+
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
-
-
 
 
 class RegisterForm(forms.ModelForm):
@@ -26,4 +30,10 @@ class RegisterForm(forms.ModelForm):
             raise forms.ValidationError('Passwords do not match')
         
         return cleaned_data
-    
+
+# ================================================
+# update_basketitem form
+# ================================================
+
+class UpdateBasketItemForm(forms.Form):
+    quantity = forms.IntegerField(min_value=1, label='Quantity')

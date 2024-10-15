@@ -180,9 +180,26 @@ def basketitem_list(request, product_id=None, user=None):
     return render(request, 'frontshop/basket_summary.html', context)
 
 
+from .forms import UpdateBasketItemForm
+
 @login_required
 def update_basketitem(request, basketitem_id):
-    pass
+    basket_item = get_object_or_404(BasketItem, id=basketitem_id, basket__user_id=request.user.id)
+
+    if request.method == 'POST':
+        form = UpdateBasketItemForm(request.POST)
+        if form.is_valid():
+            quantity = form.cleaned_data['quantity']
+            update_basket_item(basket_item.id, quantity, basket_item.basket.id, basket_item.product.id)
+            return redirect('basketitem_list')
+    else:
+        form = UpdateBasketItemForm(initial={'quantity': basket_item.quantity})
+
+    context = {
+        'form': form,
+        'basket_item': basket_item,
+    }
+    return render(request, 'frontshop/update_basketitem.html', context)
 
 
 @login_required
