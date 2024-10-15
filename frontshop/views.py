@@ -193,7 +193,7 @@ def update_basketitem(request, basketitem_id):
         if form.is_valid():
             quantity = form.cleaned_data['quantity']
             update_basket_item(basket_item.id, quantity, basket_item.basket.id, basket_item.product.id)
-            return redirect('basketitem_list')
+            return redirect('basketitem_list')  # Redirect to basketitem_list view
     else:
         form = UpdateBasketItemForm(initial={'quantity': basket_item.quantity})
 
