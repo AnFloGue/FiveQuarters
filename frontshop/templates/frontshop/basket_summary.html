@@ -101,6 +101,14 @@
                                                 </form>
                                             </div>
                                             <!-- End Section: Update Quantity Form -->
+<!-- Section: Delete Item Form -->
+<div class="delete-item mt-3">
+    <form action="{% url 'delete_basketitem' item.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+</div>
+<!-- End Section: Delete Item Form -->
                                         </figcaption>
                                         <!-- End Section: Product Info -->
                                     </div>

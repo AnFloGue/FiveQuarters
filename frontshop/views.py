@@ -1,5 +1,6 @@
 # frontshop/views.py
 
+from django.contrib import messages
 from .models import BasketItem, Product
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -35,6 +36,7 @@ from frontshop.services.create_services import (
     create_basket_item,
     create_basket_item_with_ids
 )
+from .services.delete_services import delete_basket_item
 
 #==================================================
 # update_services
@@ -243,6 +245,15 @@ def add_to_basket(request, product_id):
     return redirect('product_detail', product_id=product_id)
 
 
+@login_required
+def delete_basketitem(request, item_id):
+    if request.method == 'POST':
+        result = delete_basket_item(item_id)
+        if result:
+            messages.success(request, 'Item deleted successfully.')
+        else:
+            messages.error(request, 'Error deleting item.')
+    return redirect('basketitem_list')
 
 # ================================================
 # Login, Register, Logout Views
