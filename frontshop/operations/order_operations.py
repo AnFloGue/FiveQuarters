@@ -1,11 +1,8 @@
-# frontshop/operations/order_operations.py
 from frontshop.services.read_services import (
     get_order_list,
     get_order_details,
     get_orderitem_list,
-    get_product_details,
-    get_ingredient_details,
-    get_recipe_details
+    get_product_details
 )
 
 def calculate_total_order_cost(order_data):
