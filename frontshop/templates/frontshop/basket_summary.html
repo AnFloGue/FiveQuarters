@@ -95,7 +95,6 @@
 <div class="stock-info mt-3">
     <h4><strong>Stock Information:</strong></h4>
     {% for item in stock_info %}
-        <h6><strong>Product Name: </strong>{{ item.product_name }}</h6>
         <h6><strong>Needed: </strong>{{ item.quantity_ordered }}</h6>
         <h6><strong>Available: </strong>{{ item.product_stock }}</h6>
         <h6><strong>Require Manufacting: </strong>{{ item.to_be_manufactured }}</h6>
