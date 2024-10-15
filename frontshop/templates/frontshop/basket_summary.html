@@ -68,20 +68,20 @@
                             <div class="col-md-8">
                                 <!-- Section: Product Info -->
                                 <figcaption class="info-wrap">
-                                    <h3 class="title {% if item.product.is_available %}available{% else %}not-available{% endif %}">
-                                        <strong>{{ item.product.name }} </strong>
-                                        {% if not item.product.is_available %}
-                                        {% endif %}
-                                            <span class="out-of-order">Out of Order</span>
-                                    </h3>
-                                    <div class="availability mt-1">
-                                        {% if item.product.is_available %}
-                                            <br><h5><strong><span class="text-success">Available</span></strong></h5>
-                                        {% else %}
-                                        {% endif %}
-                                            <br><h5><strong><span class="text-danger">Pre-Order</span></strong></h5>
-                                            <strong><span class="text-info">Lead Time: <span class="text-danger">{{ item.product.manufacturing_time }}</span> days</span></strong>
-                                    </div>
+<h3 class="title {% if item.product.is_available %}available{% else %}not-available{% endif %}">
+    <strong>{{ item.product.name }}</strong>
+    {% if not item.product.is_available %}
+        <span class="out-of-order">Out of Order</span>
+    {% endif %}
+</h3>
+<div class="availability mt-1">
+    {% if item.product.is_available %}
+        <br><h5><strong><span class="text-success">Available</span></strong></h5>
+    {% else %}
+        <br><h5><strong><span class="text-danger">Pre-Order</span></strong></h5>
+        <strong><span class="text-info">Lead Time: <span class="text-danger">{{ item.product.manufacturing_time }}</span> days</span></strong>
+    {% endif %}
+</div>
                                     <div class="order-details mt-3">
                                         <p><strong>Amount Ordered:</strong> {{ item.quantity }}</p>
                                         <p><strong>Price per Unit:</strong> ${{ item.product.price }}</p><br>
