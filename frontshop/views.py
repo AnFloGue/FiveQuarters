@@ -139,6 +139,8 @@ def order_product(request, product_id):
 
 # frontshop/views.py
 
+# frontshop/views.py
+
 @login_required
 def basketitem_list(request, product_id=None, user=None):
     if user is None:
@@ -192,7 +194,7 @@ def basketitem_list(request, product_id=None, user=None):
         'product_details': product_details,
         'products_with_ingredients': products_with_ingredients,
         'product': product,
-        'is_available': product.is_available if product else None,
+        'is_available': product.stock > 0 if product else None,  # Check stock for availability
         'user_id': user.id,
         'user_name': user.username,
         'total_amount': total_amount,  # Pass the total amount to the template
