@@ -12,10 +12,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class RecipeInline(admin.TabularInline):
-    # a trick to display and use the recipe table inside the product table in the admin panel.
     model = Recipe
     extra = 1
-
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -31,9 +29,6 @@ class ProductAdmin(admin.ModelAdmin):
         'name', 'slug', 'category', 'description', 'price', 'image', 'date_of_manufacture', 'date_of_expiry',
         'manufacturing_time', 'popularity', 'is_product_of_the_week', 'rating'
     )
-    
-    # to add new ingredients inside this table, we dont need to modify this model. it comes for free as
-    # part of the Django admin's default behavior for handling foreign key. soooooo Cool!
 
 
 class AllergenAdmin(admin.ModelAdmin):

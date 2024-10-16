@@ -1,5 +1,3 @@
-<!-- frontshop/templates/frontshop/basket_summary.html -->
-
 {% extends 'frontshop/base.html' %}
 {% load static %}
 
@@ -13,14 +11,15 @@
 
                 <!-- Section: Alerts Notifications, User Details, and Order Summary in the same row -->
                 <div class="d-flex flex-wrap">
+
                     <!-- Section: Alerts Notifications -->
                     <div class="card mb-4" style="min-width: 300px;">
                         <div class="card-body text-center">
-                            <h2 class="title"><strong>Notification!</strong> </h2>
+                            <h2 class="title"><strong>Notification!</strong></h2>
                             <h5 class="title">Not available. Need to be Preorder!</h5><br>
                             {% for item in basketitems %}
                                 {% if item.product.stock <= 0 %}
-                                    <h5 class="title"><strong>{{ item.product.name }}</strong> </h5>
+                                    <h5 class="title"><strong>{{ item.product.name }}</strong></h5>
                                 {% endif %}
                             {% endfor %}
                         </div>
@@ -30,7 +29,7 @@
                     <!-- Section: User Details -->
                     <div class="card mb-4 ml-2" style="min-width: 300px;">
                         <div class="card-body">
-                            <h2><strong>User Details</strong></h2> <br>
+                            <h2><strong>User Details</strong></h2><br>
                             <p><strong>User ID:</strong> {{ user_id }}</p>
                             <p><strong>User Name:</strong> {{ user_name }}</p>
                         </div>
@@ -52,6 +51,7 @@
                         </div>
                     </div>
                     <!-- End Section: Order Summary -->
+
                 </div>
                 <!-- End Section: Alerts Notifications, User Details, and Order Summary in the same row -->
 
@@ -62,15 +62,17 @@
                             <div class="col-md-12">
                                 <div class="card card-product-grid">
                                     <div class="row no-gutters">
+
+                                        <!-- Section: Product Image -->
                                         <div class="col-md-4 position-relative">
-                                            <!-- Section: Product Image -->
                                             <div class="img-wrap">
                                                 <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
                                             </div>
-                                            <!-- End Section: Product Image -->
                                         </div>
+                                        <!-- End Section: Product Image -->
+
+                                        <!-- Section: Product Info -->
                                         <div class="col-md-8">
-                                            <!-- Section: Product Info -->
                                             <figcaption class="info-wrap">
                                                 <h3 class="title {% if item.product.stock > 0 %}available{% else %}not-available{% endif %}">
                                                     <strong>{{ item.product.name }}</strong>
@@ -78,46 +80,49 @@
                                                         <span class="out-of-order">Out of Order</span>
                                                     {% endif %}
                                                 </h3>
-                                                <div class="availability mt-1">
 
-    <div class="stock-info mt-3">
-        <h4><strong>Stock Information:</strong></h4>
-        {% for stock in stock_info %}
-            {% if stock.product_id == item.product.id %}
-                <!-- Section: Update Quantity Form -->
-                    <div class="update-quantity mt-3">
-                        <form action="{% url 'update_basketitem' item.id %}" method="post">
-                            {% csrf_token %}
-                            <div class="form-group d-flex align-items-center">
-                                <label for="quantity-{{ item.id }}" class="mr-2"><strong>Quantity Requested:</strong></label>
-                                <input type="number" class="form-control outlined-input mr-2" id="quantity-{{ item.id }}" name="quantity" value="{{ item.quantity }}" min="1" required style="width: 100px;">
-                                <button type="submit" class="btn btn-primary">Update</button>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- End Section: Update Quantity Form -->                {% if item.product.stock > 0 %}
-                    <br><h5><strong><span class="text-success">Available: {{ stock.product_stock }}</span></strong></h5>
-                {% else %}
-                    <br><h5><strong><span class="text-danger">Out of Stock</span></strong></h5>
-                {% endif %}                <h6><strong>Required to Manufacture: </strong>{{ stock.to_be_manufactured }}</h6>
-            {% endif %}
-        {% endfor %}
-    </div>
-</div>
-                                                <div class="order-details mt-3">
-                                                </div>
                                                 <!-- Section: Stock Information -->
-                                                <div class="stock-info mt-3">
-                                                    <h4><strong>Cost Information:</strong></h4>
+                                                <br><div class="availability mt-1">
+                                                    <div class="stock-info mt-3">
+                                                        <h3><strong>Stock Information:</strong></h3>
+                                                        {% for stock in stock_info %}
+                                                            {% if stock.product_id == item.product.id %}
+                                                                <!-- Section: Update Quantity Form -->
+                                                                <div class="update-quantity mt-3">
+                                                                    <form action="{% url 'update_basketitem' item.id %}" method="post">
+                                                                        {% csrf_token %}
+                                                                        <div class="form-group d-flex align-items-center">
+                                                                            <label for="quantity-{{ item.id }}" class="mr-2"><strong>Quantity Requested:</strong></label>
+                                                                            <input type="number" class="form-control outlined-input mr-2" id="quantity-{{ item.id }}" name="quantity" value="{{ item.quantity }}" min="1" required style="width: 100px;">
+                                                                            <button type="submit" class="btn btn-primary">Update</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                                <!-- End Section: Update Quantity Form -->
+
+                                                                {% if item.product.stock > 0 %}
+                                                                    <br><h5><strong><span class="text-success">Available: {{ stock.product_stock }}</span></strong></h5>
+                                                                {% else %}
+                                                                    <br><h5><strong><span class="text-danger">Out of Stock</span></strong></h5>
+                                                                {% endif %}
+                                                                <h6><strong>Required to Manufacture:</strong> {{ stock.to_be_manufactured }}</h6>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                                <!-- End Section: Stock Information -->
+
+                                                <!-- Section: Cost Information -->
+                                                <div class="stock-info mt-3"><br>
+                                                    <h3><strong>Cost Information:</strong></h3>
                                                     {% for stock in stock_info %}
                                                         {% if stock.product_id == item.product.id %}
                                                             <p><strong>Price per Unit:</strong> ${{ item.product.price }}</p><br>
                                                             <h5><strong>Total Amount:</strong> ${{ item.total_price }}</h5>
-
                                                         {% endif %}
                                                     {% endfor %}
-                                                </div>
-                                                <!-- End Section: Stock Information -->
+                                                </div><br>
+                                                <!-- End Section: Cost Information -->
 
                                                 <!-- Section: Delete Item Form -->
                                                 <div class="delete-item mt-3">
@@ -127,9 +132,11 @@
                                                     </form>
                                                 </div>
                                                 <!-- End Section: Delete Item Form -->
+
                                             </figcaption>
-                                            <!-- End Section: Product Info -->
                                         </div>
+                                        <!-- End Section: Product Info -->
+
                                     </div>
                                 </div>
                             </div>
@@ -137,6 +144,7 @@
                     {% endfor %}
                 </div>
                 <!-- End Section: Product Cards -->
+
             </main>
         </div>
     </div>
@@ -172,13 +180,13 @@
     }
     .title.not-available {
         background-color: orange;
-        color: white; /* Corrected */
+        color: white;
     }
     .out-of-order {
         font-size: 0.8em;
         color: red;
         margin-left: 10px;
-        padding: 5px 10px; /* Corrected */
+        padding: 5px 10px;
     }
 </style>
 <!-- End of Custom Styles for product images and badge -->
