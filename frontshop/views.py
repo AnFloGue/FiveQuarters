@@ -169,7 +169,8 @@ def basketitem_list(request, product_id=None, user=None):
     for item in basketitems:
         product_name = item.product.name
         print(f"Product name: {product_name}")
-
+        product_slug = item.product.slug
+        print(f"Product slug: {product_slug}")
         product_stock = item.product.stock
         print(f"Product stock: {product_stock}")
         quantity_ordered = item.quantity
