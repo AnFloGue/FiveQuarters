@@ -47,9 +47,10 @@ class Product(models.Model):
     date_of_expiry = models.DateField(null=True, blank=True)
     manufacturing_time = models.CharField(max_length=100, blank=True, null=True)
     popularity = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0)])
-    is_product_of_the_week = models.BooleanField(default=False)
+    is_product_of_the_week = models.BooleanField(verbose_name='P_O_Week')
     rating = models.PositiveIntegerField(default=1, validators=[MinValueValidator(0), MaxValueValidator(5)])
     stock = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+    
     @property
     def is_available(self):
         return self.date_of_expiry > timezone.now().date()
@@ -58,15 +59,21 @@ class Product(models.Model):
     def product_name(self):
         return self.name
 
-    def can_be_manufactured(self):
-        return all(recipe.quantity <= recipe.ingredient.stock for recipe in self.recipes.all())
+    def is_out_of_date(self):
+        for recipe in self.recipes.all():
+            if recipe.quantity > recipe.ingredient.stock:
+                return False
+        return True    
 
-    @property
-    def ingredients(self):
-        return [recipe.ingredient.name for recipe in self.recipes.all()]
+@property
+def ingredients(self):
+    ingredients_list = []
+    for recipe in self.recipes.all():
+        ingredients_list.append(recipe.ingredient.name)
+    return ingredients_list
 
-    def __str__(self):
-        return self.name
+def __str__(self):
+    return self.name
 
 # ==============================
 # Allergen Table

@@ -12,10 +12,15 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ('id', 'order', 'product', 'quantity')
+    list_display = ('id', 'order', 'product_name', 'quantity')
+    list_editable = ('quantity',)
     list_display_links = ('id', 'order')
     search_fields = ('order__id', 'product__name')
     list_filter = ('order__status',)
+
+    def product_name(self, obj):
+        return obj.product.name
+    product_name.short_description = 'Product'
 
 @admin.register(DeliveryCompany)
 class DeliveryCompanyAdmin(admin.ModelAdmin):
@@ -33,7 +38,12 @@ class BasketAdmin(admin.ModelAdmin):
 
 @admin.register(BasketItem)
 class BasketItemAdmin(admin.ModelAdmin):
-    list_display = ('id', 'basket', 'product', 'quantity')
+    list_display = ('id', 'basket', 'product_name', 'quantity')
+    list_editable = ('quantity',)
     list_display_links = ('id', 'basket')
-    search_fields = ('basket__id', 'product__name')
+    search_fields = ('basket__user__username', 'product__name')
     list_filter = ('basket__created_at',)
+
+    def product_name(self, obj):
+        return obj.product.name
+    product_name.short_description = 'Product'
