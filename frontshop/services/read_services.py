@@ -1,3 +1,4 @@
+# frontshop/services/read_services.py
 import os
 import requests
 from requests.auth import HTTPBasicAuth

@@ -207,16 +207,18 @@ def basketitem_list(request, product_id=None, user=None):
 
 @login_required
 def update_basketitem(request, basketitem_id):
-    basket_item = get_object_or_404(BasketItem, id=basketitem_id, basket__user_id=request.user.id)
+    basket_item = get_basketitem_detail(basketitem_id)
+    if not basket_item or 'basket' not in basket_item or 'product' not in basket_item:
+        return redirect('basketitem_list')
 
     if request.method == 'POST':
         form = UpdateBasketItemForm(request.POST)
         if form.is_valid():
             quantity = form.cleaned_data['quantity']
-            update_basket_item(basket_item.id, quantity, basket_item.basket.id, basket_item.product.id)
-            return redirect('basketitem_list')  # Redirect to basketitem_list view
+            update_basket_item(basketitem_id, quantity, basket_item['basket'], basket_item['product'])
+            return redirect('basketitem_list')
     else:
-        form = UpdateBasketItemForm(initial={'quantity': basket_item.quantity})
+        form = UpdateBasketItemForm(initial={'quantity': basket_item['quantity']})
 
     context = {
         'form': form,
