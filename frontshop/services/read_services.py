@@ -105,6 +105,15 @@ def get_product_list():
         print(f"Request error occurred: {err}")
         return []
 
+def get_product_detail(product_id):
+    try:
+        response = requests.get(f"{API_BASE_URL}/products/{product_id}/", headers=get_headers())
+        response.raise_for_status()
+        return response.json()
+    except RequestException as err:
+        print(f"Request error occurred: {err}")
+        return {}
+    
 
 def product_full_detail(product_id):
     try:
