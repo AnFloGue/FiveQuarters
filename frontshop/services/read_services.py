@@ -17,11 +17,53 @@ API_BASE_URL = os.getenv('API_URL_V1')
 
 # Function to get headers for API requests
 def get_headers():
+    """
+    Prepares the headers required for API requests, including the Authorization token.
+
+    The function fetches the API username and password from environment variables
+    and uses HTTP Basic Authentication to generate the Authorization header.
+
+    Returns:
+        dict: A dictionary containing the Authorization header.
+    """
+    # Retrieve the API username from environment variables
     username = os.getenv('API_USERNAME')
+    # Retrieve the API password from environment variables
     password = os.getenv('API_PASSWORD')
+    # Return a dictionary containing the Authorization header with HTTP Basic Authentication
     return {
         "Authorization": f"Basic {HTTPBasicAuth(username, password)}"
     }
+
+
+def get_api_data(url):
+    """
+    Makes a GET request to a specified URL and returns the JSON response.
+
+    Args:
+        url (str): The URL to which the GET request is made.
+
+    Returns:
+        dict or None: The JSON response from the API if the request is successful,
+                      otherwise None if an error occurs.
+
+    Raises:
+        RequestException: If an error occurs during the request.
+    """
+    try:
+        # Make a GET request to the specified URL with the provided headers
+        # The headers include the Authorization token for authentication and are used to authenticate the API request.
+        response = requests.get(url, headers=get_headers())
+        # Raise an HTTPError if the HTTP request returned an unsuccessful status code
+        response.raise_for_status()
+        # Return the JSON response from the API if the request is successful
+        return response.json()
+    except RequestException as err:
+        # Print an error message if an exception occurs during the request
+        print(f"Request error occurred: {err}")
+        # Return None if an error occurs
+        return None
+
 
 #==================================================
 # Category Services
@@ -36,6 +78,14 @@ def get_category_list():
         print(f"Request error occurred: {err}")
         return []
 
+def get_category_details(category_id):
+    try:
+        response = requests.get(f"{API_BASE_URL}/categories/{category_id}/", headers=get_headers())
+        response.raise_for_status()
+        return response.json()
+    except RequestException as err:
+        print(f"Request error occurred: {err}")
+        return {}
 
 #==================================================
 # Product Services

@@ -10,6 +10,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fivequarters.settings')
 django.setup()
 from api.v1.views import product_full_list, product_full_detail
 from frontshop.services.read_services import (
+    get_category_list,
     get_deliverycompany_list,
     get_category_list,
     get_product_list,
@@ -17,6 +18,9 @@ from frontshop.services.read_services import (
     product_full_list,
     product_full_detail,
 )
+
+
+
 
 
 if __name__ == "__main__":
@@ -118,7 +122,7 @@ if __name__ == "__main__":
               f"Ingredients: {ingredients_list}\n"
               f"Allergens: {allergens_list}")
         print("\n")
-        
+        '''
     except KeyboardInterrupt:
         print("\n")
         print("\nProcess interrupted by...me!!!. Exiting gracefully...cool, isn't it?")
