@@ -11,12 +11,12 @@ django.setup()
 from api.v1.views import product_full_list, product_full_detail
 from frontshop.services.read_services import (
     get_category_list,
-    get_deliverycompany_list,
-    get_category_list,
+    get_category_details,
+
     get_product_list,
     get_ingredient_list,
-    product_full_list,
-    product_full_detail, get_category_details,
+
+    get_product_detail,
 )
 
 
@@ -25,11 +25,15 @@ from frontshop.services.read_services import (
 
 if __name__ == "__main__":
     try:
-        '''
+
         # ==============================================
         # Category Prints
         # ==============================================
 
+
+        # CATEGORY LIST
+        # ___________________________________________________________________
+        '''
         category_list = get_category_list()
         print("--------------------------------------------------------")
         # print(" Complete json file:")
@@ -40,11 +44,12 @@ if __name__ == "__main__":
                   f"Slug: {category.get('slug')}, Description: {category.get('description')}, "
                   f"Image: {category.get('image')}")
         print("\n")
-        
-        # ==============================================
+        '''
 
+        # CATEGORY DETAILS
+        # ___________________________________________________________________
+        '''
         category_id = input("Enter the category ID: ")
-
 
         category_details = get_category_details(category_id)
         print(f"Category Details for ID {category_id}:")
@@ -60,19 +65,19 @@ if __name__ == "__main__":
         print("\n")
         '''
         
-        
-        
         # ==============================================
         # Product Prints
         # ==============================================
-
+        
+        # PRODUCT LIST
+        # ___________________________________________________________________
+        
         product_list = get_product_list()
         print("--------------------------------------------------------")
         print("Product List:")
         print(" Complete json file:")
         print(product_list)
         print("--------------------------------------------------------")
-        
         
         available_products = []
         for product in product_list:
@@ -92,13 +97,28 @@ if __name__ == "__main__":
             print(f"Is Product of the Week: {product.get('is_product_of_the_week')}")
             print(f"Rating: {product.get('rating')}")
             print(f"Category: {product.get('category')}")
-
+            print(f"Expired: {product.get('is_expired')}")
             print(f"Allergens: {product.get('allergens')}")
             print("\n")
         
+        
+        # PRODUCT DETAILS
+        # ___________________________________________________________________
+        
+        '''
+        # PRODUCT FULL DETAIL
+        # ___________________________________________________________________
+        product_id = input("Enter the product ID: ")
+        product_full_detail = product_full_detail(product_id)
+        print(f"product_full_detail for ID {product_id}:")
+
+        print(" Complete json file:")
+        print(product_full_detail)
+        '''
 
 
-
+        # Product Full List with Ingredients
+        # ___________________________________________________________________
         '''
         products_with_ingredients = product_full_list()
         print("--------------------------------------------------------")
@@ -118,10 +138,12 @@ if __name__ == "__main__":
                   f"Ingredients: {ingredients_list}\n"
                   f"Allergens: {allergens_list}")
             print("\n")
+        '''
         
-        # ==============================================
+
         # Product Full Detail with Ingredients
-        # ==============================================
+        # ___________________________________________________________________
+        '''
         product_id = int(input("Enter the product ID: "))
         product_details = product_full_detail(product_id)
         print("--------------------------------------------------------")
@@ -141,6 +163,10 @@ if __name__ == "__main__":
               f"Allergens: {allergens_list}")
         print("\n")
         '''
+        
+        
+        # ___________________________________________________________________
+
     except KeyboardInterrupt:
         print("\n")
         print("\nProcess interrupted by...me!!!. Exiting gracefully...cool, isn't it?")

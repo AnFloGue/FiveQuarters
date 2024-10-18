@@ -105,6 +105,8 @@ def get_product_list():
         print(f"Request error occurred: {err}")
         return []
 
+def get_product_detail():
+    pass
 
 def product_full_detail(product_id):
     try:
