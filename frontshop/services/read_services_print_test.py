@@ -11,37 +11,37 @@ django.setup()
 from frontshop.services.read_services import (
     # Account Services
     get_account_list,
-
+    
     # DeliveryCompany Services
     get_deliverycompany_list,
-
+    
     # Category Services
     get_category_list,
     get_category_details,
-
+    
     # Product Services
     get_product_list,
     product_full_list,
     product_full_detail,
     get_recommended_products,
     get_stock_info,
-
+    
     # Ingredient Services
     get_ingredient_list,
-
+    
     # Order Services
     get_order_list,
-
+    
     # Basket Services
     get_basket_list,
     get_basket_detail,
     get_basketitem_list,
     get_basketitem_detail,
     get_basketitem_list_with_id,
-
+    
     # Allergen Services
     get_allergen_list,
-    get_allergen_detail,
+    get_allergen_detail, get_product_detail,
 )
 
 
@@ -121,7 +121,35 @@ if __name__ == "__main__":
             print(f"Allergens: {product.get('allergens')}")
             print("\n")
         '''
-
+        
+        # ==============================================
+        # Product Detail
+        # ==============================================
+        product_id = int(input("Enter the product ID for details: "))
+        product_detail = get_product_detail(product_id)
+        print("--------------------------------------------------------")
+        print("Product Detail:")
+        print(f"Product ID: {product_detail.get('id')}\n"
+              f"Name: {product_detail.get('name')}\n"
+              f"Description: {product_detail.get('description')}\n"
+              f"Price: {product_detail.get('price')}\n"
+              f"Stock: {product_detail.get('stock')}\n"
+              f"Category: {product_detail.get('category')}")
+        print("\n")
+        
+        # ==============================================
+        # Recommended Products
+        # ==============================================
+        recommended_products = get_recommended_products()
+        print("--------------------------------------------------------")
+        print("Recommended Products:")
+        for product in recommended_products:
+            product_data = product.get('product', {})
+            print(f"Product ID: {product_data.get('id')}\n"
+                  f"Name: {product_data.get('name')}\n"
+                  f"Popularity: {product_data.get('popularity')}\n"
+                  f"Price: {product_data.get('price')}")
+            print("\n")
 
 
         '''
@@ -149,6 +177,7 @@ if __name__ == "__main__":
         # ==============================================
         # Product Full Detail with Ingredients
         # ==============================================
+        '''
         product_id = int(input("Enter the product ID: "))
         product_details = product_full_detail(product_id)
         print("--------------------------------------------------------")
@@ -167,7 +196,7 @@ if __name__ == "__main__":
               f"Ingredients: {ingredients_list}\n"
               f"Allergens: {allergens_list}")
         print("\n")
-        
+        '''
     except KeyboardInterrupt:
         print("\n")
         print("\nProcess interrupted by...me!!!. Exiting gracefully...cool, isn't it?")
