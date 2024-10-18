@@ -71,7 +71,7 @@ if __name__ == "__main__":
         
         # PRODUCT LIST
         # ___________________________________________________________________
-        
+        '''
         product_list = get_product_list()
         print("--------------------------------------------------------")
         print("Product List:")
@@ -100,10 +100,39 @@ if __name__ == "__main__":
             print(f"Expired: {product.get('is_expired')}")
             print(f"Allergens: {product.get('allergens')}")
             print("\n")
+            '''
         
         
         # PRODUCT DETAILS
         # ___________________________________________________________________
+        product_id = input("Enter the product ID: ")
+        product = get_product_detail(product_id)
+        print("--------------------------------------------------------")
+
+        print(f"Product Details for ID {product_id}:")
+        print(" Complete json file:")
+        print(product)
+        print("--------------------------------------------------------")
+
+        
+        print(f"Product Details for ID: {product.get('id')}")
+        print(f"Name: {product.get('name')}")
+        print(f"Slug: {product.get('slug')}")
+        print(f"Description: {product.get('description')}")
+        print(f"Stock: {product.get('stock')}")
+        print(f"Price: {product.get('price')}")
+        print(f"Image: {product.get('image')}")
+        print(f"Date of Manufacture: {product.get('date_of_manufacture')}")
+        print(f"Date of Expiry: {product.get('date_of_expiry')}")
+        print(f"Expired: {product.get('is_expired')}")
+        print(f"Manufacturing Time: {product.get('manufacturing_time')}")
+        print(f"Popularity: {product.get('popularity')}")
+        print(f"Is Product of the Week: {product.get('is_product_of_the_week')}")
+        print(f"Rating: {product.get('rating')}")
+        print(f"Category: {product.get('category')}")
+        print(f"Expired: {product.get('is_expired')}")
+        print(f"Allergens: {product.get('allergens')}")
+        print("\n")
         
         '''
         # PRODUCT FULL DETAIL
