@@ -23,18 +23,6 @@ def get_headers():
         "Authorization": f"Basic {HTTPBasicAuth(username, password)}"
     }
 
-
-# Function to make a GET request to a specified URL and return the JSON response
-def get_api_data(url):
-    try:
-        response = requests.get(url, headers=get_headers())
-        response.raise_for_status()
-        return response.json()
-    except RequestException as err:
-        print(f"Request error occurred: {err}")
-        return None
-
-
 #==================================================
 # Category Services
 #==================================================
