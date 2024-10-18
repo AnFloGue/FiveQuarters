@@ -62,7 +62,7 @@ class Product(models.Model):
 
     def is_out_of_date(self):
         for recipe in self.recipes.all():
-            if recipe.quantity > recipe.ingredient.stock:
+            if recipe.quantity < recipe.ingredient.stock:
                 return False
         return True
 
