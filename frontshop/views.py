@@ -137,9 +137,7 @@ def order_product(request, product_id):
 # Basket Views
 # ================================================
 
-# frontshop/views.py
 
-# frontshop/views.py
 
 @login_required
 def basketitem_list(request, product_id=None, user=None):

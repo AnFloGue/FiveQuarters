@@ -8,15 +8,40 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fivequarters.settings')
 
 # Setup Django
 django.setup()
-from api.v1.views import product_full_list, product_full_detail
 from frontshop.services.read_services import (
-    get_category_list,
+    # Account Services
+    get_account_list,
+
+    # DeliveryCompany Services
     get_deliverycompany_list,
+
+    # Category Services
     get_category_list,
+    get_category_details,
+
+    # Product Services
     get_product_list,
-    get_ingredient_list,
     product_full_list,
-    product_full_detail, get_category_details,
+    product_full_detail,
+    get_recommended_products,
+    get_stock_info,
+
+    # Ingredient Services
+    get_ingredient_list,
+
+    # Order Services
+    get_order_list,
+
+    # Basket Services
+    get_basket_list,
+    get_basket_detail,
+    get_basketitem_list,
+    get_basketitem_detail,
+    get_basketitem_list_with_id,
+
+    # Allergen Services
+    get_allergen_list,
+    get_allergen_detail,
 )
 
 
@@ -65,7 +90,7 @@ if __name__ == "__main__":
         # ==============================================
         # Product Prints
         # ==============================================
-
+        '''
         product_list = get_product_list()
         print("--------------------------------------------------------")
         print("Product List:")
@@ -95,7 +120,7 @@ if __name__ == "__main__":
 
             print(f"Allergens: {product.get('allergens')}")
             print("\n")
-        
+        '''
 
 
 
@@ -118,6 +143,8 @@ if __name__ == "__main__":
                   f"Ingredients: {ingredients_list}\n"
                   f"Allergens: {allergens_list}")
             print("\n")
+        '''
+        
         
         # ==============================================
         # Product Full Detail with Ingredients
@@ -140,7 +167,7 @@ if __name__ == "__main__":
               f"Ingredients: {ingredients_list}\n"
               f"Allergens: {allergens_list}")
         print("\n")
-        '''
+        
     except KeyboardInterrupt:
         print("\n")
         print("\nProcess interrupted by...me!!!. Exiting gracefully...cool, isn't it?")
