@@ -37,14 +37,14 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    is_available = serializers.SerializerMethodField()
+    is_expired = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
         fields = '__all__'
 
-    def get_is_available(self, obj):
-        return obj.is_available
+    def get_is_expired(self, obj):
+        return obj.is_expired
 
 
 class IngredientSerializer(serializers.ModelSerializer):

@@ -16,7 +16,7 @@ from frontshop.services.read_services import (
     get_product_list,
     get_ingredient_list,
     product_full_list,
-    product_full_detail,
+    product_full_detail, get_category_details,
 )
 
 
@@ -25,25 +25,33 @@ from frontshop.services.read_services import (
 
 if __name__ == "__main__":
     try:
-        
-        # ==============================
+        '''
+        # ==============================================
         # Category Prints
-        # ==============================
+        # ==============================================
 
         category_list = get_category_list()
         print("--------------------------------------------------------")
+        # print(" Complete json file:")
+        # print(category_list)
         print("Category Full List:")
         for category in category_list:
             print(f"Category ID: {category.get('id')}, Name: {category.get('name')}, "
                   f"Slug: {category.get('slug')}, Description: {category.get('description')}, "
                   f"Image: {category.get('image')}")
         print("\n")
+        
+        # ==============================================
 
-        sample_category_id = input("Enter the category ID: ")
+        category_id = input("Enter the category ID: ")
 
-        category_details = get_category_details(sample_category_id)
+
+        category_details = get_category_details(category_id)
+        print(f"Category Details for ID {category_id}:")
+
+        print(" Complete json file:")
+        print(category_details)
         print("--------------------------------------------------------")
-        print(f"Category Details for ID {sample_category_id}:")
         print(f"Category ID: {category_details.get('id')}\n"
               f"Name: {category_details.get('name')}\n"
               f"Slug: {category_details.get('slug')}\n"
@@ -51,37 +59,47 @@ if __name__ == "__main__":
               f"Image: {category_details.get('image')}")
         print("\n")
         '''
-        # ==============================
+        
+        
+        
+        # ==============================================
         # Product Prints
-        # ==============================
+        # ==============================================
 
         product_list = get_product_list()
         print("--------------------------------------------------------")
-        print("Product Full List:")
+        print("Product List:")
+        print(" Complete json file:")
+        print(product_list)
+        print("--------------------------------------------------------")
+        
         
         available_products = []
         for product in product_list:
-            if product.get('is_available'):
-                available_products.append(product)
-            print(f"Product ID: {product.get('id')}, Name: {product.get('name')}, "
-                  f"Slug: {product.get('slug')}, Description: {product.get('description')}, "
-                  f'stock: {product.get("stock")}, '
-                  
-                  f"Price: {product.get('price')}, Image: {product.get('image')}, "
-                  f"Date of Manufacture: {product.get('date_of_manufacture')}, "
-                  f"Date of Expiry: {product.get('date_of_expiry')}, "
-                  f"Manufacturing Time: {product.get('manufacturing_time')}, "
-                  f"Popularity: {product.get('popularity')}, "
-                  f"Is Product of the Week: {product.get('is_product_of_the_week')}, "
-                  f"Rating: {product.get('rating')}, Category: {product.get('category')}, "
-                  f"Is Available: {product.get('is_available')}")
+            
+            print(f"Product ID: {product.get('id')}")
+            print(f"Name: {product.get('name')}")
+            print(f"Slug: {product.get('slug')}")
+            print(f"Description: {product.get('description')}")
+            print(f"Stock: {product.get('stock')}")
+            print(f"Price: {product.get('price')}")
+            print(f"Image: {product.get('image')}")
+            print(f"Date of Manufacture: {product.get('date_of_manufacture')}")
+            print(f"Date of Expiry: {product.get('date_of_expiry')}")
+            print(f"Expired: {product.get('is_expired')}")
+            print(f"Manufacturing Time: {product.get('manufacturing_time')}")
+            print(f"Popularity: {product.get('popularity')}")
+            print(f"Is Product of the Week: {product.get('is_product_of_the_week')}")
+            print(f"Rating: {product.get('rating')}")
+            print(f"Category: {product.get('category')}")
+
+            print(f"Allergens: {product.get('allergens')}")
             print("\n")
         
-        print("Available Products:")
 
 
 
-        
+        '''
         products_with_ingredients = product_full_list()
         print("--------------------------------------------------------")
         print("Product Full List with Ingredients:")
@@ -101,9 +119,9 @@ if __name__ == "__main__":
                   f"Allergens: {allergens_list}")
             print("\n")
         
-        # ==============================
+        # ==============================================
         # Product Full Detail with Ingredients
-        # ==============================
+        # ==============================================
         product_id = int(input("Enter the product ID: "))
         product_details = product_full_detail(product_id)
         print("--------------------------------------------------------")

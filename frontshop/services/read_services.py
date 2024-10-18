@@ -78,6 +78,7 @@ def get_category_list():
         print(f"Request error occurred: {err}")
         return []
 
+
 def get_category_details(category_id):
     try:
         response = requests.get(f"{API_BASE_URL}/categories/{category_id}/", headers=get_headers())
@@ -86,6 +87,7 @@ def get_category_details(category_id):
     except RequestException as err:
         print(f"Request error occurred: {err}")
         return {}
+
 
 #==================================================
 # Product Services
@@ -104,15 +106,17 @@ def get_product_list():
         return []
 
 
-def get_recommended_products():
+def product_full_detail(product_id):
     try:
-        response = requests.get(f"{API_BASE_URL}/product-full-list/", headers=get_headers())
+        response = requests.get(f"{API_BASE_URL}/product-full-detail/{product_id}/", headers=get_headers())
         response.raise_for_status()
-        products = response.json()
-        return sorted(products, key=lambda x: x['product']['popularity'], reverse=True)
+        product_data = response.json()
+        if 'stock' not in product_data['product']:
+            product_data['product']['stock'] = 0
+        return product_data
     except RequestException as err:
         print(f"Request error occurred: {err}")
-        return []
+        return {}
 
 
 def product_full_list():
@@ -128,16 +132,27 @@ def product_full_list():
         return []
 
 
-def product_full_detail(product_id):
+def get_recommended_products():
     try:
-        response = requests.get(f"{API_BASE_URL}/product-full-detail/{product_id}/", headers=get_headers())
+        response = requests.get(f"{API_BASE_URL}/product-full-list/", headers=get_headers())
         response.raise_for_status()
-        product_data = response.json()
-        product_data['product']['stock'] = product_data['product'].get('stock', 0)
-        return product_data
+        products = response.json()
+        
+        # Extract popularity values and sort products
+        products_with_popularity = []
+        for product in products:
+            products_with_popularity.append((product, product['product']['popularity']))
+        
+        products_with_popularity.sort(key=lambda x: x[1], reverse=True)
+        
+        sorted_products = []
+        for product, popularity in products_with_popularity:
+            sorted_products.append(product)
+        
+        return sorted_products
     except RequestException as err:
         print(f"Request error occurred: {err}")
-        return {}
+        return []
 
 
 def get_stock_info(basketitems):

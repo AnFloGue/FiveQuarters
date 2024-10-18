@@ -8,6 +8,7 @@ from autoslug import AutoSlugField
 from django.utils import timezone
 
 
+
 # ==============================
 # Category Table
 # ==============================
@@ -52,8 +53,8 @@ class Product(models.Model):
     stock = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     
     @property
-    def is_available(self):
-        return self.date_of_expiry > timezone.now().date()
+    def is_expired(self):
+        return self.date_of_expiry < timezone.now().date()
 
     @property
     def product_name(self):
@@ -63,7 +64,7 @@ class Product(models.Model):
         for recipe in self.recipes.all():
             if recipe.quantity > recipe.ingredient.stock:
                 return False
-        return True    
+        return True
 
 @property
 def ingredients(self):

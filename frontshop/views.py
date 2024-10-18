@@ -94,7 +94,7 @@ def product_detail(request, product_id):
         'product_details': product_details,
         'products_with_ingredients': products_with_ingredients,
         'product': product,
-        'is_available': product.is_available,
+        'is_expired': product.is_expired,
     }
 
     return render(request, 'frontshop/product_detail.html', context)
