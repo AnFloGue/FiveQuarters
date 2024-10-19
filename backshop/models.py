@@ -3,7 +3,6 @@ from decimal import Decimal
 
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from django.urls import reverse
 from autoslug import AutoSlugField
 from django.utils import timezone
 
@@ -23,10 +22,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'category'
         verbose_name_plural = 'categories'
-    
-    def get_url(self):
-        return reverse('products_by_category', args=[self.slug])
-    
+
     def __str__(self):
         return self.name
 
@@ -60,21 +56,8 @@ class Product(models.Model):
     def product_name(self):
         return self.name
 
-    def is_out_of_date(self):
-        for recipe in self.recipes.all():
-            if recipe.quantity < recipe.ingredient.stock:
-                return False
-        return True
 
-@property
-def ingredients(self):
-    ingredients_list = []
-    for recipe in self.recipes.all():
-        ingredients_list.append(recipe.ingredient.name)
-    return ingredients_list
 
-def __str__(self):
-    return self.name
 
 # ==============================
 # Allergen Table
