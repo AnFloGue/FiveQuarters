@@ -3,7 +3,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from django.core.cache import cache
 from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
 
@@ -12,10 +11,7 @@ from ..serializers import OrderSerializer, OrderItemSerializer, DeliveryCompanyS
 
 @api_view(['GET'])
 def order_list(request):
-    orders = cache.get('order_list')
-    if not orders:
-        orders = list(Order.objects.all())
-        cache.set('order_list', orders, timeout=60*15)
+    orders = Order.objects.all()
     serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data)
 
@@ -24,16 +20,12 @@ def order_create(request):
     serializer = OrderSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        cache.delete('order_list')
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def order_detail(request, pk):
-    order = cache.get(f'order_{pk}')
-    if not order:
-        order = get_object_or_404(Order, pk=pk)
-        cache.set(f'order_{pk}', order, timeout=60*15)
+    order = get_object_or_404(Order, pk=pk)
     serializer = OrderSerializer(order)
     return Response(serializer.data)
 
@@ -43,8 +35,6 @@ def order_update(request, pk):
     serializer = OrderSerializer(order, data=request.data)
     if serializer.is_valid():
         serializer.save()
-        cache.delete(f'order_{pk}')
-        cache.delete('order_list')
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -52,16 +42,11 @@ def order_update(request, pk):
 def order_delete(request, pk):
     order = get_object_or_404(Order, pk=pk)
     order.delete()
-    cache.delete(f'order_{pk}')
-    cache.delete('order_list')
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET'])
 def orderitem_list(request):
-    orderitems = cache.get('orderitem_list')
-    if not orderitems:
-        orderitems = OrderItem.objects.all()
-        cache.set('orderitem_list', orderitems, timeout=60*15)
+    orderitems = OrderItem.objects.all()
     serializer = OrderItemSerializer(orderitems, many=True)
     return Response(serializer.data)
 
@@ -70,16 +55,12 @@ def orderitem_create(request):
     serializer = OrderItemSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        cache.delete('orderitem_list')
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def orderitem_detail(request, pk):
-    orderitem = cache.get(f'orderitem_{pk}')
-    if not orderitem:
-        orderitem = get_object_or_404(OrderItem, pk=pk)
-        cache.set(f'orderitem_{pk}', orderitem, timeout=60*15)
+    orderitem = get_object_or_404(OrderItem, pk=pk)
     serializer = OrderItemSerializer(orderitem)
     return Response(serializer.data)
 
@@ -89,8 +70,6 @@ def orderitem_update(request, pk):
     serializer = OrderItemSerializer(orderitem, data=request.data)
     if serializer.is_valid():
         serializer.save()
-        cache.delete(f'orderitem_{pk}')
-        cache.delete('orderitem_list')
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -98,8 +77,6 @@ def orderitem_update(request, pk):
 def orderitem_delete(request, pk):
     orderitem = get_object_or_404(OrderItem, pk=pk)
     orderitem.delete()
-    cache.delete(f'orderitem_{pk}')
-    cache.delete('orderitem_list')
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 # ==================================================
@@ -112,25 +89,18 @@ def deliverycompany_create(request):
     serializer = DeliveryCompanySerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        cache.delete('deliverycompany_list')
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def deliverycompany_list(request):
-    delivery_companies = cache.get('deliverycompany_list')
-    if not delivery_companies:
-        delivery_companies = DeliveryCompany.objects.all()
-        cache.set('deliverycompany_list', delivery_companies, timeout=60*15)
+    delivery_companies = DeliveryCompany.objects.all()
     serializer = DeliveryCompanySerializer(delivery_companies, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def deliverycompany_detail(request, pk):
-    delivery_company = cache.get(f'deliverycompany_{pk}')
-    if not delivery_company:
-        delivery_company = get_object_or_404(DeliveryCompany, pk=pk)
-        cache.set(f'deliverycompany_{pk}', delivery_company, timeout=60*15)
+    delivery_company = get_object_or_404(DeliveryCompany, pk=pk)
     serializer = DeliveryCompanySerializer(delivery_company)
     return Response(serializer.data)
 
@@ -141,8 +111,6 @@ def deliverycompany_update(request, pk):
     serializer = DeliveryCompanySerializer(delivery_company, data=request.data)
     if serializer.is_valid():
         serializer.save()
-        cache.delete(f'deliverycompany_{pk}')
-        cache.delete('deliverycompany_list')
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -150,6 +118,4 @@ def deliverycompany_update(request, pk):
 def deliverycompany_delete(request, pk):
     delivery_company = get_object_or_404(DeliveryCompany, pk=pk)
     delivery_company.delete()
-    cache.delete(f'deliverycompany_{pk}')
-    cache.delete('deliverycompany_list')
     return Response(status=status.HTTP_204_NO_CONTENT)
