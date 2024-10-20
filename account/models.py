@@ -43,11 +43,11 @@ class Account(AbstractBaseUser):
         ('inventory_manager', 'Inventory Manager'),
         ('franchise_owner', 'Franchise Owner'),
     )
-
+    email = models.EmailField(max_length=100, unique=True, primary_key=True)
+    
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     username = models.CharField(max_length=50, unique=True)
-    email = models.EmailField(max_length=100, unique=True)
     phone_number = models.CharField(max_length=15, null=False)
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now=True)
@@ -55,6 +55,11 @@ class Account(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     is_superadmin = models.BooleanField(default=False)
+    
+    is_suspended = models.BooleanField(default=True)
+    suspended_at = models.DateTimeField(blank=True, null=True)
+    resumed_at = models.DateTimeField(blank=True, null=True)
+    suspended_description = models.TextField(blank=True, null=True)
     user_type = models.CharField(max_length=20, choices=USER_TYPES, default='franchise_owner')
 
     USERNAME_FIELD = 'email'

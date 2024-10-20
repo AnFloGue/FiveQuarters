@@ -16,6 +16,7 @@ class Category(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, unique=True)
     slug = AutoSlugField(populate_from='name', unique=True, editable=True)
+    is_active = models.BooleanField(default=True)
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to='photos/categories', blank=True, null=True)
     
@@ -45,6 +46,7 @@ class Product(models.Model):
     manufacturing_time = models.CharField(max_length=100, blank=True, null=True)
     popularity = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0)])
     is_product_of_the_week = models.BooleanField(verbose_name='P_O_Week')
+    is_active = models.BooleanField(default=True)
     rating = models.PositiveIntegerField(default=1, validators=[MinValueValidator(0), MaxValueValidator(5)])
     stock = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     
@@ -86,6 +88,7 @@ class Ingredient(models.Model):
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='name', unique=True, editable=True)
     stock = models.IntegerField(validators=[MinValueValidator(0)])  # Ensure stock is never below 0
+    is_active = models.BooleanField(default=True)
     unit = models.CharField(max_length=50, choices=UNIT_CHOICES)
     required_amount = models.IntegerField(default=10, validators=[MinValueValidator(0)])  # Ensure required_amount is never below 0
     potential_allergens = models.ForeignKey(Allergen, on_delete=models.SET_NULL, null=True, blank=True)

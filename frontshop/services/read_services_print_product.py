@@ -1,4 +1,4 @@
-# read_services_print_test.py
+# read_services_print_product.py
 
 import os
 import django
@@ -8,12 +8,12 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fivequarters.settings')
 
 # Setup Django
 django.setup()
+
+from frontshop.models import Product
+from backshop.models import Product, Category, Ingredient, Allergen
+
+
 from frontshop.services.read_services import (
-    # Account Services
-    get_account_list,
-    
-    # DeliveryCompany Services
-    get_deliverycompany_list,
     
     # Category Services
     get_category_list,
@@ -25,21 +25,8 @@ from frontshop.services.read_services import (
     product_full_detail,
     get_recommended_products,
     get_stock_info,
-    
-    # Ingredient Services
+
     get_ingredient_list,
-    
-    # Order Services
-    get_order_list,
-    
-    # Basket Services
-    get_basket_list,
-    get_basket_detail,
-    get_basketitem_list,
-    get_basketitem_detail,
-    get_basketitem_list_with_id,
-    
-    # Allergen Services
     get_allergen_list,
     get_allergen_detail, get_product_detail,
 )
@@ -123,8 +110,47 @@ if __name__ == "__main__":
         '''
         
         # ==============================================
+        # Product Detail directly from the database
+        # ==============================================
+        
+        # product_id = input("Enter the product ID: ")
+        products = Product.objects.filter(id=1)
+        print("==========================================================")
+        for product in products:
+            print(f"Product ID: {product.id}\n"
+                  f"Name: {product.name}\n"
+                  f"Slug: {product.slug}\n"
+                  f"Description: {product.description}\n"
+                  f"Stock: {product.stock}\n"
+                  f"Price: {product.price}\n"
+                  f"Image: {product.image}\n"
+                  f"Category: {product.category.name}\n")
+            print("--------------------------------------------------------")
+        
+            # Print related allergens if any
+            
+            recipes = product.recipes.all()
+            print("Allergens:")
+            for recipe in recipes:
+                print(f"Allergen: {recipe.product}\n")
+            print("--------------------------------------------------------")
+
+            # ingredients = product.recipes.all()
+            # allergens = {}
+            # for recipe in ingredients:
+            #     if recipe.ingredient.potential_allergens:
+            #         allergens[recipe.ingredient.name] = recipe.ingredient.potential_allergens
+            #
+            #
+            # if allergens:
+            #     print(f"Allergens: {', '.join(allergens)}\n")
+            # else:
+            #     print("Allergens: None\n")
+        
+        # ==============================================
         # Product Detail
         # ==============================================
+        '''
         product_id = int(input("Enter the product ID for details: "))
         product_detail = get_product_detail(product_id)
         print("--------------------------------------------------------")
@@ -136,10 +162,12 @@ if __name__ == "__main__":
               f"Stock: {product_detail.get('stock')}\n"
               f"Category: {product_detail.get('category')}")
         print("\n")
-        
+        '''
         # ==============================================
         # Recommended Products
         # ==============================================
+        
+        '''
         recommended_products = get_recommended_products()
         print("--------------------------------------------------------")
         print("Recommended Products:")
@@ -150,6 +178,7 @@ if __name__ == "__main__":
                   f"Popularity: {product_data.get('popularity')}\n"
                   f"Price: {product_data.get('price')}")
             print("\n")
+        '''
 
 
         '''
