@@ -9,24 +9,24 @@
 <div class="container mt-5">
     <h1 class="text-center mb-4"><strong>Inventory Information</strong></h1>
 
-<!-- Section: Categories -->
-<div class="card mb-4">
-    <div class="card-header">
-        <h2><strong>Categories</strong></h2>
+    <!-- Section: Categories -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2><strong>Categories</strong></h2>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for category in categories %}
+                <li class="list-group-item">
+                    <h5><strong>{{ category.name }}</strong></h5>
+                    <strong>ID:</strong> {{ category.id }}<br>
+                    <img src="{{ category.image }}" alt="{{ category.name }}" class="img-fluid small-image"><br>
+                    <strong>Description:</strong> {{ category.description }}<br>
+                    <strong>Slug:</strong> {{ category.slug }}<br>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
-    <ul class="list-group list-group-flush">
-        {% for category in categories %}
-            <li class="list-group-item">
-                <h5><strong>{{ category.name }}</strong></h5>
-                <strong>ID:</strong> {{ category.id }}<br>
-                <img src="{{ category.image }}" alt="{{ category.name }}" class="img-fluid small-image"><br>
-                <strong>Description:</strong> {{ category.description }}<br>
-                <strong>Slug:</strong> {{ category.slug }}<br>
-            </li>
-        {% endfor %}
-    </ul>
-</div>
-<!-- End Section: Categories -->
+    <!-- End Section: Categories -->
 
     <!-- Section: Product Full Detail -->
     <div class="card mb-4">
@@ -38,18 +38,28 @@
 
             <h3><strong>{{ products_with_ingredients.product.name }}</strong></h3>
 
-<p><strong>ID:</strong> {{ products_with_ingredients.product.id }}</p>
-<p><strong>Description:</strong> {{ products_with_ingredients.product.description }}</p>
-<p><strong>Price:</strong> ${{ products_with_ingredients.product.price }}</p>
-<p><strong>Date of Manufacture:</strong> {{ products_with_ingredients.product.date_of_manufacture }}</p>
-<p><strong>Date of Expiry:</strong> {{ products_with_ingredients.product.date_of_expiry }}</p>
-<p><strong>Manufacturing Time:</strong> {{ products_with_ingredients.product.manufacturing_time }} hours</p>
-<p><strong>Popularity:</strong> {{ products_with_ingredients.product.popularity }}</p>
-<p><strong>Is Product of the Week:</strong> {{ products_with_ingredients.product.is_product_of_the_week }}</p>
-<p><strong>Rating:</strong> {{ products_with_ingredients.product.rating }}</p>
-<p><strong>Category:</strong> {{ products_with_ingredients.category.name }}</p>
-<p><strong>Availability:</strong> {{ products_with_ingredients.product.is_available }}</p>
-<p><strong>Slug:</strong> {{ products_with_ingredients.product.slug }}</p>
+            <p><strong>ID:</strong> {{ products_with_ingredients.product.id }}</p>
+            <p><strong>Description:</strong> {{ products_with_ingredients.product.description }}</p>
+            <p><strong>Price:</strong> ${{ products_with_ingredients.product.price }}</p>
+            <p><strong>Date of Manufacture:</strong> {{ products_with_ingredients.product.date_of_manufacture }}</p>
+            <p><strong>Date of Expiry:</strong> {{ products_with_ingredients.product.date_of_expiry }}</p>
+            <p><strong>Manufacturing Time:</strong> {{ products_with_ingredients.product.manufacturing_time }} day</p>
+            <p><strong>Popularity:</strong> {{ products_with_ingredients.product.popularity }}</p>
+            <p><strong>Promotion Type:</strong>
+                {% if products_with_ingredients.product.promotion_type == "P_O_Week" %}
+                    Product of the Week
+                {% elif products_with_ingredients.product.promotion_type == "Christmas" %}
+                    Christmas Special
+                {% elif products_with_ingredients.product.promotion_type == "Holiday" %}
+                    Holiday Special
+                {% else %}
+                    None
+                {% endif %}
+            </p>
+            <p><strong>Rating:</strong> {{ products_with_ingredients.product.rating }}</p>
+            <p><strong>Category:</strong> {{ products_with_ingredients.category.name }}</p>
+            <p><strong>Availability:</strong> {{ products_with_ingredients.product.is_available }}</p>
+            <p><strong>Slug:</strong> {{ products_with_ingredients.product.slug }}</p>
 
             <h4>Allergens</h4>
             <ul>
@@ -97,26 +107,33 @@
         <ul class="list-group list-group-flush">
             {% for product in product_details %}
                 <li class="list-group-item">
-
                     <h4><strong>{{ product.product.name }}<br>
                     <img src="{{ product.product.image }}" alt="{{ product.product.name }}" class="img-fluid small-image"><br>
-
                     </strong></h4><strong> (ID: {{ product.product.id }})</strong><br>
                     <strong>Description:</strong> {{ product.product.description }}<br>
                     <strong>Slug:</strong> {{ product.product.slug }}<br>
-                    <strong>Avalability:</strong> {{ product.product.is_available }}<br>
+                    <strong>Availability:</strong> {{ product.product.is_available }}<br>
                     <strong>Price:</strong> ${{ product.product.price }}<br>
                     <strong>Rating:</strong> {{ product.product.rating }}<br>
                     <strong>Category:</strong> {{ product.category.name }}<br>
                     <strong>Date of Manufacture:</strong> {{ product.product.date_of_manufacture }}<br>
                     <strong>Date of Expiry:</strong> {{ product.product.date_of_expiry }}<br>
-                    <strong>Manufacturing Time:</strong> {{ product.product.manufacturing_time }} hours<br>
+                    <strong>Manufacturing Time:</strong> {{ product.product.manufacturing_time }} day<br>
                     <strong>Popularity:</strong> {{ product.product.popularity }}<br>
-                    <strong>Is Product of the Week:</strong> {{ product.product.is_product_of_the_week }}<br>
+                    <strong>Promotion Type:</strong>
+                        {% if product.product.promotion_type == "P_O_Week" %}
+                            Product of the Week
+                        {% elif product.product.promotion_type == "Christmas" %}
+                            Christmas Special
+                        {% elif product.product.promotion_type == "Holiday" %}
+                            Holiday Special
+                        {% else %}
+                            None
+                        {% endif %}
+                    <br>
                     <strong>Allergens:</strong> {{ product.allergens|join:", " }}<br><br>
                     <strong>Ingredients in stock:</strong>
                     <ul>
-
                         {% for ingredient in product.ingredients %}
                             <li>{{ ingredient.name }} (Stock: {{ ingredient.stock }} {{ ingredient.unit }}, Required: {{ ingredient.required_amount }} {{ ingredient.unit }})</li>
                         {% endfor %}
@@ -125,7 +142,7 @@
                     <ul>
                         {% for recipe in product.recipes %}
                             <li><strong>Ingredient ID:</strong> {{ recipe.ingredient }}, Quantity: {{ recipe.quantity }}</li>
-                        {% endfor %}      <br>
+                        {% endfor %}
                     </ul>
                 </li>
             {% endfor %}
@@ -142,7 +159,6 @@
             {% for company in delivery_companies %}
                 <li class="list-group-item"><strong>{{ company.name }}</strong> (ID: {{ company.id }})</li>
             {% endfor %}
-        <br><br>
         </ul>
     </div>
     <!-- End Section: Delivery Companies -->
@@ -150,25 +166,24 @@
     <!-- Section: Orders -->
     <div class="card mb-4">
         <div class="card-header">
-            <h2><strong>Orders</strong></h2><br>
+            <h2><strong>Orders</strong></h2>
         </div>
         <ul class="list-group list-group-flush">
             {% for order in orders %}
                 <li class="list-group-item">
                     <h4><strong>Order ID: {{ order.id }}</strong></h4><br>
                     <strong>Total Price:</strong> ${{ order.total_price }}<br>
-                        <strong>Status:</strong> {{ order.status }}<br>
-                            <strong>Customer's Note:</strong> {{ order.customers_note }}<br>
-                                <strong>Tracking Number: </strong>{{ order.tracking_number }}<br>
-                                    <strong>Posted Date:</strong> {{ order.posted_date }}<br>
-                                        <strong>Received Date:</strong> {{ order.received_date }}<br>
-                                            <strong>Created At:</strong> {{ order.created_at }}<br>
-                                                <strong>Updated At:</strong> {{ order.updated_at }}<br>
-                                                    <strong>User ID: </strong> {{ order.user }}<br>
-                                                        <strong>Delivery Company ID:</strong> {{ order.delivery_company }}
+                    <strong>Status:</strong> {{ order.status }}<br>
+                    <strong>Customer's Note:</strong> {{ order.customers_note }}<br>
+                    <strong>Tracking Number:</strong> {{ order.tracking_number }}<br>
+                    <strong>Posted Date:</strong> {{ order.posted_date }}<br>
+                    <strong>Received Date:</strong> {{ order.received_date }}<br>
+                    <strong>Created At:</strong> {{ order.created_at }}<br>
+                    <strong>Updated At:</strong> {{ order.updated_at }}<br>
+                    <strong>User ID:</strong> {{ order.user }}<br>
+                    <strong>Delivery Company ID:</strong> {{ order.delivery_company }}
                 </li>
             {% endfor %}
-            <br><br>
         </ul>
     </div>
     <!-- End Section: Orders -->

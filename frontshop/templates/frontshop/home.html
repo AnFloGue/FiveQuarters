@@ -17,17 +17,17 @@
 {% endblock %}
 <!-- End Section: Intro Banner -->
 
-<!-- Section: Product of the week-->
+<!-- Section: Promotion-->
 {% block content %}
 <section class="section-name padding-y-sm">
     <div class="container">
         <header class="section-heading">
             <a href="{% url 'product_list' %}" class="btn btn-outline-primary float-right">See all</a>
-            <h3 class="section-title">Product of the week</h3>
+            <h2 class="section-title">Promotion</h2>
         </header>
         <div class="row">
             {% for product in products %}
-                {% if product.is_product_of_the_week %}
+                {% if product.promotion_type %}
                 <div class="col-md-3">
                     <div class="card card-product-grid">
                         <a href="{% url 'product_detail' product.id %}" class="img-wrap">
@@ -37,7 +37,13 @@
                             <a href="{% url 'product_detail' product.id %}" class="title"><strong>{{ product.name }}</strong></a>
                             <div class="price mt-1">€{{ product.price }} per unit</div>
                             <div class="availability mt-1">
-                                <span class="badge badge-info">Product of the Week</span>
+                                {% if product.promotion_type == "P_O_Week" %}
+                                    <span class="badge badge-info">Product of the Week</span>
+                                {% elif product.promotion_type == "Christmas" %}
+                                    <span class="badge badge-success">Christmas Special</span>
+                                {% elif product.promotion_type == "Holiday" %}
+                                    <span class="badge badge-warning">Holiday Special</span>
+                                {% endif %}
                             </div>
                             <div class="description mt-1">{{ product.description }}</div>
                         </figcaption>
@@ -48,13 +54,13 @@
         </div>
     </div>
 </section>
-<!-- End Section: Product of the week-->
+<!-- End Section: Promotion-->
 
 <!-- Section: Recommendations -->
 <section class="section-name padding-y-sm">
     <div class="container">
         <header class="section-heading">
-            <h3 class="section-title">Recommendations</h3>
+            <h2 class="section-title">Recommendations</h2>
         </header>
         <div class="row">
             {% for product in recommended_products %}
