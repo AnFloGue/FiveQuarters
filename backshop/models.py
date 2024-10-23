@@ -41,7 +41,6 @@ class Product(models.Model):
         ("P_O_Week", "Product of the Week"),
         ("Christmas", "Christmas Special"),
         ("Holiday", "Holiday Special"),
-        # Add more promotion types as needed
     ]
 
     id = models.AutoField(primary_key=True)

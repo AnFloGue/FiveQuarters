@@ -1,4 +1,5 @@
-# admin.py
+# backshop/admin.py
+
 from django.contrib import admin
 from .models import Category, Product, Ingredient, Recipe, Allergen
 
@@ -14,11 +15,6 @@ class CategoryAdmin(admin.ModelAdmin):
 class RecipeInline(admin.TabularInline):
     model = Recipe
     extra = 1
-
-
-# admin.py
-from django.contrib import admin
-from .models import Category, Product, Ingredient, Recipe, Allergen
 
 
 @admin.register(Product)

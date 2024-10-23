@@ -9,9 +9,9 @@ from django.urls import reverse
 from .forms import LoginForm, RegisterForm, UpdateBasketItemForm
 import logging
 
-#==================================================
+# ==================================================
 # read_services
-#==================================================
+# ==================================================
 
 from frontshop.services.read_services import (
     get_recommended_products,
@@ -27,20 +27,20 @@ from frontshop.services.read_services import (
     get_basket_list,
 )
 
-#==================================================
+# ==================================================
 # create_services
-#==================================================
+# ==================================================
 
 from frontshop.services.create_services import (
     create_basket,
     create_basket_item,
-    create_basket_item_with_ids
+    create_basket_item_with_ids,
 )
 from .services.delete_services import delete_basket_item
 
-#==================================================
+# ==================================================
 # update_services
-#==================================================
+# ==================================================
 
 from .services.update_services import (
     update_basket_item,
@@ -50,20 +50,23 @@ from .services.update_services import (
 # Home Views
 # ================================================
 
+
 @login_required
 def home(request):
     products = get_product_list()
     recommended_products = get_recommended_products()[:3]
 
     context = {
-        'products': products,
-        'recommended_products': recommended_products,
+        "products": products,
+        "recommended_products": recommended_products,
     }
-    return render(request, 'frontshop/home.html', context)
+    return render(request, "frontshop/home.html", context)
+
 
 # ================================================
 # Product Views
 # ================================================
+
 
 @login_required
 def product_list(request):
@@ -71,10 +74,11 @@ def product_list(request):
     categories = get_category_list()
 
     context = {
-        'products': products,
-        'categories': categories,
+        "products": products,
+        "categories": categories,
     }
-    return render(request, 'frontshop/product_list.html', context)
+    return render(request, "frontshop/product_list.html", context)
+
 
 @login_required
 def product_detail(request, product_id):
@@ -88,20 +92,22 @@ def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
     context = {
-        'categories': categories,
-        'products': products,
-        'ingredients': ingredients,
-        'product_details': product_details,
-        'products_with_ingredients': products_with_ingredients,
-        'product': product,
-        'is_expired': product.is_expired,
+        "categories": categories,
+        "products": products,
+        "ingredients": ingredients,
+        "product_details": product_details,
+        "products_with_ingredients": products_with_ingredients,
+        "product": product,
+        "is_expired": product.is_expired,
     }
 
-    return render(request, 'frontshop/product_detail.html', context)
+    return render(request, "frontshop/product_detail.html", context)
+
 
 # ================================================
 # Inventory Information Views
 # ================================================
+
 
 @login_required
 def inventory_information(request):
@@ -114,29 +120,31 @@ def inventory_information(request):
     products_with_ingredients = product_full_detail(2)
 
     context = {
-        'categories': categories,
-        'products': products,
-        'delivery_companies': delivery_companies,
-        'orders': orders,
-        'ingredients': ingredients,
-        'product_details': product_details,
-        'products_with_ingredients': products_with_ingredients
+        "categories": categories,
+        "products": products,
+        "delivery_companies": delivery_companies,
+        "orders": orders,
+        "ingredients": ingredients,
+        "product_details": product_details,
+        "products_with_ingredients": products_with_ingredients,
     }
 
-    return render(request, 'frontshop/inventory-information.html', context)
+    return render(request, "frontshop/inventory-information.html", context)
+
 
 # ================================================
 # Orders Views
 # ================================================
 
+
 @login_required
 def order_product(request, product_id):
     pass
 
+
 # ================================================
 # Basket Views
 # ================================================
-
 
 
 @login_required
@@ -144,7 +152,9 @@ def basketitem_list(request, product_id=None, user=None):
     if user is None:
         user = request.user
     user_id = user.id
-    basketitems = BasketItem.objects.filter(basket__user_id=user_id).select_related('product')
+    basketitems = BasketItem.objects.filter(basket__user_id=user_id).select_related(
+        "product"
+    )
 
     categories = get_category_list()
     products = get_product_list()
@@ -156,9 +166,9 @@ def basketitem_list(request, product_id=None, user=None):
 
     if basketitems.exists():
         basket = {
-            'id': basketitems[0].basket.id,
-            'created_at': basketitems[0].basket.created_at,
-            'updated_at': basketitems[0].basket.updated_at,
+            "id": basketitems[0].basket.id,
+            "created_at": basketitems[0].basket.created_at,
+            "updated_at": basketitems[0].basket.updated_at,
         }
     else:
         basket = None
@@ -174,62 +184,65 @@ def basketitem_list(request, product_id=None, user=None):
         quantity_ordered = item.quantity
         stock_difference = quantity_ordered - product_stock
         to_be_manufactured = stock_difference if stock_difference > 0 else 0
-        stock_info.append({
-            'product_id': item.product.id,
-            'product_name': item.product.name,
-            'quantity_ordered': quantity_ordered,
-            'product_stock': product_stock,
-            'stock_difference': stock_difference,
-            'to_be_manufactured': to_be_manufactured,
-        })
+        stock_info.append(
+            {
+                "product_id": item.product.id,
+                "product_name": item.product.name,
+                "quantity_ordered": quantity_ordered,
+                "product_stock": product_stock,
+                "stock_difference": stock_difference,
+                "to_be_manufactured": to_be_manufactured,
+            }
+        )
 
     context = {
-        'basket': basket,
-        'basketitems': basketitems,
-        'categories': categories,
-        'products': products,
-        'ingredients': ingredients,
-        'product_details': product_details,
-        'products_with_ingredients': products_with_ingredients,
-        'product': product,
-        'is_available': product.stock > 0 if product else None,  # Check stock for availability
-        'user_id': user.id,
-        'user_name': user.username,
-        'total_amount': total_amount,  # Pass the total amount to the template
-        'stock_info': stock_info,  # Pass stock information to the template
+        "basket": basket,
+        "basketitems": basketitems,
+        "categories": categories,
+        "products": products,
+        "ingredients": ingredients,
+        "product_details": product_details,
+        "products_with_ingredients": products_with_ingredients,
+        "product": product,
+        "is_available": product.stock > 0 if product else None,
+        "user_id": user.id,
+        "user_name": user.username,
+        "total_amount": total_amount,
+        "stock_info": stock_info,
     }
 
-    return render(request, 'frontshop/basket_summary.html', context)
-
+    return render(request, "frontshop/basket_summary.html", context)
 
 
 @login_required
 def update_basketitem(request, basketitem_id):
     basket_item = get_basketitem_detail(basketitem_id)
-    if not basket_item or 'basket' not in basket_item or 'product' not in basket_item:
-        return redirect('basketitem_list')
+    if not basket_item or "basket" not in basket_item or "product" not in basket_item:
+        return redirect("basketitem_list")
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = UpdateBasketItemForm(request.POST)
         if form.is_valid():
-            quantity = form.cleaned_data['quantity']
-            update_basket_item(basketitem_id, quantity, basket_item['basket'], basket_item['product'])
-            return redirect('basketitem_list')
+            quantity = form.cleaned_data["quantity"]
+            update_basket_item(
+                basketitem_id, quantity, basket_item["basket"], basket_item["product"]
+            )
+            return redirect("basketitem_list")
     else:
-        form = UpdateBasketItemForm(initial={'quantity': basket_item['quantity']})
+        form = UpdateBasketItemForm(initial={"quantity": basket_item["quantity"]})
 
     context = {
-        'form': form,
-        'basket_item': basket_item,
+        "form": form,
+        "basket_item": basket_item,
     }
-    return render(request, 'frontshop/update_basketitem.html', context)
+    return render(request, "frontshop/update_basketitem.html", context)
 
 
 @login_required
 def add_to_basket(request, product_id):
-    if request.method == 'POST':
+    if request.method == "POST":
         try:
-            quantity = int(request.POST.get('amount', 1))
+            quantity = int(request.POST.get("amount", 1))
         except ValueError:
             quantity = 1  # Default 1 unit
 
@@ -241,7 +254,7 @@ def add_to_basket(request, product_id):
         # Find the user basket
         user_basket = None
         for basket in baskets:
-            if basket['user_id'] == user_id:
+            if basket["user_id"] == user_id:
                 user_basket = basket
                 break
 
@@ -249,83 +262,94 @@ def add_to_basket(request, product_id):
         if not user_basket:
             user_basket = create_basket(user_id)
 
-        basket_id = user_basket['id']
+        basket_id = user_basket["id"]
 
         # Check if the product already exists in the basket
-        basket_item = BasketItem.objects.filter(basket_id=basket_id, product_id=product_id).first()
+        basket_item = BasketItem.objects.filter(
+            basket_id=basket_id, product_id=product_id
+        ).first()
         if basket_item:
             # Update the quantity of the existing basket item
             new_quantity = basket_item.quantity + quantity
             update_basket_item(basket_item.id, new_quantity, basket_id, product_id)
         else:
             # Add the product to the basket
-            create_basket_item_with_ids(product_id, quantity, basket_id, product_id, user_id)
+            create_basket_item_with_ids(
+                product_id, quantity, basket_id, product_id, user_id
+            )
 
-        return redirect('basketitem_list')
+        return redirect("basketitem_list")
 
-    return redirect('product_detail', product_id=product_id)
+    return redirect("product_detail", product_id=product_id)
 
 
 @login_required
 def delete_basketitem(request, item_id):
-    if request.method == 'POST':
+    if request.method == "POST":
         result = delete_basket_item(item_id)
         if result:
-            messages.success(request, 'Item deleted successfully.')
+            messages.success(request, "Item deleted successfully.")
         else:
-            messages.error(request, 'Error deleting item.')
-    return redirect('basketitem_list')
+            messages.error(request, "Error deleting item.")
+    return redirect("basketitem_list")
+
 
 # ================================================
 # Login, Register, Logout Views
 # ================================================
 
+
 def login_view(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
                 logging.info(f"Login successful for user: {username}")
-                return redirect(reverse('home'))
+                return redirect(reverse("home"))
             else:
-                form.add_error(None, 'Invalid username or password')
+                form.add_error(None, "Invalid username or password")
                 logging.warning(f"Login failed for user: {username}")
     else:
         form = LoginForm()
-    return render(request, 'frontshop/login.html', {'form': form})
+    return render(request, "frontshop/login.html", {"form": form})
+
 
 def register_view(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
+            user.set_password(form.cleaned_data["password"])
             user.save()
             logging.info(f"Registration successful for user: {user.username}")
-            return redirect('login')
+            return redirect("login")
         else:
             logging.warning("Registration failed due to invalid form data")
     else:
         form = RegisterForm()
-    return render(request, 'frontshop/register.html', {'form': form})
+    return render(request, "frontshop/register.html", {"form": form})
+
 
 @login_required
 def logout_view(request):
     username = request.user.username
     logout(request)
     logging.info(f"Logout successful for user: {username}")
-    return redirect('login')
+    return redirect("login")
+
 
 # ================================================
 # Other Views
 # ================================================
 
+
 def about(request):
-    return render(request, 'frontshop/about.html')
+    return render(request, "frontshop/about.html")
+
 
 def submit_review(request):
-    return render(request, 'frontshop/about.html')
+    return render(request, "frontshop/about.html")
