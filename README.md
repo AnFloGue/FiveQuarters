@@ -153,3 +153,15 @@ Models are based on business logic and department interactions:
 - `@login_required` decorator used in sensitive views
 - Role-based access restrictions
 - CSRF Protection in forms
+                                                                 
+## Testing Methodology
+
+Gherkin example:
+- Feature: User Login
+
+- Scenario: Successful login with valid credentials 
+- Given the user is on the login page 
+- When the user enters valid username and password   
+- And the user clicks the "Login" button 
+- Then the user should be redirected to the home page 
+- And the user should have access to Home, products and orders

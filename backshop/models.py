@@ -1,11 +1,12 @@
-# backshop/models.py
-from decimal import Decimal
+"""
+This module contains the models for the backshop application.
+"""
 
+from decimal import Decimal
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from autoslug import AutoSlugField
 from django.utils import timezone
-
+from autoslug import AutoSlugField
 
 # ==============================
 # Category Table
@@ -13,6 +14,10 @@ from django.utils import timezone
 
 
 class Category(models.Model):
+    """
+    Represents a category of products.
+    """
+
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, unique=True)
     slug = AutoSlugField(populate_from="name", unique=True, editable=True)
@@ -33,10 +38,11 @@ class Category(models.Model):
 # ==============================
 
 
-# backshop/models.py
-
-
 class Product(models.Model):
+    """
+    Represents a product in the backshop.
+    """
+
     PROMOTION_CHOICES = [
         ("P_O_Week", "Product of the Week"),
         ("Christmas", "Christmas Special"),
@@ -69,14 +75,23 @@ class Product(models.Model):
 
     @property
     def is_expired(self):
+        """
+        Checks if the product is expired.
+        """
         return self.date_of_expiry < timezone.now().date()
 
     @property
     def product_name(self):
+        """
+        Returns the name of the product.
+        """
         return self.name
 
     @classmethod
     def promotion(cls, promotion_type):
+        """
+        Returns products with the specified promotion type.
+        """
         return cls.objects.filter(promotion_type=promotion_type)
 
 
@@ -86,6 +101,10 @@ class Product(models.Model):
 
 
 class Allergen(models.Model):
+    """
+    Represents an allergen that can be associated with ingredients.
+    """
+
     name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
@@ -98,6 +117,10 @@ class Allergen(models.Model):
 
 
 class Ingredient(models.Model):
+    """
+    Represents an ingredient used in products.
+    """
+
     UNIT_CHOICES = [
         ("kg", "Kilogram"),
         ("g", "Gram"),
@@ -131,6 +154,10 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
+    """
+    Represents a recipe for a product.
+    """
+
     id = models.AutoField(primary_key=True)
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="recipes"
